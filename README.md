@@ -14,9 +14,9 @@ This is a private repository for the purpose of making a web scrapper for COMP31
 --
 | GitHub Account | Task |
 |--|--|
-| cal852 |--|
-| HYUNJS |--|
-|enochwong3111|--|
+| cal852 |1 & 6|
+| HYUNJS |2 & 3|
+|enochwong3111|4 & 5|
 
 **Gantt Chart**
 --
