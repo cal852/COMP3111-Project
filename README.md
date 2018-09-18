@@ -6,7 +6,7 @@ This is a private repository for the purpose of making a web scrapper for COMP31
 | Name| ITSC| GitHub Account|
 |--|--|--|
 | Cheng Chee Hau Calvin | chccheng | cal852 |
-|--|--|HYUNJS|
+|HYUN Jeongseok|jhyunaa|HYUNJS|
 |--|--|enochwong3111|
 
 
