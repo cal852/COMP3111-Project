@@ -6,6 +6,7 @@ public class Item {
 	private String title ; 
 	private double price ;
 	private String url ;
+	private String date;
 	
 	public String getTitle() {
 		return title;
@@ -25,6 +26,11 @@ public class Item {
 	public void setUrl(String url) {
 		this.url = url;
 	}
-	
+	public void setDate(String date) {
+		this.date = date;
+	}
+	public String getDate() {
+		return date;
+	}
 
 }
