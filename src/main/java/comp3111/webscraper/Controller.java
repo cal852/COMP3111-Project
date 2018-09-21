@@ -68,19 +68,20 @@ public class Controller {
     /**
      * Called when the search button is pressed.
      */
-    @FXML
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	@FXML
     private void actionSearch() {
     	System.out.println("actionSearch: " + textFieldKeyword.getText());
     	List<Item> result = scraper.scrape(textFieldKeyword.getText());
     	String output = "";
-    	TableColumn col1 = tableView1.getColumns().get(0);
+		TableColumn col1 = tableView1.getColumns().get(0);
     	TableColumn col2 = tableView1.getColumns().get(1);
     	TableColumn col3 = tableView1.getColumns().get(2);
     	TableColumn col4 = tableView1.getColumns().get(3);
-    	col1.setCellValueFactory(new PropertyValueFactory<Item, String>("Title"));
-    	col2.setCellValueFactory(new PropertyValueFactory<Item, double[]>("Price"));
-    	col3.setCellValueFactory(new PropertyValueFactory<Item, String>("URL"));
-    	col4.setCellValueFactory(new PropertyValueFactory<Item, String>("Posted Date"));
+    	col1.setCellValueFactory(new PropertyValueFactory<Item, String>("title"));
+    	col2.setCellValueFactory(new PropertyValueFactory<Item, Double>("price"));
+    	col3.setCellValueFactory(new PropertyValueFactory<Item, String>("url"));
+    	col4.setCellValueFactory(new PropertyValueFactory<Item, String>("date"));
     	for (Item item : result) {
     		output += item.getTitle() + "\t" + item.getPrice() + "\t" + item.getUrl() + "\n";
     		//totalPrice += item.getPrice();
