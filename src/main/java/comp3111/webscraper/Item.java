@@ -1,12 +1,19 @@
 package comp3111.webscraper;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
+import javafx.scene.control.Hyperlink;
 
 public class Item {
 	private String title ; 
 	private double price ;
 	private String url ;
-	private String date;
+	private Date date;
+	private Hyperlink linkUrl;
 	
 	public String getTitle() {
 		return title;
@@ -26,11 +33,22 @@ public class Item {
 	public void setUrl(String url) {
 		this.url = url;
 	}
-	public void setDate(String date) {
+	public void setDate(String stringdate) throws ParseException {
+		DateFormat format = new SimpleDateFormat("MMM d", Locale.ENGLISH);
+		Date date = format.parse(stringdate);
 		this.date = date;
 	}
-	public String getDate() {
+	
+	public Date getDate() {
 		return date;
 	}
+	
+	public Hyperlink getLinkUrl() {
+        return linkUrl;
+    }
+ 
+    public void setLinkUrl(String websiteUrl) {
+        this.linkUrl = new Hyperlink(websiteUrl);
+    }
 
 }

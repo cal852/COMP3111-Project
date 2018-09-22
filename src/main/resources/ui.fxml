@@ -105,8 +105,8 @@
                                           <TableView fx:id="tableView1" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                             <columns>
                                               <TableColumn editable="false" prefWidth="154.0" text="Title" />
-                                              <TableColumn editable="false" prefWidth="90.0" text="Price" />
-                                                <TableColumn editable="false" prefWidth="78.0" text="URL" />
+                                              <TableColumn editable="false" prefWidth="90.0" text="Price($)" />
+                                                <TableColumn fx:id="linkColumn" editable="false" prefWidth="78.0" text="URL" />
                                                 <TableColumn editable="false" prefWidth="88.0" text="Posted Date" />
                                             </columns>
                                           </TableView>

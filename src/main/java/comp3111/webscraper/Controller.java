@@ -4,17 +4,21 @@
 package comp3111.webscraper;
 
 
-import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.Hyperlink;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import java.util.List;
+import javafx.fxml.FXML;
+import javafx.scene.control.Hyperlink;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 
 /**
@@ -80,12 +84,27 @@ public class Controller {
     	TableColumn col4 = tableView1.getColumns().get(3);
     	col1.setCellValueFactory(new PropertyValueFactory<Item, String>("title"));
     	col2.setCellValueFactory(new PropertyValueFactory<Item, Double>("price"));
-    	col3.setCellValueFactory(new PropertyValueFactory<Item, String>("url"));
-    	col4.setCellValueFactory(new PropertyValueFactory<Item, String>("date"));
+    	col3.setCellValueFactory(new PropertyValueFactory<Item, Hyperlink>("linkUrl"));
+    	col3.setCellFactory(new HyperlinkCell());
+    	col4.setCellValueFactory(new PropertyValueFactory<Item, Date>("date"));
+    	col4.setCellFactory(column ->{
+    		TableCell<Item, Date> cell = new TableCell<Item, Date>() {
+    	        private SimpleDateFormat format = new SimpleDateFormat("MMM dd");
+    	        @Override
+    	        protected void updateItem(Date date, boolean empty) {
+    	            super.updateItem(date, empty);
+    	            if(empty) {
+    	                setText(null);
+    	            }
+    	            else {
+    	                setText(format.format(date));
+    	            }
+    	        }
+    	    };
+    	    return cell;
+    	});
     	for (Item item : result) {
     		output += item.getTitle() + "\t" + item.getPrice() + "\t" + item.getUrl() + "\n";
-    		//totalPrice += item.getPrice();
-    		//tableView1.getItems().add(item);
     	}
     	textAreaConsole.setText(output);
 
@@ -100,6 +119,7 @@ public class Controller {
     private void actionNew() {
     	System.out.println("actionNew");
     }
+    
     
 }
 
