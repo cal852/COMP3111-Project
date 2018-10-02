@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="08fb659e-e634-43a3-812e-f1653d02563a" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/comp3111/webscraper/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/comp3111/webscraper/Controller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/comp3111/webscraper/WebScraper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/comp3111/webscraper/WebScraper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/ui.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/ui.fxml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
@@ -24,10 +23,11 @@
     <session id="1631268654">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="1" />
+          <entry key="project.closed" value="2" />
           <entry key="project.open.time.2" value="1" />
           <entry key="project.open.time.5" value="1" />
-          <entry key="project.opened" value="2" />
+          <entry key="project.open.time.7" value="1" />
+          <entry key="project.opened" value="3" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -44,28 +44,25 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="1464" />
+          <entry key="java" value="1934" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="1464" />
+          <entry key="JAVA" value="1934" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/comp3111/webscraper/Controller.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-650">
-              <caret line="136" column="75" selection-start-line="136" selection-start-column="75" selection-end-line="136" selection-end-column="75" />
+            <state relative-caret-position="525">
+              <caret line="200" column="13" selection-start-line="200" selection-start-column="13" selection-end-line="200" selection-end-column="13" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#1526#1572#0" expanded="true" />
-                <element signature="e#4777#4778#0" expanded="true" />
-                <element signature="e#4831#4832#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -74,7 +71,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/comp3111/webscraper/HyperlinkCell.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="76">
+            <state relative-caret-position="105">
               <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
             </state>
           </provider>
@@ -92,25 +89,23 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/ui.fxml">
           <provider editor-type-id="JavaFX-Scene-Builder" />
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1257" />
-          </provider>
+          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/comp3111/webscraper/WebScraperApplication.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
+            <state relative-caret-position="465">
               <caret line="38" column="13" selection-start-line="38" selection-start-column="13" selection-end-line="38" selection-end-column="13" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/comp3111/webscraper/WebScraper.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="368">
-              <caret line="100" column="84" selection-start-line="100" selection-start-column="84" selection-end-line="100" selection-end-column="84" />
+            <state relative-caret-position="434">
+              <caret line="106" column="73" lean-forward="true" selection-start-line="106" selection-start-column="73" selection-end-line="106" selection-end-column="73" />
             </state>
           </provider>
         </entry>
@@ -460,8 +455,8 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/comp3111/webscraper/WebScraper.java" />
         <option value="$PROJECT_DIR$/src/main/java/comp3111/webscraper/Controller.java" />
+        <option value="$PROJECT_DIR$/src/main/java/comp3111/webscraper/WebScraper.java" />
       </list>
     </option>
   </component>
@@ -539,7 +534,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1538463392003" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1538463760608" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="settings.editor.selected.configurable" value="preferences.general" />
@@ -587,24 +582,25 @@
       <option name="presentableId" value="Default" />
       <updated>1538453982661</updated>
       <workItem from="1538453984997" duration="154000" />
-      <workItem from="1538454269115" duration="8084000" />
+      <workItem from="1538454269115" duration="8525000" />
+      <workItem from="1538463826538" duration="189000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="8238000" />
+    <option name="totallyTimeSpent" value="8868000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="2" y="28" width="1680" height="934" extended-state="6" />
+    <frame x="0" y="23" width="1680" height="934" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25274727" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25579977" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
       <window_info id="Capture Tool" order="4" />
       <window_info id="UI Designer" order="5" />
       <window_info id="Favorites" order="6" side_tool="true" />
-      <window_info anchor="bottom" id="Messages" weight="0.32897863" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32897863" />
@@ -617,6 +613,7 @@
       <window_info active="true" anchor="bottom" id="Terminal" order="9" visible="true" weight="0.32897863" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Build" order="11" visible="true" weight="0.32897863" />
+      <window_info anchor="bottom" id="Messages" order="12" weight="0.32897863" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -636,6 +633,23 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/main/java/comp3111/webscraper/Controller.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="525">
+          <caret line="200" column="13" selection-start-line="200" selection-start-column="13" selection-end-line="200" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/comp3111/webscraper/HyperlinkCell.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/comp3111/webscraper/Item.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
@@ -643,43 +657,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/comp3111/webscraper/HyperlinkCell.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="76">
-          <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/ui.fxml">
       <provider editor-type-id="JavaFX-Scene-Builder" />
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1257" />
-      </provider>
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/comp3111/webscraper/WebScraperApplication.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
+        <state relative-caret-position="465">
           <caret line="38" column="13" selection-start-line="38" selection-start-column="13" selection-end-line="38" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/comp3111/webscraper/WebScraper.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="368">
-          <caret line="100" column="84" selection-start-line="100" selection-start-column="84" selection-end-line="100" selection-end-column="84" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/comp3111/webscraper/Controller.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-650">
-          <caret line="136" column="75" selection-start-line="136" selection-start-column="75" selection-end-line="136" selection-end-column="75" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1526#1572#0" expanded="true" />
-            <element signature="e#4777#4778#0" expanded="true" />
-            <element signature="e#4831#4832#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="434">
+          <caret line="106" column="73" lean-forward="true" selection-start-line="106" selection-start-column="73" selection-end-line="106" selection-end-column="73" />
         </state>
       </provider>
     </entry>

@@ -98,6 +98,14 @@ public class WebScraper {
 			for (int i = 0; i < items.size(); i++) {
 				HtmlElement htmlItem = (HtmlElement) items.get(i);
 				HtmlAnchor itemAnchor = ((HtmlAnchor) htmlItem.getFirstByXPath(".//p[@class='result-info']/a"));
+				/*  ".//a/span[@class='result-price']") has been changed to ".//span[@class='result-price']")
+				 * since the way they scrape the price
+				 * is based on what is found on the results page when you scrape e.g.
+				 * you go to newyork.craigslist.com -> search "iphone"
+				 * So some may display their price there next to title, but the TAs
+				 * code does not scrape for the prices that are actually found there for some listings
+				 * Calvin : I THINK WE SHOULD SUBMIT IT TO THE TA AND SEE
+				 */
 				HtmlElement spanPrice = ((HtmlElement) htmlItem.getFirstByXPath(".//span[@class='result-price']"));
 				HtmlElement spanDate = ((HtmlElement) htmlItem.getFirstByXPath(".//p/time[@class='result-date']"));
 
