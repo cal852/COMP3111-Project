@@ -4,7 +4,13 @@
 package comp3111.webscraper;
 
 
+import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -78,6 +84,20 @@ public class Controller {
     	System.out.println("actionSearch: " + textFieldKeyword.getText());
     	List<Item> result = scraper.scrape(textFieldKeyword.getText());
     	String output = "";
+		int itemCount = 0; /* count items */
+		double totalPrice = 0.0;
+		double minPrice = 0.0;
+		Date latestDate = new Date(0);
+		Hyperlink minPriceUrl = new Hyperlink("");
+		Hyperlink latestPostUrl = new Hyperlink("");
+		if (!result.isEmpty()) {
+			minPriceUrl = result.get(0).getLinkUrl();
+			latestPostUrl = result.get(0).getLinkUrl();
+			minPrice = result.get(0).getPrice();
+			latestDate = result.get(0).getDate();
+			System.out.println("result not empty");
+		}
+
 		TableColumn col1 = tableView1.getColumns().get(0);
     	TableColumn col2 = tableView1.getColumns().get(1);
     	TableColumn col3 = tableView1.getColumns().get(2);
@@ -105,7 +125,43 @@ public class Controller {
     	});
     	for (Item item : result) {
     		output += item.getTitle() + "\t" + item.getPrice() + "\t" + item.getUrl() + "\n";
+    		totalPrice += item.getPrice();
+    		// find minPrice listing
+
+			if (itemCount > 0) {
+				if (result.get(itemCount).getPrice() < minPrice && result.get(itemCount).getPrice() > 0.0) {
+					minPrice = result.get(itemCount).getPrice();
+					minPriceUrl = result.get(itemCount).getLinkUrl();
+				}
+
+				if (result.get(itemCount).getDate().compareTo(latestDate) > 0) {
+					latestDate = result.get(itemCount).getDate();
+					latestPostUrl = result.get(itemCount).getLinkUrl();
+				}
+
+			}
+
+    		itemCount++;
     	}
+    	if (itemCount > 0) {
+			labelCount.setText(itemCount + " items");
+			labelPrice.setText("$" + (totalPrice / itemCount));
+			labelMin.setText(minPriceUrl.getText());
+			labelMin.setDisable(false);
+			labelMin.setUnderline(true);
+			labelLatest.setText(latestPostUrl.getText());
+			labelLatest.setDisable(false);
+			labelLatest.setUnderline(true);
+		} else {
+    		labelCount.setText("-");
+			labelPrice.setText("-");
+			labelMin.setText("-");
+			labelMin.setDisable(true);
+			labelMin.setUnderline(false);
+			labelLatest.setText("-");
+			labelLatest.setDisable(true);
+			labelLatest.setUnderline(false);
+		}
     	textAreaConsole.setText(output);
 
     	final ObservableList<Item> data = FXCollections.observableArrayList(result);
@@ -117,9 +173,34 @@ public class Controller {
      */
     @FXML
     private void actionNew() {
-    	System.out.println("actionNew");
+    	System.out.println("actionNew -> Latest");
     }
-    
-    
+
+    @FXML
+	private void actionOpenMinPrice() {
+    	if (Desktop.isDesktopSupported()) {
+    		try {
+    			Desktop.getDesktop().browse(new URI(labelMin.getText()));
+			} catch (IOException ev) {
+				ev.printStackTrace();
+			} catch (URISyntaxException ev) {
+				ev.printStackTrace();
+			}
+		}
+	}
+
+	@FXML
+	private void actionOpenLatest() {
+    	if (Desktop.isDesktopSupported()) {
+    		try {
+    			Desktop.getDesktop().browse(new URI(labelLatest.getText()));
+			} catch (IOException ev) {
+    			ev.printStackTrace();
+			} catch (URISyntaxException ev) {
+    			ev.printStackTrace();
+			}
+		}
+	}
+
 }
 
