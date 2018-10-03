@@ -122,4 +122,43 @@ public class WebScraper {
 		return null;
 	}
 
+	public List<Item> scrapeCarousell(String keyword) {
+		final String URL = "https://hk.carousell.com/";
+
+		try {
+			String searchUrl = URL + "search/products/?query=" + URLEncoder.encode(keyword, "UTF-8");
+			HtmlPage page = client.getPage(searchUrl);
+
+
+			List<?> items = (List<?>) page.getByXPath("//div[@class='col-lg3 col-md-4 col-sm-4 col-xs-6']");
+
+			Vector<Item> result = new Vector<Item>();
+
+			for (int i = 0; i < items.size(); i++) {
+				HtmlElement htmlItem = (HtmlElement) items.get(i);
+				HtmlAnchor itemAnchor = ((HtmlAnchor) htmlItem.getFirstByXPath(".//div[@class='be-Z/']a"));
+				HtmlElement spanPrice = ((HtmlElement) htmlItem.getFirstByXPath(".//dl/dd"));
+				HtmlElement spanDate = ((HtmlElement) htmlItem.getFirstByXPath(".//div/time[@class='be-r be-w']"));
+
+				// It is possible that an item doesn't have any price, we set the price to 0.0
+				// in this case
+				String itemPrice = spanPrice == null ? "0.0" : spanPrice.asText();
+
+				Item item = new Item();
+				item.setTitle(itemAnchor.asText());
+				item.setUrl(URL + itemAnchor.getHrefAttribute());
+				item.setLinkUrl(itemAnchor.getHrefAttribute());
+				item.setPrice(new Double(itemPrice.replace("HK$", "")));
+				item.setDate(spanDate.asText());
+
+				result.add(item);
+			}
+			client.close();
+			return result;
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		return null;
+	}
+
 }
