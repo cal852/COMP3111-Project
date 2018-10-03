@@ -14,14 +14,12 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Hyperlink;
+import javafx.scene.control.*;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -59,6 +57,8 @@ public class Controller {
     private TextArea textAreaConsole;
     
     private WebScraper scraper;
+
+    private String lastSearchTerm;
         
     /**
      * Default controller
@@ -82,6 +82,7 @@ public class Controller {
 	@FXML
     private void actionSearch() {
     	System.out.println("actionSearch: " + textFieldKeyword.getText());
+		lastSearchTerm = textFieldKeyword.getText();
     	List<Item> result = scraper.scrape(textFieldKeyword.getText());
     	String output = "";
 		int itemCount = 0; /* count items */
@@ -95,7 +96,6 @@ public class Controller {
 			latestPostUrl = result.get(0).getLinkUrl();
 			minPrice = result.get(0).getPrice();
 			latestDate = result.get(0).getDate();
-			System.out.println("result not empty");
 		}
 
 		TableColumn col1 = tableView1.getColumns().get(0);
@@ -123,6 +123,7 @@ public class Controller {
     	    };
     	    return cell;
     	});
+
     	for (Item item : result) {
     		output += item.getTitle() + "\t" + item.getPrice() + "\t" + item.getUrl() + "\n";
     		totalPrice += item.getPrice();
@@ -172,12 +173,13 @@ public class Controller {
      * Called when the new button is pressed. Very dummy action - print something in the command prompt.
      */
     @FXML
-    private void actionNew() {
-    	System.out.println("actionNew -> Latest");
+    private void actionLastSearch() {
+    	System.out.println("actionLastSearch");
     }
 
     @FXML
 	private void actionOpenMinPrice() {
+		System.out.println("actionOpenMinPrice");
     	if (Desktop.isDesktopSupported()) {
     		try {
     			Desktop.getDesktop().browse(new URI(labelMin.getText()));
@@ -191,6 +193,7 @@ public class Controller {
 
 	@FXML
 	private void actionOpenLatest() {
+		System.out.println("actionOpenLatest");
     	if (Desktop.isDesktopSupported()) {
     		try {
     			Desktop.getDesktop().browse(new URI(labelLatest.getText()));
@@ -202,5 +205,34 @@ public class Controller {
 		}
 	}
 
+	@FXML
+	private void actionQuitApp() {
+    	Platform.exit();
+	}
+
+	@FXML
+	private void actionCloseSearch() {
+    	System.out.println("actionCloseSearch");
+		labelLatest.setText("<Latest>");
+		labelMin.setText("<Lowest>");
+		labelCount.setText("<Total>");
+		labelPrice.setText("<AvgPrice>");
+    	textFieldKeyword.setText("");
+    	tableView1.setItems(FXCollections.emptyObservableList());
+    	textAreaConsole.setText("");
+	}
+
+	@FXML
+	private void actionAboutTeam() {
+    	System.out.println("actionAboutTeam");
+		Alert alert = new Alert(Alert.AlertType.INFORMATION);
+		alert.setTitle("About Your Team");
+		alert.setHeaderText("Team Member Information");
+		alert.setContentText( "Mangkhut's COMP3111 Webscraper\n\n" +
+				"1. Name: CHENG Chee Hau Calvin \n    ITSC: chccheng \n    GitHub Account: cal852 \n\n" +
+				"2. Name: HYUN Jeongseok \n    ITSC: jhyunaa \n    GitHub Account: HYUNJS \n\n" +
+				"3. Name: WANG Yingran \n    ITSC: ywangdj \n    GitHub Account: enochwong3111");
+		alert.showAndWait();
+	}
 }
 

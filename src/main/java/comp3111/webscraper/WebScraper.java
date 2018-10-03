@@ -107,6 +107,7 @@ public class WebScraper {
 				 * Calvin : I THINK WE SHOULD SUBMIT IT TO THE TA AND SEE
 				 */
 				HtmlElement spanPrice = ((HtmlElement) htmlItem.getFirstByXPath(".//span[@class='result-price']"));
+				//HtmlElement spanPrice = ((HtmlElement) htmlItem.getFirstByXPath("//[@id=\"sortable-results\"]/ul/li/p/span[2]/span[@Class=\"result-price\"]"));
 				HtmlElement spanDate = ((HtmlElement) htmlItem.getFirstByXPath(".//p/time[@class='result-date']"));
 
 				// It is possible that an item doesn't have any price, we set the price to 0.0
