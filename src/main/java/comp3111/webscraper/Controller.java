@@ -215,10 +215,10 @@ public class Controller {
 	@FXML
 	private void actionCloseSearch() {
     	System.out.println("actionCloseSearch");
-		labelLatest.setText("<Latest>");
-		labelMin.setText("<Lowest>");
-		labelCount.setText("<Total>");
-		labelPrice.setText("<AvgPrice>");
+		labelLatest.setText("");
+		labelMin.setText("");
+		labelCount.setText("-");
+		labelPrice.setText("-");
     	textFieldKeyword.setText("");
     	tableView1.setItems(FXCollections.emptyObservableList());
     	textAreaConsole.setText("");
@@ -229,8 +229,8 @@ public class Controller {
     	System.out.println("actionAboutTeam");
 		Alert alert = new Alert(Alert.AlertType.INFORMATION);
 		alert.setTitle("About Your Team");
-		alert.setHeaderText("Team Member Information");
-		alert.setContentText( "Mangkhut's COMP3111 Webscraper\n\n" +
+		alert.setHeaderText("Mangkhut's COMP3111 Webscraper");
+		alert.setContentText("Team Member Information\n\n" +
 				"1. Name: CHENG Chee Hau Calvin \n    ITSC: chccheng \n    GitHub Account: cal852 \n\n" +
 				"2. Name: HYUN Jeongseok \n    ITSC: jhyunaa \n    GitHub Account: HYUNJS \n\n" +
 				"3. Name: WANG Yingran \n    ITSC: ywangdj \n    GitHub Account: enochwong3111");
