@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ccee1393-76c8-46f4-885a-25a6b023f87d" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/comp3111/webscraper/Controller$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/comp3111/webscraper/Controller$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/comp3111/webscraper/Controller.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/comp3111/webscraper/Controller.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/comp3111/webscraper/WebScraper.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/comp3111/webscraper/WebScraper.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/comp3111/webscraper/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/comp3111/webscraper/Controller.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
@@ -29,10 +26,10 @@
           <entry key="project.closed" value="5" />
           <entry key="project.open.time.0" value="1" />
           <entry key="project.open.time.11" value="1" />
-          <entry key="project.open.time.6" value="1" />
+          <entry key="project.open.time.6" value="2" />
           <entry key="project.open.time.8" value="1" />
           <entry key="project.open.time.9" value="1" />
-          <entry key="project.opened" value="5" />
+          <entry key="project.opened" value="6" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.vcs.git.usages">
@@ -43,24 +40,28 @@
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="fxml" value="2" />
+          <entry key="gitignore" value="1" />
           <entry key="java" value="5" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="JAVA" value="5" />
+          <entry key="PLAIN_TEXT" value="1" />
           <entry key="XML" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="fxml" value="70" />
+          <entry key="gitignore" value="14" />
           <entry key="java" value="1604" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="JAVA" value="1604" />
+          <entry key="PLAIN_TEXT" value="14" />
           <entry key="XML" value="70" />
         </counts>
       </usages-collector>
@@ -111,20 +112,29 @@
           </provider>
         </entry>
       </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="75">
+              <caret line="5" column="6" selection-start-line="5" selection-start-column="6" selection-end-line="5" selection-end-column="6" />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/ui.fxml">
           <provider editor-type-id="JavaFX-Scene-Builder" />
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="277">
+            <state relative-caret-position="750">
               <caret line="50" column="95" selection-start-line="50" selection-start-column="95" selection-end-line="50" selection-end-column="95" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/comp3111/webscraper/Controller.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2387">
+            <state relative-caret-position="765">
               <caret line="220" column="29" selection-start-line="220" selection-start-column="29" selection-end-line="220" selection-end-column="29" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -495,6 +505,7 @@
         <option value="$PROJECT_DIR$/src/main/resources/ui.fxml" />
         <option value="$PROJECT_DIR$/src/main/java/comp3111/webscraper/WebScraper.java" />
         <option value="$PROJECT_DIR$/src/main/java/comp3111/webscraper/Controller.java" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -515,6 +526,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -552,8 +565,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -612,17 +623,18 @@
       <workItem from="1538556548425" duration="1714000" />
       <workItem from="1538575057529" duration="2998000" />
       <workItem from="1538587005870" duration="245000" />
+      <workItem from="1538615746191" duration="208000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="13883000" />
+    <option name="totallyTimeSpent" value="14091000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="696" y="23" width="1680" height="934" extended-state="0" />
+    <frame x="0" y="23" width="1680" height="934" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1904762" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1929182" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -637,7 +649,7 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Build" order="7" weight="0.32897863" />
-      <window_info anchor="bottom" id="Terminal" order="8" weight="0.32897863" />
+      <window_info anchor="bottom" id="Terminal" order="8" visible="true" weight="0.32897863" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
       <window_info anchor="bottom" id="Messages" order="10" weight="0.32897863" />
       <window_info anchor="bottom" id="Database Changes" order="11" show_stripe_button="false" />
@@ -683,6 +695,24 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/ui.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="750">
+          <caret line="50" column="95" selection-start-line="50" selection-start-column="95" selection-end-line="50" selection-end-column="95" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/comp3111/webscraper/Controller.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="765">
+          <caret line="220" column="29" selection-start-line="220" selection-start-column="29" selection-end-line="220" selection-end-column="29" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/comp3111/webscraper/HyperlinkCell.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
@@ -697,21 +727,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/ui.fxml">
-      <provider editor-type-id="JavaFX-Scene-Builder" />
+    <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="277">
-          <caret line="50" column="95" selection-start-line="50" selection-start-column="95" selection-end-line="50" selection-end-column="95" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/comp3111/webscraper/Controller.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2387">
-          <caret line="220" column="29" selection-start-line="220" selection-start-column="29" selection-end-line="220" selection-end-column="29" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="75">
+          <caret line="5" column="6" selection-start-line="5" selection-start-column="6" selection-end-line="5" selection-end-column="6" />
         </state>
       </provider>
     </entry>
