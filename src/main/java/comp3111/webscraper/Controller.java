@@ -197,12 +197,10 @@ public class Controller {
 			menuLastSearch.setDisable(false);
 			textFieldKeyword.setText(lastSearchTerm[0]);
 			actionSearch();
-			return;
 		} else if (lastSearchTerm[0] != "") {
 			menuLastSearch.setDisable(false);
 			textFieldKeyword.setText(lastSearchTerm[0]);
 			actionSearch();
-			return;
 		}
 		menuLastSearch.setDisable(true);
     }
