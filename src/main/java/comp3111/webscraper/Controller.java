@@ -95,13 +95,20 @@ public class Controller {
 		int itemCount = 0; /* count items */
 		double totalPrice = 0.0; /* total Price for average calculation */
 		double minPrice = 0.0; /* minimum Price */
+		int minPriceCount = 0;
 		Date latestDate = new Date(0);
 		Hyperlink minPriceUrl = new Hyperlink("");
 		Hyperlink latestPostUrl = new Hyperlink("");
 		if (!result.isEmpty()) {
 			minPriceUrl = result.get(0).getLinkUrl();
 			latestPostUrl = result.get(0).getLinkUrl();
-			minPrice = result.get(0).getPrice();
+			// in case of first price is 0, then find until you get price > 0.0
+			for (; minPriceCount < result.size(); minPriceCount++) {
+				if (result.get(minPriceCount).getPrice() > 0.0) {
+					minPrice = result.get(minPriceCount).getPrice();
+					break;
+				}
+			}
 			latestDate = result.get(0).getDate();
 		}
 
@@ -143,10 +150,11 @@ public class Controller {
 					minPriceUrl = result.get(itemCount).getLinkUrl();
 				}
 				// Compare dates - obtain new URL when date is newer
-				if (result.get(itemCount).getDate().compareTo(latestDate) > 0) {
-					latestDate = result.get(itemCount).getDate();
-					latestPostUrl = result.get(itemCount).getLinkUrl();
+				if (result.get(minPriceCount).getDate().compareTo(latestDate) > 0) {
+					latestDate = result.get(minPriceCount).getDate();
+					latestPostUrl = result.get(minPriceCount).getLinkUrl();
 				}
+				minPriceCount++;
 			}
 
 			itemCount++;
@@ -178,7 +186,7 @@ public class Controller {
 
 		if (lastSearchTerm[0] == "" && lastSearchTerm[1] == "") { // empty queue
 			lastSearchTerm[0] = textFieldKeyword.getText();
-		} else if (lastSearchTerm[0] != "" && lastSearchTerm[1] == "") {
+		} else if (lastSearchTerm[0] != "" && lastSearchTerm[1] == "") { 
 			lastSearchTerm[1] = textFieldKeyword.getText();
 		} else {
 			lastSearchTerm[0] = lastSearchTerm[1];
@@ -259,9 +267,9 @@ public class Controller {
 		alert.setTitle("About Your Team");
 		alert.setHeaderText("Mangkhut's COMP3111 Webscraper");
 		alert.setContentText("Team Member Information\n\n" +
-				"1. Name: CHENG Chee Hau Calvin \n    ITSC: chccheng \n    GitHub Account: cal852 \n\n" +
-				"2. Name: HYUN Jeongseok \n    ITSC: jhyunaa \n    GitHub Account: HYUNJS \n\n" +
-				"3. Name: WANG Yingran \n    ITSC: ywangdj \n    GitHub Account: enochwong3111");
+				"• Name: CHENG Chee Hau Calvin \n   ITSC: chccheng \n   GitHub Account: cal852 \n\n" +
+				"• Name: HYUN Jeongseok \n   ITSC: jhyunaa \n   GitHub Account: HYUNJS \n\n" +
+				"• Name: WANG Yingran \n   ITSC: ywangdj \n   GitHub Account: enochwong3111");
 		alert.showAndWait();
 	}
 }
