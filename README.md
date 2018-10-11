@@ -7,7 +7,7 @@ This is a private repository for the purpose of making a web scrapper for COMP31
 |--|--|--|
 | CHENG Chee Hau Calvin | chccheng | cal852 |
 |HYUN Jeongseok|jhyunaa|HYUNJS|
-|WANG Yingran|ywangdj|enochwong3111_lab|
+|WANG Yingran|ywangdj|enochwong3111|
 
 
 **Tasks Assigned**
