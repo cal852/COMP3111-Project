@@ -42,6 +42,7 @@ public class HyperlinkCell implements  Callback<TableColumn<Item, Hyperlink>, Ta
  						// TODO Auto-generated catch block
  						e.printStackTrace();
  					}
+ 					System.out.println("useless commit");
                  }
             }
         });
