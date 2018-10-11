@@ -83,7 +83,7 @@ public class Controller {
     	}
     	textAreaConsole.setText(output);
 
-    	tableView1.setItems("Hi");
+    	labelCount.setText("Hi");
     }
     
     /**
