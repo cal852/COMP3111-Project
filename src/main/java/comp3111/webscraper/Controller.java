@@ -52,6 +52,12 @@ public class Controller {
     @FXML
     private TextArea textAreaConsole;
     
+    @FXML
+    private TextField refineKeyword;
+    
+    @FXML
+    private Label labelRefineWarning;
+    
     private WebScraper scraper;
         
     /**
@@ -118,6 +124,14 @@ public class Controller {
     @FXML
     private void actionNew() {
     	System.out.println("actionNew");
+    }
+    
+    /**
+     * Called when the Refine button is pressed. Refine the search result
+     */
+    @FXML
+    void actionRefine() {
+    	//
     }
     
     
