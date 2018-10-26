@@ -62,9 +62,9 @@
                         <TextField fx:id="textFieldKeyword" layoutX="14.0" layoutY="36.0" prefHeight="25.0" prefWidth="131.0" promptText="Keyword" />
                         <!--  this is the Go button. When it is clicked, it calls Controller.actionSearch() -->
                         <Button layoutX="145.0" layoutY="36.0" mnemonicParsing="false" onAction="#actionSearch" prefHeight="25.0" prefWidth="35.0" text="Go" />
-                        <TextField fx:id="refineKeyword" editable="false" layoutX="14.0" layoutY="73.0" prefHeight="23.0" prefWidth="111.0" promptText="Refine Keyword" />
-                        <Button disable="true" layoutX="125.0" layoutY="73.0" mnemonicParsing="false" onAction="#actionRefine" prefHeight="23.0" prefWidth="55.0" text="Refine" />
-                        <Label fx:id="labelRefineWarning" layoutX="14.0" layoutY="104.0" text="Invalid Refine Keyword!" textFill="RED" />
+                        <TextField fx:id="refineKeyword" disable="true" layoutX="14.0" layoutY="73.0" prefHeight="23.0" prefWidth="111.0" promptText="Refine Keyword" />
+                        <Button fx:id="refineBtn" disable="true" layoutX="125.0" layoutY="73.0" mnemonicParsing="false" onAction="#actionRefine" prefHeight="23.0" prefWidth="55.0" text="Refine" />
+                        <Label fx:id="labelRefineWarning" layoutX="14.0" layoutY="104.0" text="Invalid Refine Keyword!" textFill="RED" visible="false" />
 
                      </children>
                   </AnchorPane>
