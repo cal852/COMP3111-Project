@@ -5,6 +5,7 @@ package comp3111.webscraper;
 
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -66,6 +67,12 @@ public class Controller {
     private Button refineBtn;
     
     private WebScraper scraper;
+    
+    private List<Item> result;
+    
+    private Timeline timeline = new Timeline(new KeyFrame(
+	        Duration.millis(3000),
+	        ae -> labelRefineWarning.setVisible(false)));
         
     /**
      * Default controller
@@ -75,11 +82,13 @@ public class Controller {
     }
 
     /**
-     * Default initializer. It is empty.
+     * Default initializer. Initialize the program
      */
     @FXML
     private void initialize() {
+    	//System.out.println("Initialize the program");
     	disableRefine();
+    	initializeTable();
     }
 
     /**
@@ -89,19 +98,15 @@ public class Controller {
 	@FXML
     private void actionSearch() {
     	System.out.println("actionSearch: " + textFieldKeyword.getText());
-    	List<Item> result = scraper.scrape(textFieldKeyword.getText());
+    	result = scraper.scrape(textFieldKeyword.getText());
     	if(!result.isEmpty()) {
     		enableRefine();
     	}else {
     		disableRefine();
     	}
-    	String output = "";
-    	for (Item item : result) {
-    		output += item.getTitle() + "\t" + item.getPrice() + "\t" + item.getUrl() + "\n";
-    	}
-    	textAreaConsole.setText(output);
-    	fillTable();
-
+    	
+    	updateTextAreaConsole();
+    	
     	final ObservableList<Item> data = FXCollections.observableArrayList(result);
 		tableView1.setItems(data);
     }
@@ -115,11 +120,23 @@ public class Controller {
     }
     
     /**
+     * Called when the result need to be printed in the text area console. 
+     */
+    @FXML
+    private void updateTextAreaConsole() {
+    	String output = "";
+    	for (Item item : result) {
+    		output += item.getTitle() + "\t" + item.getPrice() + "\t" + item.getUrl() + "\n";
+    	}
+    	textAreaConsole.setText(output);
+    }
+    
+    /**
      * Called when there are results ( > 0) after searching. Fill in the table content
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @FXML
-    private void fillTable() {
+    private void initializeTable() {
     	TableColumn col1 = tableView1.getColumns().get(0);
     	TableColumn col2 = tableView1.getColumns().get(1);
     	TableColumn col3 = tableView1.getColumns().get(2);
@@ -149,10 +166,7 @@ public class Controller {
     
     /**
      * Called when the Refine button is pressed. Refine the search result
-     */
-    Timeline timeline = new Timeline(new KeyFrame(
-	        Duration.millis(1000),
-	        ae -> labelRefineWarning.setVisible(false)));
+     */    
     @FXML
     private void actionRefine() {
     	String refineWords = refineKeyword.getText();
@@ -168,8 +182,8 @@ public class Controller {
     		timeline.stop();
     		timeline.play();
     	}else {
-    		labelRefineWarning.setVisible(false);
     		disableRefine();
+    		refineContent(refineWords);
     	}
     }
     
@@ -190,6 +204,40 @@ public class Controller {
     private void disableRefine() {
     	refineBtn.setDisable(true);
     	refineKeyword.setDisable(true);
+		timeline.stop();
+		labelRefineWarning.setVisible(false);
+    }
+    
+    /**
+     * Called when the refine keyword is valid and the refine button was clicked. Refine the search result with the str keyword
+     */
+    @FXML
+    private void refineContent(String str) {
+    	ArrayList<Integer> indexArr = new ArrayList<Integer>();
+    	int i = 0;
+    	for (Item item : result) {
+    		//System.out.println(item.getTitle());
+    		if(!item.getTitle().contains(str)) {
+    			i++;
+    			indexArr.add(0, result.indexOf(item));
+    		}
+    	}
+    	//System.out.println("size: " + indexArr.size());
+    	for(int j : indexArr) {
+    		//System.out.print(j + "  ");
+    		result.remove(j);
+    	}
+    	if(i > 0) {
+    		//update the table tab's content
+    		final ObservableList<Item> data = FXCollections.observableArrayList(result);
+    		tableView1.setItems(data);
+    		
+    		//update the text area console
+    		updateTextAreaConsole();
+    		
+    		/*TODO*/
+    		//update other tabs here
+    	}
     }
     
 }
