@@ -109,156 +109,41 @@ public class Controller {
     /**
      * Called when the search button is pressed.
      */
-    
 	@FXML
     private void actionSearch() {
-/*  dev-calvin
-		System.out.println("actionSearch: " + textFieldKeyword.getText());
-		List<Item> result = scraper.scrape(textFieldKeyword.getText());
-		String output = "";
-		int itemCount = 0; /* count items */
-		double totalPrice = 0.0; /* total Price for average calculation */
-		double minPrice = 0.0; /* minimum Price */
-		int minPriceCount = 0;
-      
-		Date latestDate = new Date(0);
-		Hyperlink minPriceUrl = new Hyperlink("");
-		Hyperlink latestPostUrl = new Hyperlink("");
-		if (!result.isEmpty()) {
-			minPriceUrl = result.get(0).getLinkUrl();
-			latestPostUrl = result.get(0).getLinkUrl();
-			// in case of first price is 0, then find until you get price > 0.0
-			for (; minPriceCount < result.size(); minPriceCount++) {
-				if (result.get(minPriceCount).getPrice() > 0.0) {
-					minPrice = result.get(minPriceCount).getPrice();
-					break;
-				}
-			}
-			latestDate = result.get(0).getDate();
-		}
-
-		TableColumn col1 = tableView1.getColumns().get(0);
-		TableColumn col2 = tableView1.getColumns().get(1);
-		TableColumn col3 = tableView1.getColumns().get(2);
-		TableColumn col4 = tableView1.getColumns().get(3);
-		col1.setCellValueFactory(new PropertyValueFactory<Item, String>("title"));
-		col2.setCellValueFactory(new PropertyValueFactory<Item, Double>("price"));
-		col3.setCellValueFactory(new PropertyValueFactory<Item, Hyperlink>("linkUrl"));
-		col3.setCellFactory(new HyperlinkCell());
-		col4.setCellValueFactory(new PropertyValueFactory<Item, Date>("date"));
-		col4.setCellFactory(column -> {
-			TableCell<Item, Date> cell = new TableCell<Item, Date>() {
-				private SimpleDateFormat format = new SimpleDateFormat("MMM dd");
-
-				@Override
-				protected void updateItem(Date date, boolean empty) {
-					super.updateItem(date, empty);
-					if (empty) {
-						setText(null);
-					} else {
-						setText(format.format(date));
-					}
-				}
-			};
-			return cell;
-		});
-
-		for (Item item : result) {
-			output += item.getTitle() + "\t" + item.getPrice() + "\t" + item.getUrl() + "\n";
-			totalPrice += item.getPrice();
-
-			// find minPrice listing
-			if (itemCount > 0) {
-				// Compare prices - obtain new URL when price is newer
-				if (result.get(itemCount).getPrice() < minPrice && result.get(itemCount).getPrice() > 0.0) {
-					minPrice = result.get(itemCount).getPrice();
-					minPriceUrl = result.get(itemCount).getLinkUrl();
-				}
-				// Compare dates - obtain new URL when date is newer
-				if (result.get(minPriceCount).getDate().compareTo(latestDate) > 0) {
-					latestDate = result.get(minPriceCount).getDate();
-					latestPostUrl = result.get(minPriceCount).getLinkUrl();
-				}
-				minPriceCount++;
-			}
-
-			itemCount++;
-		}
-		if (itemCount > 0) {
-			labelCount.setText(itemCount + " items");
-			labelPrice.setText("$" + (totalPrice / itemCount));
-			labelMin.setText(minPriceUrl.getText());
-			labelMin.setDisable(false);
-			labelMin.setUnderline(true);
-			labelLatest.setText(latestPostUrl.getText());
-			labelLatest.setDisable(false);
-			labelLatest.setUnderline(true);
-		} else {
-			labelCount.setText("-");
-			labelPrice.setText("-");
-			labelMin.setText("-");
-			labelMin.setDisable(true);
-			labelMin.setUnderline(false);
-			labelLatest.setText("-");
-			labelLatest.setDisable(true);
-			labelLatest.setUnderline(false);
-		}
-		textAreaConsole.setText(output);
-
-		final ObservableList<Item> data = FXCollections.observableArrayList(result);
-		tableView1.setItems(data);
-		if (lastSearchTerm[0] == "" && lastSearchTerm[1] == "") { // empty queue
-			lastSearchTerm[0] = textFieldKeyword.getText();
-		} else if (lastSearchTerm[0] != "" && lastSearchTerm[1] == "") { 
-			lastSearchTerm[1] = textFieldKeyword.getText();
-		} else {
-			lastSearchTerm[0] = lastSearchTerm[1];
-			lastSearchTerm[1] = textFieldKeyword.getText();
-		}
-		menuLastSearch.setDisable(false);
-*/
     	System.out.println("actionSearch: " + textFieldKeyword.getText());
       
     	result = scraper.scrape(textFieldKeyword.getText());
       
-      Date latestDate = new Date(0);
+      	Date latestDate = new Date(0);
 	  	Hyperlink minPriceUrl = new Hyperlink("");
 	  	Hyperlink latestPostUrl = new Hyperlink("");
       
       
     	if(!result.isEmpty()) {
-        minPriceUrl = result.get(0).getLinkUrl();
-		  	latestPostUrl = result.get(0).getLinkUrl();
-		  	// in case of first price is 0, then find until you get price > 0.0
-		  	for (; minPriceCount < result.size(); minPriceCount++) {
-				  if (result.get(minPriceCount).getPrice() > 0.0) {
-				  	minPrice = result.get(minPriceCount).getPrice();
-				  	break;
-			  	}
-			  }
-			  latestDate = result.get(0).getDate();
     		enableRefine();
     	} else {
     		disableRefine();
     	}
     	
     	updateTextAreaConsole();
-    	
-    	final ObservableList<Item> data = FXCollections.observableArrayList(result);
-      
-		tableView1.setItems(data);
-      
-      
+
+
+		System.out.println(lastSearchTerm[0] + " " + lastSearchTerm[1]);
 		if (lastSearchTerm[0] == "" && lastSearchTerm[1] == "") { // empty queue
 			lastSearchTerm[0] = textFieldKeyword.getText();
-		} else if (lastSearchTerm[0] != "" && lastSearchTerm[1] == "") { 
+		} else if (lastSearchTerm[0] != "" && lastSearchTerm[1] == "") {
 			lastSearchTerm[1] = textFieldKeyword.getText();
 		} else {
 			lastSearchTerm[0] = lastSearchTerm[1];
 			lastSearchTerm[1] = textFieldKeyword.getText();
 		}
- }
-    
+
+    	final ObservableList<Item> data = FXCollections.observableArrayList(result);
+      
+		tableView1.setItems(data);
+		menuLastSearch.setDisable(false);
+ 	}
     /**
      * Called when the new button is pressed. Very dummy action - print something in the command prompt.
      */
@@ -274,20 +159,33 @@ public class Controller {
     private void updateTextAreaConsole() {
     	String output = "";
       
-      int itemCount = 0; /* count items */
-		  double totalPrice = 0.0; /* total Price for average calculation */
-		  double minPrice = 0.0; /* minimum Price */
-		  int minPriceCount = 0;
-      Date latestDate = new Date(0);
-		  Hyperlink minPriceUrl = new Hyperlink("");
-		  Hyperlink latestPostUrl = new Hyperlink("");
-      
-    	for (Item item : result) {
-    		output += item.getTitle() + "\t" + item.getPrice() + "\t" + item.getUrl() + "\n";
-        
-        totalPrice += item.getPrice();
+      	int itemCount = 0; /* count items */
+		double totalPrice = 0.0; /* total Price for average calculation */
+		double minPrice = 0.0; /* minimum Price */
+		int minPriceCount = 0;
+		Date latestDate = new Date(0);
+		Hyperlink minPriceUrl = new Hyperlink("");
+		Hyperlink latestPostUrl = new Hyperlink("");
 
-			// find minPrice listing
+		if (!result.isEmpty()) {
+			minPriceUrl = result.get(0).getLinkUrl();
+			latestPostUrl = result.get(0).getLinkUrl();
+			// in case of first price is 0, then find until you get price > 0.0
+			for (; minPriceCount < result.size(); minPriceCount++) {
+				if (result.get(minPriceCount).getPrice() > 0.0) {
+					minPrice = result.get(minPriceCount).getPrice();
+					break;
+				}
+			}
+			latestDate = result.get(0).getDate();
+		}
+
+		for (Item item : result) {
+			output += item.getTitle() + "\t" + item.getPrice() + "\t" + item.getUrl() + "\n";
+        
+        	totalPrice += item.getPrice();
+
+        	// find minPrice listing
 			if (itemCount > 0) {
 				// Compare prices - obtain new URL when price is newer
 				if (result.get(itemCount).getPrice() < minPrice && result.get(itemCount).getPrice() > 0.0) {
@@ -301,9 +199,10 @@ public class Controller {
 				}
 				minPriceCount++;
 			}
-
 			itemCount++;
 		}
+
+
 		if (itemCount > 0) {
 			labelCount.setText(itemCount + " items");
 			labelPrice.setText("$" + (totalPrice / itemCount));
@@ -322,10 +221,11 @@ public class Controller {
 			labelLatest.setText("-");
 			labelLatest.setDisable(true);
 			labelLatest.setUnderline(false);
+		}
+
+		textAreaConsole.setText(output);
     }
-   }
-    	textAreaConsole.setText(output);
-    }
+
     
     /**
      * Called when there are results ( > 0) after searching. Fill in the table content
