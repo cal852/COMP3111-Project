@@ -4,6 +4,7 @@
 package comp3111.webscraper;
 
 import javafx.application.Application;
+import javafx.application.HostServices;
 import javafx.stage.Stage;
 
 import javafx.fxml.FXMLLoader;
@@ -39,7 +40,7 @@ import javafx.scene.Scene;
 public class WebScraperApplication extends Application {
 
     private static final String UI_FILE = "/ui.fxml";  //It is very important that you put the file under folder src/main/resources/
-	
+
 	/* 
 	 * @see javafx.application.Application#start(javafx.stage.Stage)
 	 * 
@@ -50,13 +51,18 @@ public class WebScraperApplication extends Application {
     	FXMLLoader loader = new FXMLLoader();
     	loader.setLocation(getClass().getResource(UI_FILE));
    		VBox root = (VBox) loader.load();
+
+		Controller controller = loader.getController();
+		controller.setGetHostController(getHostServices());
+
    		Scene scene =  new Scene(root);
    		stage.setScene(scene);
    		stage.setTitle("WebScrapper");
    		stage.show();
-    		
-
 	}
+
+
+
 
 	/**
 	 * Entry point of the program. No argument should be supplied

@@ -31,6 +31,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.MenuItem;
 import javafx.util.Duration;
+import javafx.application.HostServices;
 
 
 /**
@@ -85,6 +86,16 @@ public class Controller {
     private Timeline timeline = new Timeline(new KeyFrame(
 	        Duration.millis(3000),
 	        ae -> labelRefineWarning.setVisible(false)));
+
+    private HostServices hostServices;
+
+	/**
+	 * Gets Host Services from Application
+	 * @param hostServices
+	 */
+	public void setGetHostController(HostServices hostServices) {
+    	this.hostServices = hostServices;
+	}
         
     /**
      * Default controller
@@ -301,9 +312,17 @@ public class Controller {
 		menuLastSearch.setDisable(true);
     }
 
-    @FXML
+	/**
+	 * Displays item with lowest price found on default browser
+	 */
+	@FXML
 	private void actionOpenMinPrice() {
 		System.out.println("actionOpenMinPrice");
+
+
+			this.hostServices.showDocument(labelMin.getText());
+
+		/*
     	if (Desktop.isDesktopSupported()) {
     		try {
     			Desktop.getDesktop().browse(new URI(labelMin.getText()));
@@ -313,11 +332,18 @@ public class Controller {
 				ev.printStackTrace();
 			}
 		}
+		*/
+
 	}
 
+	/**
+	 * Displays item with the latest date posted on default browser
+	 */
 	@FXML
 	private void actionOpenLatest() {
 		System.out.println("actionOpenLatest");
+		this.hostServices.showDocument(labelLatest.getText());
+		/*
     	if (Desktop.isDesktopSupported()) {
     		try {
     			Desktop.getDesktop().browse(new URI(labelLatest.getText()));
@@ -327,13 +353,20 @@ public class Controller {
     			ev.printStackTrace();
 			}
 		}
+		*/
 	}
 
+	/**
+	 * Exits the application
+	 */
 	@FXML
 	private void actionQuitApp() {
     	Platform.exit();
 	}
 
+	/**
+	 * Closes the search
+	 */
 	@FXML
 	private void actionCloseSearch() {
     	System.out.println("actionCloseSearch");
@@ -348,6 +381,9 @@ public class Controller {
     	textAreaConsole.setText("");
 	}
 
+	/**
+	 * Displays an alert window with information regarding team
+	 */
 	@FXML
 	private void actionAboutTeam() {
     	System.out.println("actionAboutTeam");
