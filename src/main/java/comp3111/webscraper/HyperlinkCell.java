@@ -1,51 +1,54 @@
 package comp3111.webscraper;
 
-import java.awt.Desktop;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import javafx.event.EventHandler;
+import javafx.application.HostServices;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
-import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
 
 /*abv
- * reference from: http://www.superglobals.net/create-hyperlink-cell-in-javafx-tableview/
+ * reference from: https://stackoverflow.com/questions/50622704/javafx-display-hyperlink-in-table-cell
  * */
 public class HyperlinkCell implements  Callback<TableColumn<Item, Hyperlink>, TableCell<Item, Hyperlink>> {
 	 
+	private static HostServices hostServices ;
+
+    public static HostServices getHostServices() {
+        return hostServices ;
+    }
+    
+    public static void setHostServices(HostServices hostServices) {
+        HyperlinkCell.hostServices = hostServices ;
+    }
+    
     @Override
     public TableCell<Item, Hyperlink> call(TableColumn<Item, Hyperlink> arg) {
         TableCell<Item, Hyperlink> cell = new TableCell<Item, Hyperlink>() {
-            @Override
-            protected void updateItem(Hyperlink item, boolean empty) {
-                setGraphic(item);
+        	
+        	private final Hyperlink hyperlink = new Hyperlink();
+
+            {
+                hyperlink.setOnAction(event -> {
+                    Hyperlink url = getItem();
+                    String url2 = url.toString();
+                    url2 = url2.substring(url2.indexOf("]'") + 2, url2.length()-1);
+                    System.out.println("cell clicked! " + url2);
+                    hostServices.showDocument(url2);
+                });
+            }
+            
+            protected void updateItem(Hyperlink url, boolean empty) {
+                super.updateItem(url, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                	String url2 = url.toString();
+                	hyperlink.setText(url2);
+                    setGraphic(hyperlink);
+                }
             }
         };
-        
-        cell.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                 //System.out.println("cell clicked! " + cell.getChildrenUnmodifiable().get(0).toString());
-                 String url = cell.getChildrenUnmodifiable().get(0).toString();
-                 if(url.matches(".*hyperlink.*")) {
-                	 url = url.substring(url.indexOf("]'") + 2, url.length()-1);
-                	 System.out.println("enter into: " + url);
-                	 try {
- 						Desktop.getDesktop().browse(new URI(url));
- 					} catch (IOException e) {
- 						// TODO Auto-generated catch block
- 						e.printStackTrace();
- 					} catch (URISyntaxException e) {
- 						// TODO Auto-generated catch block
- 						e.printStackTrace();
- 					}
-                 }
-            }
-        });
-
+           
         return cell;
     }
 }
