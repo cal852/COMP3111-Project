@@ -12,13 +12,13 @@ import javafx.util.Callback;
 public class HyperlinkCell implements  Callback<TableColumn<Item, Hyperlink>, TableCell<Item, Hyperlink>> {
 	 
 	private static HostServices hostServices ;
-
-    public static HostServices getHostServices() {
-        return hostServices ;
-    }
     
     public static void setHostServices(HostServices hostServices) {
         HyperlinkCell.hostServices = hostServices ;
+    }
+
+    public static HostServices getHostServices() {
+        return hostServices;
     }
     
     @Override
@@ -33,7 +33,7 @@ public class HyperlinkCell implements  Callback<TableColumn<Item, Hyperlink>, Ta
                     String url2 = url.toString();
                     url2 = url2.substring(url2.indexOf("]'") + 2, url2.length()-1);
                     System.out.println("cell clicked! " + url2);
-                    hostServices.showDocument(url2);
+                    getHostServices().showDocument(url2);
                 });
             }
             
@@ -43,6 +43,7 @@ public class HyperlinkCell implements  Callback<TableColumn<Item, Hyperlink>, Ta
                     setGraphic(null);
                 } else {
                 	String url2 = url.toString();
+                    url2 = url2.substring(url2.indexOf("]'") + 2, url2.length()-1);
                 	hyperlink.setText(url2);
                     setGraphic(hyperlink);
                 }

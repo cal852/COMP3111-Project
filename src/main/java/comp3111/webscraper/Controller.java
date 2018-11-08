@@ -4,10 +4,6 @@
 package comp3111.webscraper;
 
 
-import java.awt.Desktop;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -90,12 +86,18 @@ public class Controller {
     private HostServices hostServices;
 
 	/**
-	 * Gets Host Services from Application
+	 * Passes and sets Host Services from WebScraperApplication for use in Controller
 	 * @param hostServices
 	 */
-	public void setGetHostController(HostServices hostServices) {
+	public void setHostServices(HostServices hostServices) {
     	this.hostServices = hostServices;
 	}
+
+	/**
+	 * Gets the hostServices from Application for use in Controller
+	 * @return hostServices
+	 */
+	public HostServices getHostServices() { return hostServices; }
         
     /**
      * Default controller
@@ -109,10 +111,10 @@ public class Controller {
      */
     @FXML
     private void initialize() {
+		System.out.println("Initialized the application and controller");
     	lastSearchTerm = new String[2];
     	lastSearchTerm[0] = "";
     	lastSearchTerm[1] = "";
-    	//System.out.println("Initialize the program");
     	disableRefine();
     	initializeTable();
     }
@@ -125,22 +127,15 @@ public class Controller {
     	System.out.println("actionSearch: " + textFieldKeyword.getText());
       
     	result = scraper.scrape(textFieldKeyword.getText());
-      
-      	Date latestDate = new Date(0);
-	  	Hyperlink minPriceUrl = new Hyperlink("");
-	  	Hyperlink latestPostUrl = new Hyperlink("");
-      
-      
+
     	if(!result.isEmpty()) {
     		enableRefine();
     	} else {
     		disableRefine();
     	}
     	
-    	updateTextAreaConsole();
+    	updateConsoleAndTabs();
 
-
-		System.out.println(lastSearchTerm[0] + " " + lastSearchTerm[1]);
 		if (lastSearchTerm[0] == "" && lastSearchTerm[1] == "") { // empty queue
 			lastSearchTerm[0] = textFieldKeyword.getText();
 		} else if (lastSearchTerm[0] != "" && lastSearchTerm[1] == "") {
@@ -164,10 +159,10 @@ public class Controller {
     }
     
     /**
-     * Called when the result need to be printed in the text area console. 
+     * Called when the result need to be printed in the text area console and summary tabs.
      */
     @FXML
-    private void updateTextAreaConsole() {
+    private void updateConsoleAndTabs() {
     	String output = "";
       
       	int itemCount = 0; /* count items */
@@ -239,7 +234,8 @@ public class Controller {
 
     
     /**
-     * Called when there are results ( > 0) after searching. Fill in the table content
+     * Called when there are results ( > 0) after searching.
+	 * Fills in the table contents
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @FXML
@@ -272,7 +268,7 @@ public class Controller {
     }
     
     /**
-     * Called when the Refine button is pressed. Refine the search result
+     * Called when the Refine button is pressed. Refines the search result
      */    
     @FXML
     private void actionRefine() {
@@ -295,7 +291,8 @@ public class Controller {
     }
     
     /**
-     * Called when there are results ( > 0) after searching. Enable the Refine button and refine text field
+     * Able to be called when there are results ( > 0) after searching.
+	 * Enable the Refine button and refine text field
      */
     @FXML
     private void actionLastSearch() {
@@ -319,20 +316,11 @@ public class Controller {
 	private void actionOpenMinPrice() {
 		System.out.println("actionOpenMinPrice");
 
-
-			this.hostServices.showDocument(labelMin.getText());
-
-		/*
-    	if (Desktop.isDesktopSupported()) {
-    		try {
-    			Desktop.getDesktop().browse(new URI(labelMin.getText()));
-			} catch (IOException ev) {
-				ev.printStackTrace();
-			} catch (URISyntaxException ev) {
-				ev.printStackTrace();
-			}
+		try {
+			getHostServices().showDocument(labelMin.getText());
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
-		*/
 
 	}
 
@@ -342,18 +330,12 @@ public class Controller {
 	@FXML
 	private void actionOpenLatest() {
 		System.out.println("actionOpenLatest");
-		this.hostServices.showDocument(labelLatest.getText());
-		/*
-    	if (Desktop.isDesktopSupported()) {
-    		try {
-    			Desktop.getDesktop().browse(new URI(labelLatest.getText()));
-			} catch (IOException ev) {
-    			ev.printStackTrace();
-			} catch (URISyntaxException ev) {
-    			ev.printStackTrace();
-			}
+		try {
+			getHostServices().showDocument(labelLatest.getText());
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
-		*/
+
 	}
 
 	/**
@@ -382,7 +364,7 @@ public class Controller {
 	}
 
 	/**
-	 * Displays an alert window with information regarding team
+	 * Displays an alert dialog window with information regarding team
 	 */
 	@FXML
 	private void actionAboutTeam() {
@@ -404,7 +386,8 @@ public class Controller {
     
 
     /**
-     * Called when initialize the program or there are results ( > 0) after searching. Disable the Refine button and refine text field
+     * Called when initialize the program or there are results ( > 0) after searching.
+	 * Disable the Refine button and refine text field
      */
     @FXML
     private void disableRefine() {
@@ -415,7 +398,8 @@ public class Controller {
     }
     
     /**
-     * Called when the refine keyword is valid and the refine button was clicked. Refine the search result with the str keyword
+     * Called when the refine keyword is valid and the refine button was clicked.
+	 * Refine the search result with the str keyword
      */
     @FXML
     private void refineContent(String str) {
@@ -439,10 +423,11 @@ public class Controller {
     		tableView1.setItems(data);
     		
     		//update the text area console
-    		updateTextAreaConsole();
+    		updateConsoleAndTabs();
     		
     		/*TODO*/
     		//update other tabs here
+			//updating other tabs done in updateConsoleAndTabs()
     	}
     }
     

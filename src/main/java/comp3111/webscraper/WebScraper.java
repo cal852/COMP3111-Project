@@ -104,7 +104,6 @@ public class WebScraper {
 				 * you go to newyork.craigslist.com -> search "iphone"
 				 * So some may display their price there next to title, but the TAs
 				 * code does not scrape for the prices that are actually found there for some listings
-				 * Calvin : I THINK WE SHOULD SUBMIT IT TO THE TA AND SEE
 				 */
 				HtmlElement spanPrice = ((HtmlElement) htmlItem.getFirstByXPath(".//span[@class='result-price']"));
 				HtmlElement spanDate = ((HtmlElement) htmlItem.getFirstByXPath(".//p/time[@class='result-date']"));

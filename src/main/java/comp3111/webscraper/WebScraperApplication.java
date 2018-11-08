@@ -53,7 +53,7 @@ public class WebScraperApplication extends Application {
    		VBox root = (VBox) loader.load();
 
 		Controller controller = loader.getController();
-		controller.setGetHostController(getHostServices());
+		controller.setHostServices(getHostServices());
 		HyperlinkCell.setHostServices(getHostServices());
 
    		Scene scene =  new Scene(root);
