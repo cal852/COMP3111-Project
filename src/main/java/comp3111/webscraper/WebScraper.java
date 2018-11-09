@@ -88,6 +88,11 @@ public class WebScraper {
 				.orElse(s);
 	}
 
+	public static String filterNumber(String s){
+		return s.replaceAll("[^0-9]","");
+	}
+
+
 	/**
 	 * The only method implemented in this class, to scrape web content from the craigslist
 	 * 
@@ -160,37 +165,26 @@ public class WebScraper {
 			for (int i = 0; i < items.size(); i++) {
 				HtmlElement htmlItem = (HtmlElement) items.get(i);
 
-//				HtmlAnchor itemDescription = ((HtmlAnchor) htmlItem.getFirstByXPath(".//div[@class='G-e']/a"));
 				HtmlAnchor itemDescription = ((HtmlAnchor) htmlItem.getFirstByXPath("./div/figure/div/div/a"));
-//				HtmlElement spanPrice = ((HtmlElement) htmlItem.getFirstByXPath(".//a/span[@class='result-price']"));
-//				HtmlElement spanDate = ((HtmlElement) htmlItem.getFirstByXPath(".//p/time[@class='result-date']"));
-//				System.out.println("linkURL: "+itemDescription.getHrefAttribute());
+				HtmlElement titleDiv = ((HtmlElement) htmlItem.getFirstByXPath("./div/figure/div/figcaption/a/div[1]/div"));
+				HtmlElement priceDiv = ((HtmlElement) htmlItem.getFirstByXPath("./div/figure/div/figcaption/a/div[2]/div"));
+				HtmlElement dateDiv = ((HtmlElement) htmlItem.getFirstByXPath("./div/figure/div/a/div[2]/time"));
+
 				// It is possible that an item doesn't have any price, we set the price to 0.0
 				// in this case
-//				String itemPrice = spanPrice == null ? "0.0" : spanPrice.asText();
-//
-// *[@id="root"]/div/div[1]/div[1]/div[2]/div[2]/div[4]/div[1]/div[11]
+				String itemPrice = priceDiv == null ? "0.0" : priceDiv.asText();
+
 				Item item = new Item();
-//				item.setTitle(itemAnchor.asText());
+
+				item.setTitle(titleDiv.asText());
 				item.setUrl(removeLastChar(CarousellURL)+itemDescription.getHrefAttribute());
-//				if(itemDescription!=null){
-//					System.out.println(itemDescription.toString());
-//				}else{
-//					System.out.println("NULL Description");
-//					System.out.println(htmlItem.toString());
-//				}
-
-
-//				item.setPrice(new Double(itemPrice.replace("$", "")));
-				item.setTitle("deafault");
-//				item.setUrl("deafault");
-				item.setPrice(0);
-				item.setDate("default");
+				item.setPrice(new Double(filterNumber(itemPrice)));
+				item.setDate(dateDiv.asText());
 
 				result.add(item);
 
 				System.out.println("Result "+ i + " is added");
-				result.get(i).printItem();
+//				result.get(i).printItem();
 			}
 			client.close();
 
@@ -214,10 +208,10 @@ public class WebScraper {
 
 		List<Item> results = webScraper.scrapeCarousell("samsung i3");
 
-//		System.out.println();
-//		System.out.println("Result size:" +results.size());
-//		for(Item i:results)
-//			i.printItem();
+		System.out.println();
+		System.out.println("Result size:" +results.size());
+		for(Item i:results)
+			i.printItem();
 
 	}
 
