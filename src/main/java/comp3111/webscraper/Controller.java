@@ -32,7 +32,7 @@ import javafx.application.HostServices;
 
 /**
  * 
- * @author kevinw
+ * @author kevinw, cal852, enochwong3111
  *
  *
  * Controller class that manage GUI interaction. Please see document about JavaFX for details.
@@ -86,6 +86,7 @@ public class Controller {
     private HostServices hostServices;
 
 	/**
+	 * @author cal852
 	 * Passes and sets Host Services from WebScraperApplication for use in Controller
 	 * @param hostServices
 	 */
@@ -94,6 +95,7 @@ public class Controller {
 	}
 
 	/**
+	 * @author cal852
 	 * Gets the hostServices from Application for use in Controller
 	 * @return hostServices
 	 */
@@ -107,6 +109,7 @@ public class Controller {
     }
 
     /**
+	 * @author cal852
      * Default initializer. Initialize the program
      */
     @FXML
@@ -120,6 +123,7 @@ public class Controller {
     }
 
     /**
+	 * @author kevinw, cal852, enochwong3111
      * Called when the search button is pressed.
      */
 	@FXML
@@ -150,15 +154,9 @@ public class Controller {
 		tableView1.setItems(data);
 		menuLastSearch.setDisable(false);
  	}
-    /**
-     * Called when the new button is pressed. Very dummy action - print something in the command prompt.
-     */
-    @FXML
-    private void actionNew() {
-    	System.out.println("actionNew");
-    }
     
     /**
+	 * @author kevinw, cal852
      * Called when the result need to be printed in the text area console and summary tabs.
      */
     @FXML
@@ -234,6 +232,7 @@ public class Controller {
 
     
     /**
+	 * @author enochwong3111
      * Called when there are results ( > 0) after searching.
 	 * Fills in the table contents
      */
@@ -268,6 +267,7 @@ public class Controller {
     }
     
     /**
+	 * @author enochwong3111
      * Called when the Refine button is pressed. Refines the search result
      */    
     @FXML
@@ -291,6 +291,7 @@ public class Controller {
     }
     
     /**
+	 * @author enochwong3111
      * Able to be called when there are results ( > 0) after searching.
 	 * Enable the Refine button and refine text field
      */
@@ -325,6 +326,7 @@ public class Controller {
 	}
 
 	/**
+	 * @author cal852
 	 * Displays item with the latest date posted on default browser
 	 */
 	@FXML
@@ -339,6 +341,7 @@ public class Controller {
 	}
 
 	/**
+	 * @author cal852
 	 * Exits the application
 	 */
 	@FXML
@@ -347,6 +350,7 @@ public class Controller {
 	}
 
 	/**
+	 * @author cal852
 	 * Closes the search
 	 */
 	@FXML
@@ -364,6 +368,7 @@ public class Controller {
 	}
 
 	/**
+	 * @author cal852
 	 * Displays an alert dialog window with information regarding team
 	 */
 	@FXML
@@ -379,6 +384,10 @@ public class Controller {
 		alert.showAndWait();
 	}
 
+	/**
+	 * @author enochwong3111
+	 * Enables Refine Button for interaction
+	 */
     private void enableRefine() {
     	refineBtn.setDisable(false);
     	refineKeyword.setDisable(false);
@@ -386,6 +395,7 @@ public class Controller {
     
 
     /**
+	 * @author enochwong3111
      * Called when initialize the program or there are results ( > 0) after searching.
 	 * Disable the Refine button and refine text field
      */
@@ -398,6 +408,7 @@ public class Controller {
     }
     
     /**
+	 * @author enochwong3111
      * Called when the refine keyword is valid and the refine button was clicked.
 	 * Refine the search result with the str keyword
      */
