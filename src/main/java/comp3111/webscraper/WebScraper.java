@@ -1,6 +1,7 @@
 package comp3111.webscraper;
 
 import java.net.URLEncoder;
+import java.util.Comparator;
 import java.util.List;
 
 import com.gargoylesoftware.htmlunit.WebClient;
@@ -100,6 +101,7 @@ public class WebScraper {
 				HtmlAnchor itemAnchor = ((HtmlAnchor) htmlItem.getFirstByXPath(".//p[@class='result-info']/a"));
 				HtmlElement spanPrice = ((HtmlElement) htmlItem.getFirstByXPath(".//a/span[@class='result-price']"));
 				HtmlElement spanDate = ((HtmlElement) htmlItem.getFirstByXPath(".//p/time[@class='result-date']"));
+//*[@id="sortable-results"]/ul/li[115]/p/span[2]/span[1]
 
 				// It is possible that an item doesn't have any price, we set the price to 0.0
 				// in this case
@@ -107,14 +109,19 @@ public class WebScraper {
 
 				Item item = new Item();
 				item.setTitle(itemAnchor.asText());
-				item.setUrl(DEFAULT_URL + itemAnchor.getHrefAttribute());
-				item.setLinkUrl(itemAnchor.getHrefAttribute());
+				item.setUrl(itemAnchor.getHrefAttribute());
 				item.setPrice(new Double(itemPrice.replace("$", "")));
 				item.setDate(spanDate.asText());
 
 				result.add(item);
+
+				System.out.println("Result "+ i + " is added");
+				result.get(i).printItem();
 			}
 			client.close();
+
+			//sort by price in ascending order
+			result.sort(Comparator.comparingDouble(Item::getPrice));
 			return result;
 		} catch (Exception e) {
 			System.out.println(e);
@@ -122,43 +129,54 @@ public class WebScraper {
 		return null;
 	}
 
-	public List<Item> scrapeCarousell(String keyword) {
-		final String URL = "https://hk.carousell.com/";
+//	public List<Item> scrapeCarousell(String keyword) {
+//		final String URL = "https://hk.carousell.com/";
+//
+//		try {
+//			String searchUrl = URL + "search/products/?query=" + URLEncoder.encode(keyword, "UTF-8");
+//			HtmlPage page = client.getPage(searchUrl);
+//
+//
+//			List<?> items = (List<?>) page.getByXPath("//div[@class='col-lg3 col-md-4 col-sm-4 col-xs-6']");
+//			System.out.println("keyword: " + keyword + " list size: " + items.size());
+//			Vector<Item> result = new Vector<Item>();
+//
+//			for (int i = 0; i < items.size(); i++) {
+//				HtmlElement htmlItem = (HtmlElement) items.get(i);
+//				HtmlAnchor itemAnchor = ((HtmlAnchor) htmlItem.getFirstByXPath(".//div[@class='be-Z/']a"));
+//				HtmlElement spanPrice = ((HtmlElement) htmlItem.getFirstByXPath(".//dl/dd"));
+//				HtmlElement spanDate = ((HtmlElement) htmlItem.getFirstByXPath(".//div/time[@class='be-r be-w']"));
+//
+//				// It is possible that an item doesn't have any price, we set the price to 0.0
+//				// in this case
+//				String itemPrice = spanPrice == null ? "0.0" : spanPrice.asText();
+//
+//				Item item = new Item();
+//				item.setTitle(itemAnchor.asText());
+//				item.setUrl(URL + itemAnchor.getHrefAttribute());
+//				item.setLinkUrl(itemAnchor.getHrefAttribute());
+//				item.setPrice(new Double(itemPrice.replace("HK$", "")));
+//				item.setDate(spanDate.asText());
+//
+//				result.add(item);
+//			}
+//			client.close();
+//			return result;
+//		} catch (Exception e) {
+//			System.out.println(e);
+//		}
+//		return null;
+//	}
 
-		try {
-			String searchUrl = URL + "search/products/?query=" + URLEncoder.encode(keyword, "UTF-8");
-			HtmlPage page = client.getPage(searchUrl);
+	public static void main(String[] args) {
+		WebScraper webScraper = new WebScraper();
+		List<Item> results = webScraper.scrape("iphone5");
 
+		System.out.println();
+		System.out.println("Result size:" +results.size());
+		for(Item i:results)
+			i.printItem();
 
-			List<?> items = (List<?>) page.getByXPath("//div[@class='col-lg3 col-md-4 col-sm-4 col-xs-6']");
-
-			Vector<Item> result = new Vector<Item>();
-
-			for (int i = 0; i < items.size(); i++) {
-				HtmlElement htmlItem = (HtmlElement) items.get(i);
-				HtmlAnchor itemAnchor = ((HtmlAnchor) htmlItem.getFirstByXPath(".//div[@class='be-Z/']a"));
-				HtmlElement spanPrice = ((HtmlElement) htmlItem.getFirstByXPath(".//dl/dd"));
-				HtmlElement spanDate = ((HtmlElement) htmlItem.getFirstByXPath(".//div/time[@class='be-r be-w']"));
-
-				// It is possible that an item doesn't have any price, we set the price to 0.0
-				// in this case
-				String itemPrice = spanPrice == null ? "0.0" : spanPrice.asText();
-
-				Item item = new Item();
-				item.setTitle(itemAnchor.asText());
-				item.setUrl(URL + itemAnchor.getHrefAttribute());
-				item.setLinkUrl(itemAnchor.getHrefAttribute());
-				item.setPrice(new Double(itemPrice.replace("HK$", "")));
-				item.setDate(spanDate.asText());
-
-				result.add(item);
-			}
-			client.close();
-			return result;
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-		return null;
 	}
 
 }
