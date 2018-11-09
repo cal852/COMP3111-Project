@@ -168,11 +168,12 @@ public class Controller {
       	int itemCount = 0; /* count items */
 		double totalPrice = 0.0; /* total Price for average calculation */
 		double minPrice = 0.0; /* minimum Price */
-		int minPriceCount = 0;
+		int minPriceCount = 0; /* obtain first min price element with price > 0.0 */
 		Date latestDate = new Date(0);
 		Hyperlink minPriceUrl = new Hyperlink("");
 		Hyperlink latestPostUrl = new Hyperlink("");
 
+		// obtain first valid results with min price and latest post date for comparison
 		if (!result.isEmpty()) {
 			minPriceUrl = result.get(0).getLinkUrl();
 			latestPostUrl = result.get(0).getLinkUrl();
@@ -192,19 +193,18 @@ public class Controller {
         	totalPrice += item.getPrice();
 
         	// find minPrice listing
-			if (itemCount > 0) {
-				// Compare prices - obtain new URL when price is newer
-				if (result.get(itemCount).getPrice() < minPrice && result.get(itemCount).getPrice() > 0.0) {
-					minPrice = result.get(itemCount).getPrice();
-					minPriceUrl = result.get(itemCount).getLinkUrl();
-				}
-				// Compare dates - obtain new URL when date is newer
-				if (result.get(minPriceCount).getDate().compareTo(latestDate) > 0) {
-					latestDate = result.get(minPriceCount).getDate();
-					latestPostUrl = result.get(minPriceCount).getLinkUrl();
-				}
-				minPriceCount++;
+			// Compare prices - obtain new URL when price is newer
+			if (result.get(itemCount).getPrice() < minPrice && result.get(itemCount).getPrice() > 0.0) {
+				minPrice = result.get(itemCount).getPrice();
+				minPriceUrl = result.get(itemCount).getLinkUrl();
 			}
+			// Compare dates - obtain new URL when date is newer
+			if (minPriceCount <= itemCount && result.get(minPriceCount).getDate().compareTo(latestDate) > 0) {
+				latestDate = result.get(minPriceCount).getDate();
+				latestPostUrl = result.get(minPriceCount).getLinkUrl();
+			}
+
+			minPriceCount++;
 			itemCount++;
 		}
 
