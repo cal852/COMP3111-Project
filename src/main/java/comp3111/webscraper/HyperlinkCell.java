@@ -6,7 +6,7 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.util.Callback;
 
-/*abv
+/*
  * reference from: https://stackoverflow.com/questions/50622704/javafx-display-hyperlink-in-table-cell
  * */
 public class HyperlinkCell implements  Callback<TableColumn<Item, Hyperlink>, TableCell<Item, Hyperlink>> {

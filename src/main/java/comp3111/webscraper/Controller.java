@@ -291,7 +291,7 @@ public class Controller {
     }
     
     /**
-	 * @author enochwong3111
+	 * @author cal852
      * Able to be called when there are results ( > 0) after searching.
 	 * Enable the Refine button and refine text field
      */
@@ -350,7 +350,7 @@ public class Controller {
 	}
 
 	/**
-	 * @author cal852
+	 * @author cal852, enochwong3111
 	 * Closes the search
 	 */
 	@FXML
@@ -365,6 +365,8 @@ public class Controller {
     	textFieldKeyword.setText("");
     	tableView1.setItems(FXCollections.emptyObservableList());
     	textAreaConsole.setText("");
+    	disableRefine();
+    	refineKeyword.setText("");
 	}
 
 	/**
@@ -378,9 +380,9 @@ public class Controller {
 		alert.setTitle("About Your Team");
 		alert.setHeaderText("Mangkhut's COMP3111 Webscraper");
 		alert.setContentText("Team Member Information\n\n" +
-				"• Name: CHENG Chee Hau Calvin \n   ITSC: chccheng \n   GitHub Account: cal852 \n\n" +
-				"• Name: HYUN Jeongseok \n   ITSC: jhyunaa \n   GitHub Account: HYUNJS \n\n" +
-				"• Name: WANG Yingran \n   ITSC: ywangdj \n   GitHub Account: enochwong3111");
+				"鈥� Name: CHENG Chee Hau Calvin \n   ITSC: chccheng \n   GitHub Account: cal852 \n\n" +
+				"鈥� Name: HYUN Jeongseok \n   ITSC: jhyunaa \n   GitHub Account: HYUNJS \n\n" +
+				"鈥� Name: WANG Yingran \n   ITSC: ywangdj \n   GitHub Account: enochwong3111");
 		alert.showAndWait();
 	}
 
