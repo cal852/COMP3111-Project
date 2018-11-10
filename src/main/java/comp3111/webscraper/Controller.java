@@ -270,8 +270,12 @@ public class Controller {
     	            {
     	                hyperlink.setOnAction(event -> {
     	                	String url = getItem();
-    	                    System.out.println("cell clicked! " + url);
-    	                    getHostServices().showDocument(url);
+    	                    //System.out.println("cell clicked! " + url);    	                    
+    	                    try {
+    	                    	getHostServices().showDocument(url);
+    	            		} catch(Exception e) {
+    	            			e.printStackTrace();
+    	            		}
     	                });
     	            }
     	            
