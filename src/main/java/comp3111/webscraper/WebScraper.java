@@ -133,9 +133,6 @@ public class WebScraper {
 					item.setDate(spanDate.asText());
 
 					result.add(item);
-
-//					System.out.println("Result " + i + " is added");
-//					result.get(i).printItem();
 				}
 
 				nextPage = page.getFirstByXPath(".//a[@class='button next']");
@@ -156,7 +153,7 @@ public class WebScraper {
 
 
 	/**
-	 * The only method implemented in this class, to scrape web content from the craigslist
+	 * The method to scrape web content from the carousell
 	 *
 	 * @param keyword - the keyword you want to search
 	 * @return A list of Item that has found. A zero size list is return if nothing is found. Null if any exception (e.g. no connectivity)
@@ -168,32 +165,24 @@ public class WebScraper {
 		try {
 			String searchUrl = CarousellURL + "search/products/?query=" + URLEncoder.encode(keyword, "UTF-8");
 			HtmlAnchor nextPag;
-//			if(==null){
-//				System.out.println("nextPage is not found");
-//			}else
-//				System.out.println("nextPage is found");
 
 			Vector<Item> result = new Vector<Item>();
 
 			do{
 				HtmlPage page = client.getPage(searchUrl);
-//				client.waitForBackgroundJavaScript(500);
-
-
+				pageCount++;
+				System.out.println("Searching Page"+pageCount);
 				System.out.println("SearchURL: " + searchUrl);
 
 				List<?> items = (List<?>) page.getByXPath("//div[@class='col-lg-3 col-md-4 col-sm-4 col-xs-6']");
-				System.out.println("Item size:"+items.size());
-				pageCount++;
-				System.out.println("Searching Page"+pageCount);
 
 				for (int i = 0; i < items.size(); i++) {
 					HtmlElement htmlItem = (HtmlElement) items.get(i);
 
-					HtmlAnchor itemDescription = ((HtmlAnchor) htmlItem.getFirstByXPath("./div/figure/div/div/a"));
-					HtmlElement titleDiv = ((HtmlElement) htmlItem.getFirstByXPath("./div/figure/div/figcaption/a/div[1]/div"));
-					HtmlElement priceDiv = ((HtmlElement) htmlItem.getFirstByXPath("./div/figure/div/figcaption/a/div[2]/div"));
-					HtmlElement dateDiv = ((HtmlElement) htmlItem.getFirstByXPath("./div/figure/div/a/div[2]/time"));
+					HtmlAnchor itemDescription = ((HtmlAnchor) htmlItem.getFirstByXPath(".//div[@class='G-e']/a"));
+					HtmlElement titleDiv = ((HtmlElement) htmlItem.getFirstByXPath(".//div[@class='G-l']"));
+					HtmlElement priceDiv = ((HtmlElement) htmlItem.getFirstByXPath(".//div[@class='G-k']/div[1]"));
+					HtmlElement dateDiv = ((HtmlElement) htmlItem.getFirstByXPath(".//time"));
 
 					// It is possible that an item doesn't have any price, we set the price to 0.0
 					// in this case
@@ -207,9 +196,6 @@ public class WebScraper {
 					item.setDate(dateDiv.asText());
 
 					result.add(item);
-
-//					System.out.println("Result "+ i + " is added");
-//				result.get(i).printItem();
 				}
 				nextPag = (HtmlAnchor) page.getFirstByXPath("//li[@class='pagination-next pagination-btn']/a");
 				nextUrl = nextPag.getHrefAttribute();
@@ -230,19 +216,19 @@ public class WebScraper {
 
 	public static void main(String[] args) {
 		WebScraper webScraper = new WebScraper();
-		List<Item> results = webScraper.scrape("apple macbook air");
-
-		System.out.println();
-		System.out.println("Result size:" +results.size());
-		for(Item i:results)
-			i.printItem();
-
-//		List<Item> results = webScraper.scrapeCarousell("samsung galaxy 3");
+//		List<Item> results = webScraper.scrape("apple macbook air");
 //
 //		System.out.println();
 //		System.out.println("Result size:" +results.size());
 //		for(Item i:results)
 //			i.printItem();
+
+		List<Item> results = webScraper.scrapeCarousell("galaxy 3");
+
+		System.out.println();
+		System.out.println("Result size:" +results.size());
+		for(Item i:results)
+			i.printItem();
 
 	}
 
