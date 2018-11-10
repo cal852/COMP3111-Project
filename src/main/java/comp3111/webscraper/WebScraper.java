@@ -103,34 +103,46 @@ public class WebScraper {
 
 		try {
 			String searchUrl = DEFAULT_URL + "search/sss?sort=rel&query=" + URLEncoder.encode(keyword, "UTF-8");
-			HtmlPage page = client.getPage(searchUrl);
 
-			
-			List<?> items = (List<?>) page.getByXPath("//li[@class='result-row']");
-			
+			int pageCount=0;
+			String nextUrl;
+			HtmlAnchor nextPage;
 			Vector<Item> result = new Vector<Item>();
+			do {
+				HtmlPage page = client.getPage(searchUrl);
+				List<?> items = (List<?>) page.getByXPath("//li[@class='result-row']");
 
-			for (int i = 0; i < items.size(); i++) {
-				HtmlElement htmlItem = (HtmlElement) items.get(i);
-				HtmlAnchor itemAnchor = ((HtmlAnchor) htmlItem.getFirstByXPath(".//p[@class='result-info']/a"));
-				HtmlElement spanPrice = ((HtmlElement) htmlItem.getFirstByXPath(".//a/span[@class='result-price']"));
-				HtmlElement spanDate = ((HtmlElement) htmlItem.getFirstByXPath(".//p/time[@class='result-date']"));
+				pageCount++;
+				System.out.println("Searching Page "+pageCount );
+				System.out.println("SearchURL: " + searchUrl);
 
-				// It is possible that an item doesn't have any price, we set the price to 0.0
-				// in this case
-				String itemPrice = spanPrice == null ? "0.0" : spanPrice.asText();
+				for (int i = 0; i < items.size(); i++) {
+					HtmlElement htmlItem = (HtmlElement) items.get(i);
+					HtmlAnchor itemAnchor = ((HtmlAnchor) htmlItem.getFirstByXPath(".//p[@class='result-info']/a"));
+					HtmlElement spanPrice = ((HtmlElement) htmlItem.getFirstByXPath(".//a/span[@class='result-price']"));
+					HtmlElement spanDate = ((HtmlElement) htmlItem.getFirstByXPath(".//p/time[@class='result-date']"));
 
-				Item item = new Item();
-				item.setTitle(itemAnchor.asText());
-				item.setUrl(itemAnchor.getHrefAttribute());
-				item.setPrice(new Double(itemPrice.replace("$", "")));
-				item.setDate(spanDate.asText());
+					// It is possible that an item doesn't have any price, we set the price to 0.0
+					// in this case
+					String itemPrice = spanPrice == null ? "0.0" : spanPrice.asText();
 
-				result.add(item);
+					Item item = new Item();
+					item.setTitle(itemAnchor.asText());
+					item.setUrl(itemAnchor.getHrefAttribute());
+					item.setPrice(new Double(itemPrice.replace("$", "")));
+					item.setDate(spanDate.asText());
 
-				System.out.println("Result "+ i + " is added");
-				result.get(i).printItem();
-			}
+					result.add(item);
+
+//					System.out.println("Result " + i + " is added");
+//					result.get(i).printItem();
+				}
+
+				nextPage = page.getFirstByXPath(".//a[@class='button next']");
+				nextUrl = nextPage.getHrefAttribute();
+				searchUrl = removeLastChar(DEFAULT_URL)+nextUrl;
+				System.out.println("nextUrl: "+nextUrl);
+			}while(nextUrl!=null && !nextUrl.isEmpty());
 			client.close();
 
 			//sort by price in ascending order
@@ -218,19 +230,19 @@ public class WebScraper {
 
 	public static void main(String[] args) {
 		WebScraper webScraper = new WebScraper();
-//		List<Item> results = webScraper.scrape("iphone5");
-//
-//		System.out.println();
-//		System.out.println("Result size:" +results.size());
-//		for(Item i:results)
-//			i.printItem();
-
-		List<Item> results = webScraper.scrapeCarousell("samsung galaxy 3");
+		List<Item> results = webScraper.scrape("apple macbook air");
 
 		System.out.println();
 		System.out.println("Result size:" +results.size());
 		for(Item i:results)
 			i.printItem();
+
+//		List<Item> results = webScraper.scrapeCarousell("samsung galaxy 3");
+//
+//		System.out.println();
+//		System.out.println("Result size:" +results.size());
+//		for(Item i:results)
+//			i.printItem();
 
 	}
 
