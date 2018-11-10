@@ -2,8 +2,6 @@ package comp3111.webscraper;
 
 
 import org.junit.Test;
-
-import javafx.scene.control.Hyperlink;
 import junit.framework.Assert;
 
 import static org.junit.Assert.*;
@@ -42,17 +40,5 @@ public class ItemTest {
 		i.setDate("Nov 11");
 		SimpleDateFormat format = new SimpleDateFormat("MMM dd", Locale.US);
 		assertEquals(format.format(i.getDate()), "Nov 11");
-	}
-	
-	@Test
-	//I don't know why how it fails _Enoch
-	public void testSetLinkUrl() {
-		Item i = new Item();
-		i.setLinkUrl("https://course.cse.ust.hk/comp3111/");
-		Hyperlink url = i.getLinkUrl();
-		String url2 = url.toString();
-        url2 = url2.substring(url2.indexOf("]'") + 2, url2.length()-1);
-        System.out.println("Test link:"+ url2);
-		assertEquals(url2, "https://course.cse.ust.hk/comp3111/");
 	}
 }

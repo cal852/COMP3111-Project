@@ -6,14 +6,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import javafx.scene.control.Hyperlink;
-
 public class Item {
 	private String title ; 
 	private double price ;
 	private String url ;
 	private Date date;
-	private Hyperlink linkUrl;
 	
 	public String getTitle() {
 		return title;
@@ -42,13 +39,5 @@ public class Item {
 	public Date getDate() {
 		return date;
 	}
-	
-	public Hyperlink getLinkUrl() {
-        return linkUrl;
-    }
- 
-    public void setLinkUrl(String websiteUrl) {
-        this.linkUrl = new Hyperlink(websiteUrl);
-    }
 
 }

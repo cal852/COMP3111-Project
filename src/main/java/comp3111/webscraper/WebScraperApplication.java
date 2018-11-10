@@ -54,7 +54,6 @@ public class WebScraperApplication extends Application {
 
 		Controller controller = loader.getController();
 		controller.setHostServices(getHostServices());
-		HyperlinkCell.setHostServices(getHostServices());
 
    		Scene scene =  new Scene(root);
    		stage.setScene(scene);

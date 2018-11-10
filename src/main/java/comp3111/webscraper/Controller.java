@@ -173,8 +173,8 @@ public class Controller {
 
 		// obtain first valid results with min price and latest post date for comparison
 		if (!result.isEmpty()) {
-			minPriceUrl = result.get(0).getLinkUrl();
-			latestPostUrl = result.get(0).getLinkUrl();
+			minPriceUrl = new Hyperlink(result.get(0).getUrl());
+			latestPostUrl = new Hyperlink(result.get(0).getUrl());
 			// in case of first price is 0, then find until you get price > 0.0
 			for (; minPriceCount < result.size(); minPriceCount++) {
 				if (result.get(minPriceCount).getPrice() > 0.0) {
@@ -194,12 +194,12 @@ public class Controller {
 			// Compare prices - obtain new URL when price is newer
 			if (result.get(itemCount).getPrice() < minPrice && result.get(itemCount).getPrice() > 0.0) {
 				minPrice = result.get(itemCount).getPrice();
-				minPriceUrl = result.get(itemCount).getLinkUrl();
+				minPriceUrl = new Hyperlink(result.get(itemCount).getUrl());
 			}
 			// Compare dates - obtain new URL when date is newer
 			if (minPriceCount <= itemCount && result.get(minPriceCount).getDate().compareTo(latestDate) > 0) {
 				latestDate = result.get(minPriceCount).getDate();
-				latestPostUrl = result.get(minPriceCount).getLinkUrl();
+				latestPostUrl = new Hyperlink(result.get(minPriceCount).getUrl());
 			}
 
 			minPriceCount++;
@@ -245,8 +245,7 @@ public class Controller {
     	TableColumn col4 = tableView1.getColumns().get(3);
     	col1.setCellValueFactory(new PropertyValueFactory<Item, String>("title"));
     	col2.setCellValueFactory(new PropertyValueFactory<Item, Double>("price"));
-    	col3.setCellValueFactory(new PropertyValueFactory<Item, Hyperlink>("linkUrl"));
-    	col3.setCellFactory(new HyperlinkCell());
+    	col3.setCellValueFactory(new PropertyValueFactory<Item, String>("url"));
     	col4.setCellValueFactory(new PropertyValueFactory<Item, Date>("date"));
     	col4.setCellFactory(column ->{
     		TableCell<Item, Date> cell = new TableCell<Item, Date>() {
@@ -262,6 +261,30 @@ public class Controller {
     	            }
     	        }
     	    };
+    	    return cell;
+    	});
+    	col3.setCellFactory(column ->{
+    		 TableCell<Item, String> cell = new TableCell<Item, String>() {
+    	        	private final Hyperlink hyperlink = new Hyperlink();
+
+    	            {
+    	                hyperlink.setOnAction(event -> {
+    	                	String url = getItem();
+    	                    System.out.println("cell clicked! " + url);
+    	                    getHostServices().showDocument(url);
+    	                });
+    	            }
+    	            
+    	            protected void updateItem(String url, boolean empty) {
+    	                super.updateItem(url, empty);
+    	                if (empty) {
+    	                    setGraphic(null);
+    	                } else {
+    	                	hyperlink.setText(url);
+    	                    setGraphic(hyperlink);
+    	                }
+    	            }
+    	        };
     	    return cell;
     	});
     }
