@@ -13,4 +13,21 @@ public class ItemTest {
 		i.setTitle("ABCDE");
 		assertEquals(i.getTitle(), "ABCDE");
 	}
+
+	@Test
+	public void testItem() {
+		Item exp1 = new Item();
+		exp1.setTitle("ABCDE");
+		exp1.setDate("Nov");
+		exp1.setPrice(1.1);
+		exp1.setUrl("abc");
+
+		Item act1 = new Item();
+		act1.setTitle("ABCDE");
+		act1.setDate("Nov");
+		act1.setPrice(1.1);
+		act1.setUrl("abc");
+
+		assertEquals(exp1, act1);
+	}
 }

@@ -9,49 +9,63 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
+import static junit.framework.TestCase.assertSame;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 public class WebScraperTest {
     private WebScraper webScraper;
 
-    @BeforeEach
-    public void setUp() throws Exception{
-        webScraper = new WebScraper();
-    }
+//    @BeforeEach
+//    public void setUp() throws Exception{
+//        webScraper = new WebScraper();
+//    }
 
     @Test
     public void craiglistScrapingTest() throws Exception{
+        webScraper = new WebScraper();
         List<Item> result = new Vector<Item>();
         result = webScraper.scrape("iphone5");
 
-        List<Item> expectedResult = new ArrayList<Item>();
+        List<Item> expectedResult = new Vector<Item>();
 
-        Item item = new Item();
-        item.setTitle("PowerSnapKit iPhone5 charger Duracell Powermat- Brand New");
-        item.setPrice(25);
-        item.setDate("2018-11-08 16:26");
-        item.setUrl("https://newyork.craigslist.org/"+"https://newyork.craigslist.org/mnh/ele/d/powersnapkit-iphone5-charger/6732721226.html");
-        item.setLinkUrl("https://newyork.craigslist.org/mnh/ele/d/powersnapkit-iphone5-charger/6732721226.html");
-        expectedResult.add(item);
+        Item item1 = new Item();
+        Item item2 = new Item();
+        Item item3 = new Item();
+        Item item4 = new Item();
+
+        // 1st
+        item1.setTitle("PowerSnapKit iPhone5 charger Duracell Powermat- Brand New");
+        item1.setPrice(25.0);
+        item1.setDate("Nov 8");
+        item1.setUrl("https://newyork.craigslist.org/mnh/ele/d/powersnapkit-iphone5-charger/6732721226.html");
+        expectedResult.add(item1);
 
         // 2nd
-        item.setTitle("iPhone Iphone5 For Sale very good condition - $125");
-        item.setPrice(125);
-        item.setDate("2018-11-06 15:06");
-        item.setUrl("https://newyork.craigslist.org/"+"https://newyork.craigslist.org/brk/mob/d/iphone-iphone5-for-sale-very/6737356499.html");
-        item.setLinkUrl("https://newyork.craigslist.org/brk/mob/d/iphone-iphone5-for-sale-very/6737356499.html");
-        expectedResult.add(item);
+        item2.setTitle("Like NEW NetGear R6220 Wireless Router (Comcast/Xfinity & Optimum");
+        item2.setPrice(40.0);
+        item2.setDate("Nov 4");
+        item2.setUrl("https://cnj.craigslist.org/sys/d/like-new-netgear-r6220/6740967650.html");
+        expectedResult.add(item2);
 
         // 3rd
-        item.setTitle("iPhone Iphone5 For Sale very good condition - $125");
-        item.setPrice(125);
-        item.setDate("2018-11-01 21:09");
-        item.setUrl("https://newyork.craigslist.org/"+"https://newyork.craigslist.org/brk/mob/d/iphone-iphone5-for-sale-very/6728459071.html");
-        item.setLinkUrl("https://newyork.craigslist.org/brk/mob/d/iphone-iphone5-for-sale-very/6728459071.html");
-        expectedResult.add(item);
+        item3.setTitle("iPhone Iphone5 For Sale very good condition - $125");
+        item3.setPrice(125.0);
+        item3.setDate("Nov 8");
+        item3.setUrl("https://newyork.craigslist.org/brk/mob/d/iphone-iphone5-for-sale-very/6737356499.html");
+        expectedResult.add(item3);
 
-        assertEquals(expectedResult,result);
+        // 4th
+        item4.setTitle("shinny almost new pink Iphone5 plus");
+        item4.setPrice(125.0);
+        item4.setDate("Nov 4");
+        item4.setUrl("https://newjersey.craigslist.org/mob/d/shinny-almost-new-pink/6740587872.html");
+        expectedResult.add(item4);
 
+        for(int i=0; i<result.size(); i++) {
+            expectedResult.get(i).printItem();
+            result.get(i).printItem();
+            assertEquals(expectedResult.get(i), result.get(i));
+        }
     }
 }

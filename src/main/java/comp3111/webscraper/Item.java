@@ -5,10 +5,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
+import com.sun.istack.internal.NotNull;
 import javafx.scene.control.Hyperlink;
 
-public class Item {
+public class Item implements Comparable<Item>{
 	private String title ;
 	private double price ;
 	private String url ;
@@ -33,9 +35,7 @@ public class Item {
 	public void setUrl(String url) {
 		this.url = url;
 	}
-	public void setDate(String stringdate) throws ParseException {
-//		DateFormat format = new SimpleDateFormat("MMM d", Locale.ENGLISH);
-//		Date date = format.parse(stringdate);
+	public void setDate(String stringdate){
 		this.date = stringdate;
 	}
 
@@ -59,26 +59,30 @@ public class Item {
 		System.out.println("Item Title: " + title);
 		System.out.println("Price: " +price + " Date: " + date + " URL: " + url);
 	}
-//    @Override
-//	public Item clone(){
-//		try{
-//			return (Item) super.clone();
-//		}catch(CloneNotSupportedException e){
-//			return null;
-//		}
-//	}
-//
-//	@Override
-//	public int compareTo(@NotNull Item _item){
-//		return Double.valueOf(price).compareTo(_item.price);
-//	}
-//
-//	public void printItem(Item[] items){
-//
-//	}
-//	public static void main(String[] args) {
-//		Item[] itemArray = new Item[5];
-//
-//	}
+
+	@Override
+	public int compareTo(@NotNull Item _item){
+		return Double.valueOf(price).compareTo(_item.getPrice());
+	}
+	@Override
+	public boolean equals(Object o){
+		if(o instanceof Item){
+			Item i = (Item) o;
+			boolean title = this.title.equals(i.getTitle());
+			boolean price = ((Double)this.price).equals((Double)i.getPrice());
+			boolean date = this.date.equals(i.getDate());
+			boolean url = this.url.equals(i.getUrl());
+
+			return title && price && date && url;
+		}
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(title,price,url,date);
+	}
+
+
 }
 

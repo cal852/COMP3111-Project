@@ -216,20 +216,19 @@ public class WebScraper {
 
 	public static void main(String[] args) {
 		WebScraper webScraper = new WebScraper();
-//		List<Item> results = webScraper.scrape("apple macbook air");
-//
-//		System.out.println();
-//		System.out.println("Result size:" +results.size());
-//		for(Item i:results)
-//			i.printItem();
-
-		List<Item> results = webScraper.scrapeCarousell("galaxy 3");
+		List<Item> results = webScraper.scrape("iphone5");
 
 		System.out.println();
 		System.out.println("Result size:" +results.size());
 		for(Item i:results)
 			i.printItem();
-
+//
+//		List<Item> results = webScraper.scrapeCarousell("galaxy 3");
+//
+//		System.out.println();
+//		System.out.println("Result size:" +results.size());
+//		for(Item i:results)
+//			i.printItem();
+//
 	}
-
 }
