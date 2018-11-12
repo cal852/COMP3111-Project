@@ -15,7 +15,6 @@ public class Item implements Comparable<Item>{
 	private double price ;
 	private String url ;
 	private String date;
-	private String linkUrl;
 
 	public String getTitle() {
 		return title;
@@ -44,16 +43,6 @@ public class Item implements Comparable<Item>{
 		return date;
 	}
 
-//	public Hyperlink getLinkUrl() {
-	public String getLinkUrl() {
-        return linkUrl;
-    }
-
-
-    public void setLinkUrl(String websiteUrl) {
-		this.linkUrl=websiteUrl;
-//        this.linkUrl = new Hyperlink(websiteUrl);
-    }
 
     public void printItem(){
 		System.out.println("Item Title: " + title);

@@ -84,8 +84,7 @@ public class Controller {
     	TableColumn col4 = tableView1.getColumns().get(3);
     	col1.setCellValueFactory(new PropertyValueFactory<Item, String>("title"));
     	col2.setCellValueFactory(new PropertyValueFactory<Item, Double>("price"));
-    	col3.setCellValueFactory(new PropertyValueFactory<Item, Hyperlink>("linkUrl"));
-    	col3.setCellFactory(new HyperlinkCell());
+    	col3.setCellValueFactory(new PropertyValueFactory<Item, String>("url"));
     	col4.setCellValueFactory(new PropertyValueFactory<Item, Date>("date"));
     	col4.setCellFactory(column ->{
     		TableCell<Item, Date> cell = new TableCell<Item, Date>() {
