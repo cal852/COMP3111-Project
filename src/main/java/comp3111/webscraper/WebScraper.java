@@ -214,14 +214,14 @@ public class WebScraper {
 		return null;
 	}
 
-	public static void main(String[] args) {
-		WebScraper webScraper = new WebScraper();
-		List<Item> results = webScraper.scrape("iphone5");
-
-		System.out.println();
-		System.out.println("Result size:" +results.size());
-		for(Item i:results)
-			i.printItem();
+//	public static void main(String[] args) {
+//		WebScraper webScraper = new WebScraper();
+//		List<Item> results = webScraper.scrape("iphone");
+//
+//		System.out.println();
+//		System.out.println("Result size:" +results.size());
+//		for(Item i:results)
+//			i.printItem();
 //
 //		List<Item> results = webScraper.scrapeCarousell("galaxy 3");
 //
@@ -230,5 +230,5 @@ public class WebScraper {
 //		for(Item i:results)
 //			i.printItem();
 //
-	}
+//	}
 }
