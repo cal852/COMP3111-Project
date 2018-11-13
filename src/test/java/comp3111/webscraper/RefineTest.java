@@ -1,8 +1,6 @@
 package comp3111.webscraper;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
-
 import javafx.application.Application;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -10,6 +8,8 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import static org.junit.Assert.*;
+
+import java.util.Vector;
 
 import org.junit.BeforeClass;
 
@@ -62,6 +62,112 @@ public class RefineTest {
 		assertEquals(true, refine.checkRefineBtnIsDisable());
 		assertEquals(true, refine.checkKeywordIsDisable());
 		assertEquals(false, refine.checkWarningIsVisible());
+	}
+	
+	@Test
+	public void testRrefineSearchWithEmptyKeyWord() {
+	    
+	    Button rBtn = new Button("Refine");
+		Label rLabel = new Label("Warning");
+		TextField rKeyword = new TextField(" ");
+		Refine refine = new Refine(rBtn, rLabel, rKeyword);
+		rKeyword.setText("");
+		
+		Object[] arr = refine.refineSearch(null);
+		assertEquals(false, (Boolean)arr[0]);
+		assertEquals(null, arr[1]);
+	}
+	
+	@Test
+	public void testRrefineSearchWithInvalidKeyWord() {
+	    
+	    Button rBtn = new Button("Refine");
+		Label rLabel = new Label("Warning");
+		TextField rKeyword = new TextField(" ");
+		Refine refine = new Refine(rBtn, rLabel, rKeyword);
+		rKeyword.setText("  ");
+		
+		Object[] arr = refine.refineSearch(null);
+		assertEquals(false, (Boolean)arr[0]);
+		assertEquals(null, arr[1]);
+	}
+	
+	@Test
+	public void testRrefineSearchWithValidKeyWord_ResultChange() {
+	    
+	    Button rBtn = new Button("Refine");
+		Label rLabel = new Label("Warning");
+		TextField rKeyword = new TextField(" ");
+		Refine refine = new Refine(rBtn, rLabel, rKeyword);
+		rKeyword.setText("ab");
+		Vector<Item> input = new Vector<Item>();
+		Vector<Item> result = new Vector<Item>();
+		
+		//add item 1
+		Item item = new Item();
+		item.setTitle("save the world");
+		input.add(item);
+		
+		//add item 2
+		item = new Item();
+		item.setTitle("about physics");
+		input.add(item);
+		result.add(item);
+		
+		//add item 3
+		item = new Item();
+		item.setTitle("about CS");
+		input.add(item);
+		result.add(item);
+		
+		//add item 4
+		item = new Item();
+		item.setTitle("angel Lee");
+		input.add(item);
+		
+		Object[] arr = refine.refineSearch(input);
+		assertEquals(true, (Boolean)arr[0]);
+		assertEquals(result, arr[1]);
+	}
+	
+	@Test
+	public void testRrefineSearchWithValidKeyWord_ResultUnchange() {
+	    
+	    Button rBtn = new Button("Refine");
+		Label rLabel = new Label("Warning");
+		TextField rKeyword = new TextField(" ");
+		Refine refine = new Refine(rBtn, rLabel, rKeyword);
+		rKeyword.setText("ab");
+		Vector<Item> input = new Vector<Item>();
+		
+		//add item 1
+		Item item = new Item();
+		item.setTitle("about physics");
+		input.add(item);
+		
+		//add item 2
+		item = new Item();
+		item.setTitle("about CS");
+		input.add(item);
+		
+		Object[] arr = refine.refineSearch(input);
+		assertEquals(false, (Boolean)arr[0]);
+		assertEquals(null, arr[1]);
+	}
+	
+	@Test
+	public void testRrefineWarning() {
+	    
+	    Button rBtn = new Button("Refine");
+		Label rLabel = new Label("Warning");
+		TextField rKeyword = new TextField(" ");
+		Refine refine = new Refine(rBtn, rLabel, rKeyword);
+		rKeyword.setText("  ");		
+		String result = refine.checkTimelineStatus();
+		assertEquals(true, result.contains("STOPPED"));
+		refine.refineSearch(null);
+		result = refine.checkTimelineStatus();
+		assertEquals(true, result.contains("RUNNING"));
 	}
 }
 
