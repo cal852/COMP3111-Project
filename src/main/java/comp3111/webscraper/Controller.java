@@ -5,13 +5,10 @@ package comp3111.webscraper;
 
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javafx.application.Platform;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -26,7 +23,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.MenuItem;
-import javafx.util.Duration;
 import javafx.application.HostServices;
 
 
@@ -79,9 +75,7 @@ public class Controller {
     
     private List<Item> result;
     
-    private Timeline timeline = new Timeline(new KeyFrame(
-	        Duration.millis(3000),
-	        ae -> labelRefineWarning.setVisible(false)));
+    private Refine refine = null;
 
     private HostServices hostServices;
 
@@ -115,10 +109,11 @@ public class Controller {
     @FXML
     private void initialize() {
 		System.out.println("Initialized the application and controller");
+    	refine = new Refine(refineBtn, labelRefineWarning, refineKeyword);
     	lastSearchTerm = new String[2];
     	lastSearchTerm[0] = "";
     	lastSearchTerm[1] = "";
-    	disableRefine();
+    	refine.disableRefine();
     	initializeTable();
     }
 
@@ -133,9 +128,9 @@ public class Controller {
     	result = scraper.scrape(textFieldKeyword.getText());
 
     	if(!result.isEmpty()) {
-    		enableRefine();
+    		refine.enableRefine();
     	} else {
-    		disableRefine();
+    		refine.disableRefine();
     	}
     	
     	updateConsoleAndTabs();
@@ -296,25 +291,24 @@ public class Controller {
     /**
 	 * @author enochwong3111
      * Called when the Refine button is pressed. Refines the search result
-     */    
-    @FXML
+     */
+    @SuppressWarnings("unchecked")
+	@FXML
     private void actionRefine() {
-    	String refineWords = refineKeyword.getText();
-    	System.out.println("refineKeyword: " + refineWords + ", length: " + refineWords.length());
-    	int emptyNum = 0;
-    	for(int i = 0; i < refineWords.length(); i++) {
-    		if(refineWords.charAt(i) == ' ') {
-    			emptyNum++;
-    		}
+    	Object[] resultObj = refine.refineSearch(result);
+    	if((Boolean)resultObj[0]) {
+    		final ObservableList<Item> data = (ObservableList<Item>)resultObj[1];
+        	//update the table tab's content
+    		tableView1.setItems(data);
+    		
+    		//update the text area console
+    		updateConsoleAndTabs();
+    		
+    		/*TODO*/
+    		//update other tabs here
+    		//updating other tabs done in updateConsoleAndTabs()
     	}
-    	if(refineWords.length() == 0 || emptyNum == refineWords.length()) {
-    		labelRefineWarning.setVisible(true);
-    		timeline.stop();
-    		timeline.play();
-    	}else {
-    		disableRefine();
-    		refineContent(refineWords);
-    	}
+		
     }
     
     /**
@@ -392,7 +386,7 @@ public class Controller {
     	textFieldKeyword.setText("");
     	tableView1.setItems(FXCollections.emptyObservableList());
     	textAreaConsole.setText("");
-    	disableRefine();
+    	refine.disableRefine();
     	refineKeyword.setText("");
 	}
 
@@ -407,69 +401,13 @@ public class Controller {
 		alert.setTitle("About Your Team");
 		alert.setHeaderText("Mangkhut's COMP3111 Webscraper");
 		alert.setContentText("Team Member Information\n\n" +
-				"鈥� Name: CHENG Chee Hau Calvin \n   ITSC: chccheng \n   GitHub Account: cal852 \n\n" +
-				"鈥� Name: HYUN Jeongseok \n   ITSC: jhyunaa \n   GitHub Account: HYUNJS \n\n" +
-				"鈥� Name: WANG Yingran \n   ITSC: ywangdj \n   GitHub Account: enochwong3111");
+				" Name: CHENG Chee Hau Calvin \n   ITSC: chccheng \n   GitHub Account: cal852 \n\n" +
+				" Name: HYUN Jeongseok \n   ITSC: jhyunaa \n   GitHub Account: HYUNJS \n\n" +
+				" Name: WANG Yingran \n   ITSC: ywangdj \n   GitHub Account: enochwong3111");
 		alert.showAndWait();
 	}
 
-	/**
-	 * @author enochwong3111
-	 * Enables Refine Button for interaction
-	 */
-    private void enableRefine() {
-    	refineBtn.setDisable(false);
-    	refineKeyword.setDisable(false);
-    }
-    
-
-    /**
-	 * @author enochwong3111
-     * Called when initialize the program or there are results ( > 0) after searching.
-	 * Disable the Refine button and refine text field
-     */
-    @FXML
-    private void disableRefine() {
-    	refineBtn.setDisable(true);
-    	refineKeyword.setDisable(true);
-		timeline.stop();
-		labelRefineWarning.setVisible(false);
-    }
-    
-    /**
-	 * @author enochwong3111
-     * Called when the refine keyword is valid and the refine button was clicked.
-	 * Refine the search result with the str keyword
-     */
-    @FXML
-    private void refineContent(String str) {
-    	ArrayList<Integer> indexArr = new ArrayList<Integer>();
-    	int i = 0;
-    	for (Item item : result) {
-    		//System.out.println(item.getTitle());
-    		if(!item.getTitle().contains(str)) {
-    			i++;
-    			indexArr.add(0, result.indexOf(item));
-    		}
-    	}
-    	//System.out.println("size: " + indexArr.size());
-    	for(int j : indexArr) {
-    		//System.out.print(j + "  ");
-    		result.remove(j);
-    	}
-    	if(i > 0) {
-    		//update the table tab's content
-    		final ObservableList<Item> data = FXCollections.observableArrayList(result);
-    		tableView1.setItems(data);
-    		
-    		//update the text area console
-    		updateConsoleAndTabs();
-    		
-    		/*TODO*/
-    		//update other tabs here
-			//updating other tabs done in updateConsoleAndTabs()
-    	}
-    }
+	
     
 }
 
