@@ -4,5 +4,7 @@
 .idea
 
 **.iml
-/.gradle/
-/bin/
+
+.gradle
+build
+

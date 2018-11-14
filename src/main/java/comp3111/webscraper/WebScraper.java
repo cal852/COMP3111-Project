@@ -1,12 +1,15 @@
 package comp3111.webscraper;
 
 import java.net.URLEncoder;
+import java.util.Comparator;
 import java.util.List;
 
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+
+import java.util.Optional;
 import java.util.Vector;
 
 
@@ -78,6 +81,18 @@ public class WebScraper {
 		client.getOptions().setJavaScriptEnabled(false);
 	}
 
+	public static String removeLastChar(String s) {
+		return Optional.ofNullable(s)
+				.filter(str -> str.length() != 0)
+				.map(str -> str.substring(0, str.length() - 1))
+				.orElse(s);
+	}
+
+	public static String filterNumber(String s){
+		return s.replaceAll("[^0-9]","");
+	}
+
+
 	/**
 	 * The only method implemented in this class, to scrape web content from the craigslist
 	 * 
@@ -88,39 +103,47 @@ public class WebScraper {
 
 		try {
 			String searchUrl = DEFAULT_URL + "search/sss?sort=rel&query=" + URLEncoder.encode(keyword, "UTF-8");
-			HtmlPage page = client.getPage(searchUrl);
 
-			
-			List<?> items = (List<?>) page.getByXPath("//li[@class='result-row']");
-			
+			int pageCount=0;
+			String nextUrl;
+			HtmlAnchor nextPage;
 			Vector<Item> result = new Vector<Item>();
+			do {
+				HtmlPage page = client.getPage(searchUrl);
+				List<?> items = (List<?>) page.getByXPath("//li[@class='result-row']");
 
-			for (int i = 0; i < items.size(); i++) {
-				HtmlElement htmlItem = (HtmlElement) items.get(i);
-				HtmlAnchor itemAnchor = ((HtmlAnchor) htmlItem.getFirstByXPath(".//p[@class='result-info']/a"));
-				/*  ".//a/span[@class='result-price']") has been changed to ".//span[@class='result-price']")
-				 * since the way they scrape the price
-				 * is based on what is found on the results page when you scrape e.g.
-				 * you go to newyork.craigslist.com -> search "iphone"
-				 * So some may display their price there next to title, but the TAs
-				 * code does not scrape for the prices that are actually found there for some listings
-				 */
-				HtmlElement spanPrice = ((HtmlElement) htmlItem.getFirstByXPath(".//span[@class='result-price']"));
-				HtmlElement spanDate = ((HtmlElement) htmlItem.getFirstByXPath(".//p/time[@class='result-date']"));
+				pageCount++;
+				System.out.println("Searching Page "+pageCount );
+				System.out.println("SearchURL: " + searchUrl);
 
-				// It is possible that an item doesn't have any price, we set the price to 0.0
-				// in this case
-				String itemPrice = spanPrice == null ? "0.0" : spanPrice.asText();
+				for (int i = 0; i < items.size(); i++) {
+					HtmlElement htmlItem = (HtmlElement) items.get(i);
+					HtmlAnchor itemAnchor = ((HtmlAnchor) htmlItem.getFirstByXPath(".//p[@class='result-info']/a"));
+					HtmlElement spanPrice = ((HtmlElement) htmlItem.getFirstByXPath(".//a/span[@class='result-price']"));
+					HtmlElement spanDate = ((HtmlElement) htmlItem.getFirstByXPath(".//p/time[@class='result-date']"));
 
-				Item item = new Item();
-				item.setTitle(itemAnchor.asText());
-				item.setUrl(itemAnchor.getHrefAttribute());
-				item.setPrice(new Double(itemPrice.replace("$", "")));
-				item.setDate(spanDate.asText());
+					// It is possible that an item doesn't have any price, we set the price to 0.0
+					// in this case
+					String itemPrice = spanPrice == null ? "0.0" : spanPrice.asText();
 
-				result.add(item);
-			}
+					Item item = new Item();
+					item.setTitle(itemAnchor.asText());
+					item.setUrl(itemAnchor.getHrefAttribute());
+					item.setPrice(new Double(itemPrice.replace("$", "")));
+					item.setDate(spanDate.asText());
+
+					result.add(item);
+				}
+
+				nextPage = page.getFirstByXPath(".//a[@class='button next']");
+				nextUrl = nextPage.getHrefAttribute();
+				searchUrl = removeLastChar(DEFAULT_URL)+nextUrl;
+				System.out.println("nextUrl: "+nextUrl);
+			}while(nextUrl!=null && !nextUrl.isEmpty());
 			client.close();
+
+			//sort by price in ascending order
+			result.sort(Comparator.comparingDouble(Item::getPrice));
 			return result;
 		} catch (Exception e) {
 			System.out.println(e);
@@ -128,4 +151,84 @@ public class WebScraper {
 		return null;
 	}
 
+
+	/**
+	 * The method to scrape web content from the carousell
+	 *
+	 * @param keyword - the keyword you want to search
+	 * @return A list of Item that has found. A zero size list is return if nothing is found. Null if any exception (e.g. no connectivity)
+	 */
+	public List<Item> scrapeCarousell(String keyword) {
+		final String CarousellURL = "https://hk.carousell.com/";
+		int pageCount=0;
+		String nextUrl;
+		try {
+			String searchUrl = CarousellURL + "search/products/?query=" + URLEncoder.encode(keyword, "UTF-8");
+			HtmlAnchor nextPag;
+
+			Vector<Item> result = new Vector<Item>();
+      
+			do{
+				HtmlPage page = client.getPage(searchUrl);
+				pageCount++;
+				System.out.println("Searching Page"+pageCount);
+				System.out.println("SearchURL: " + searchUrl);
+
+				List<?> items = (List<?>) page.getByXPath("//div[@class='col-lg-3 col-md-4 col-sm-4 col-xs-6']");
+
+				for (int i = 0; i < items.size(); i++) {
+					HtmlElement htmlItem = (HtmlElement) items.get(i);
+
+					HtmlAnchor itemDescription = ((HtmlAnchor) htmlItem.getFirstByXPath(".//div[@class='G-e']/a"));
+					HtmlElement titleDiv = ((HtmlElement) htmlItem.getFirstByXPath(".//div[@class='G-l']"));
+					HtmlElement priceDiv = ((HtmlElement) htmlItem.getFirstByXPath(".//div[@class='G-k']/div[1]"));
+					HtmlElement dateDiv = ((HtmlElement) htmlItem.getFirstByXPath(".//time"));
+
+					// It is possible that an item doesn't have any price, we set the price to 0.0
+					// in this case
+					String itemPrice = priceDiv == null ? "0.0" : priceDiv.asText();
+
+					Item item = new Item();
+
+					item.setTitle(titleDiv.asText());
+					item.setUrl(removeLastChar(CarousellURL)+itemDescription.getHrefAttribute());
+					item.setPrice(new Double(filterNumber(itemPrice)));
+					item.setDate(dateDiv.asText());
+
+					result.add(item);
+				}
+				nextPag = (HtmlAnchor) page.getFirstByXPath("//li[@class='pagination-next pagination-btn']/a");
+				nextUrl = nextPag.getHrefAttribute();
+				searchUrl = removeLastChar(CarousellURL)+nextUrl;
+				System.out.println("nextpage link: " + nextUrl);
+			}while(nextUrl!=null && !nextUrl.isEmpty());
+
+			client.close();
+
+			//sort by price in ascending order
+			result.sort(Comparator.comparingDouble(Item::getPrice));
+			return result;
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		return null;
+	}
+
+	public static void main(String[] args) {
+		WebScraper webScraper = new WebScraper();
+		List<Item> results = webScraper.scrape("iphone5");
+
+		System.out.println();
+		System.out.println("Result size:" +results.size());
+		for(Item i:results)
+			i.printItem();
+//
+//		List<Item> results = webScraper.scrapeCarousell("galaxy 3");
+//
+//		System.out.println();
+//		System.out.println("Result size:" +results.size());
+//		for(Item i:results)
+//			i.printItem();
+//
+	}
 }

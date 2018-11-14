@@ -19,26 +19,21 @@ public class ItemTest {
 		i.setTitle("ABCDE");
 		assertEquals(i.getTitle(), "ABCDE");
 	}
-	
+
 	@Test
-	public void testSetPrice() {
-		Item i = new Item();
-		i.setPrice(50.0);
-		assertEquals(i.getPrice(), 50.0, 0);
-	}
-	
-	@Test
-	public void testSetUrl() {
-		Item i = new Item();
-		i.setUrl("https://course.cse.ust.hk/comp3111/");
-		assertEquals(i.getUrl(), "https://course.cse.ust.hk/comp3111/");
-	}
-	
-	@Test
-	public void testSetDate() throws ParseException {
-		Item i = new Item();
-		i.setDate("Nov 11");
-		SimpleDateFormat format = new SimpleDateFormat("MMM dd", Locale.US);
-		assertEquals(format.format(i.getDate()), "Nov 11");
+	public void testItem() {
+		Item exp1 = new Item();
+		exp1.setTitle("ABCDE");
+		exp1.setDate("Nov");
+		exp1.setPrice(1.1);
+		exp1.setUrl("abc");
+
+		Item act1 = new Item();
+		act1.setTitle("ABCDE");
+		act1.setDate("Nov");
+		act1.setPrice(1.1);
+		act1.setUrl("abc");
+
+		assertEquals(exp1, act1);
 	}
 }
