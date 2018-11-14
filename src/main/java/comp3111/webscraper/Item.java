@@ -43,7 +43,6 @@ public class Item implements Comparable<Item>{
 		return date;
 	}
 
-
     public void printItem(){
 		System.out.println("Item Title: " + title);
 		System.out.println("Price: " +price + " Date: " + date + " URL: " + url);
@@ -71,6 +70,7 @@ public class Item implements Comparable<Item>{
 	public int hashCode() {
 		return Objects.hash(title,price,url,date);
 	}
+
 
 
 }
