@@ -162,12 +162,23 @@ public class RefineTest {
 		Label rLabel = new Label("Warning");
 		TextField rKeyword = new TextField(" ");
 		Refine refine = new Refine(rBtn, rLabel, rKeyword);
+		refine.disableRefine();
+		refine.enableRefine();
+		assertEquals(false, refine.checkWarningIsVisible());
 		rKeyword.setText("  ");		
 		String result = refine.checkTimelineStatus();
 		assertEquals(true, result.contains("STOPPED"));
 		refine.refineSearch(null);
 		result = refine.checkTimelineStatus();
 		assertEquals(true, result.contains("RUNNING"));
+		assertEquals(true, refine.checkWarningIsVisible());
+		try {
+			Thread.sleep(3100);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		assertEquals(false, refine.checkWarningIsVisible());
 	}
 }
 

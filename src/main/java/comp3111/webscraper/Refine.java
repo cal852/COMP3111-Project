@@ -29,7 +29,7 @@ public class Refine {
 		RefineButton = refbtn;
 		RefineWarning = LabelRefineWarning;
 		Keyword = RefineKeyword;
-		timeline = new Timeline(new KeyFrame(Duration.millis(3000),ae -> {RefineWarning.setVisible(false);System.out.println("Status: " + timeline.getStatus().toString());}));
+		timeline = new Timeline(new KeyFrame(Duration.millis(3000),ae -> {RefineWarning.setVisible(false);}));
 		
     }
 
