@@ -106,23 +106,35 @@ public class RefineTest {
 		//add item 1
 		Item item = new Item();
 		item.setTitle("save the world");
+		item.setDate("Nov 11");
+		item.setPrice(1.1);
+		item.setUrl("abc");
 		input.add(item);
 		
 		//add item 2
 		item = new Item();
 		item.setTitle("about physics");
+		item.setDate("Nov 11");
+		item.setPrice(1.1);
+		item.setUrl("abc");
 		input.add(item);
 		result.add(item);
 		
 		//add item 3
 		item = new Item();
 		item.setTitle("about CS");
+		item.setDate("Nov 11");
+		item.setPrice(1.1);
+		item.setUrl("abc");
 		input.add(item);
 		result.add(item);
 		
 		//add item 4
 		item = new Item();
 		item.setTitle("angel Lee");
+		item.setDate("Nov 11");
+		item.setUrl("abc");
+		item.setPrice(1.1);
 		input.add(item);
 		
 		Object[] arr = refine.refineSearch(input);
