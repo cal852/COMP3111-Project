@@ -1,6 +1,10 @@
 #  Welcome to our COMP3111 Project
 This is a private repository for the purpose of making a web scrapper for COMP3111
 
+**Group name: #69-Mangkhut**
+--
+
+
 **Member List**
 --
 | Name| ITSC| GitHub Account|
@@ -12,11 +16,16 @@ This is a private repository for the purpose of making a web scrapper for COMP31
 
 **Tasks Assigned**
 --
-| GitHub Account | Task |
-|--|--|
-| cal852 |1 & 6|
-| HYUNJS |2 & 3|
-|enochwong3111|4 & 5|
+| GitHub Account | Task 1 | Task 2 |
+|--|--|--|
+| cal852 | Basic 1 | Basic 6 |
+| HYUNJS | Basic 2 | Basic 3 |
+| enochwong3111 | Basic 4 | Basic 5 |
+
+**Assumption**
+--
+1. xxxx(TBC). 
+2. Treat USD convert to HKD in 1:7.8(TBC) 
 
 **Gantt Chart**
 --

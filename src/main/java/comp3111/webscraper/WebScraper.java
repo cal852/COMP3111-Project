@@ -167,7 +167,7 @@ public class WebScraper {
 			HtmlAnchor nextPag;
 
 			Vector<Item> result = new Vector<Item>();
-
+      
 			do{
 				HtmlPage page = client.getPage(searchUrl);
 				pageCount++;
