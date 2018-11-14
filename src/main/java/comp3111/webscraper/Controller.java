@@ -4,6 +4,7 @@
 package comp3111.webscraper;
 
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -24,6 +25,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.MenuItem;
 import javafx.application.HostServices;
+import java.util.Locale;
 
 
 /**
@@ -120,9 +122,10 @@ public class Controller {
     /**
 	 * @author kevinw, cal852, enochwong3111
      * Called when the search button is pressed.
+     * @throws ParseException 
      */
 	@FXML
-    private void actionSearch() {
+    private void actionSearch() throws ParseException {
     	System.out.println("actionSearch: " + textFieldKeyword.getText());
       
     	result = scraper.scrape(textFieldKeyword.getText());
@@ -153,9 +156,10 @@ public class Controller {
     /**
 	 * @author kevinw, cal852
      * Called when the result need to be printed in the text area console and summary tabs.
+     * @throws ParseException 
      */
     @FXML
-    private void updateConsoleAndTabs() {
+    private void updateConsoleAndTabs() throws ParseException {
     	String output = "";
       
       	int itemCount = 0; /* count items */
@@ -244,7 +248,7 @@ public class Controller {
     	col4.setCellValueFactory(new PropertyValueFactory<Item, Date>("date"));
     	col4.setCellFactory(column ->{
     		TableCell<Item, Date> cell = new TableCell<Item, Date>() {
-    	        private SimpleDateFormat format = new SimpleDateFormat("MMM dd");
+    	        private SimpleDateFormat format = new SimpleDateFormat("MMM dd", Locale.ENGLISH);
     	        @Override
     	        protected void updateItem(Date date, boolean empty) {
     	            super.updateItem(date, empty);
@@ -291,10 +295,11 @@ public class Controller {
     /**
 	 * @author enochwong3111
      * Called when the Refine button is pressed. Refines the search result
+     * @throws ParseException 
      */
     @SuppressWarnings("unchecked")
 	@FXML
-    private void actionRefine() {
+    private void actionRefine() throws ParseException {
     	Object[] resultObj = refine.refineSearch(result);
     	if((Boolean)resultObj[0]) {
     		final ObservableList<Item> data = (ObservableList<Item>)resultObj[1];
@@ -315,9 +320,10 @@ public class Controller {
 	 * @author cal852
      * Able to be called when there are results ( > 0) after searching.
 	 * Enable the Refine button and refine text field
+     * @throws ParseException 
      */
     @FXML
-    private void actionLastSearch() {
+    private void actionLastSearch() throws ParseException {
     	System.out.println("actionLastSearch");
 		if (lastSearchTerm[0] != "" && lastSearchTerm[1] != "") {
 			menuLastSearch.setDisable(false);

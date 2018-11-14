@@ -8,7 +8,6 @@ import java.util.Locale;
 import java.util.Objects;
 
 import com.sun.istack.internal.NotNull;
-import javafx.scene.control.Hyperlink;
 
 public class Item implements Comparable<Item>{
 	private String title ;
@@ -39,9 +38,12 @@ public class Item implements Comparable<Item>{
 	}
 
 //	public Date getDate() {
-	public String getDate() {
+	public Date getDate() throws ParseException {
+		DateFormat format = new SimpleDateFormat("MMM d", Locale.ENGLISH);
+		Date date = format.parse(this.date);
 		return date;
 	}
+
 
     public void printItem(){
 		System.out.println("Item Title: " + title);
@@ -58,7 +60,16 @@ public class Item implements Comparable<Item>{
 			Item i = (Item) o;
 			boolean title = this.title.equals(i.getTitle());
 			boolean price = ((Double)this.price).equals((Double)i.getPrice());
-			boolean date = this.date.equals(i.getDate());
+			DateFormat format = new SimpleDateFormat("MMM d", Locale.ENGLISH);
+			Date date2;
+			boolean date = false;
+			try {
+				date2 = format.parse(this.date);
+				date = date2.equals(i.getDate());
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			boolean url = this.url.equals(i.getUrl());
 
 			return title && price && date && url;
@@ -70,7 +81,6 @@ public class Item implements Comparable<Item>{
 	public int hashCode() {
 		return Objects.hash(title,price,url,date);
 	}
-
 
 
 }
