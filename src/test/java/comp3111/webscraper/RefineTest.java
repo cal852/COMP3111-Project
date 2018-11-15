@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 
 import static org.junit.Assert.*;
 
+import java.text.ParseException;
 import java.util.Vector;
 
 import org.junit.BeforeClass;
@@ -93,8 +94,8 @@ public class RefineTest {
 	}
 	
 	@Test
-	public void testRrefineSearchWithValidKeyWord_ResultChange() {
-	    
+	public void testRrefineSearchWithValidKeyWord_ResultChange() throws ParseException {
+		WebScraper webScraper = new WebScraper();
 	    Button rBtn = new Button("Refine");
 		Label rLabel = new Label("Warning");
 		TextField rKeyword = new TextField(" ");
@@ -106,7 +107,7 @@ public class RefineTest {
 		//add item 1
 		Item item = new Item();
 		item.setTitle("save the world");
-//		item.setDate("Nov 11");
+		item.setDate(webScraper.formatCraigslistDate("Nov 11"));
 		item.setPrice(1.1);
 		item.setUrl("abc");
 		input.add(item);
@@ -114,7 +115,7 @@ public class RefineTest {
 		//add item 2
 		item = new Item();
 		item.setTitle("about physics");
-//		item.setDate("Nov 11");
+		item.setDate(webScraper.formatCraigslistDate("Nov 11"));
 		item.setPrice(1.1);
 		item.setUrl("abc");
 		input.add(item);
@@ -123,7 +124,7 @@ public class RefineTest {
 		//add item 3
 		item = new Item();
 		item.setTitle("about CS");
-//		item.setDate("Nov 11");
+		item.setDate(webScraper.formatCraigslistDate("Nov 11"));
 		item.setPrice(1.1);
 		item.setUrl("abc");
 		input.add(item);
@@ -132,7 +133,7 @@ public class RefineTest {
 		//add item 4
 		item = new Item();
 		item.setTitle("angel Lee");
-//		item.setDate("Nov 11");
+		item.setDate(webScraper.formatCraigslistDate("Nov 11"));
 		item.setUrl("abc");
 		item.setPrice(1.1);
 		input.add(item);

@@ -5,27 +5,22 @@ package comp3111.webscraper;
 
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import javafx.application.HostServices;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.MenuItem;
-import javafx.application.HostServices;
-import java.util.Locale;
 
 
 /**
@@ -80,6 +75,8 @@ public class Controller {
     private Refine refine = null;
 
     private HostServices hostServices;
+    
+    private Table table;
 
 	/**
 	 * @author cal852
@@ -105,7 +102,7 @@ public class Controller {
     }
 
     /**
-	 * @author cal852
+	 * @author cal852, enochwong3111
      * Default initializer. Initialize the program
      */
     @FXML
@@ -116,7 +113,8 @@ public class Controller {
     	lastSearchTerm[0] = "";
     	lastSearchTerm[1] = "";
     	refine.disableRefine();
-    	initializeTable();
+    	table = new Table(tableView1);
+    	table.initialize();
     }
 
     /**
@@ -149,7 +147,8 @@ public class Controller {
 
     	final ObservableList<Item> data = FXCollections.observableArrayList(result);
       
-		tableView1.setItems(data);
+    	//fill up table content
+    	table.setItems(data);
 		menuLastSearch.setDisable(false);
  	}
     
@@ -229,69 +228,6 @@ public class Controller {
 		textAreaConsole.setText(output);
     }
 
-    
-    /**
-	 * @author enochwong3111
-     * Called when there are results ( > 0) after searching.
-	 * Fills in the table contents
-     */
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    @FXML
-    private void initializeTable() {
-    	TableColumn col1 = tableView1.getColumns().get(0);
-    	TableColumn col2 = tableView1.getColumns().get(1);
-    	TableColumn col3 = tableView1.getColumns().get(2);
-    	TableColumn col4 = tableView1.getColumns().get(3);
-    	col1.setCellValueFactory(new PropertyValueFactory<Item, String>("title"));
-    	col2.setCellValueFactory(new PropertyValueFactory<Item, Double>("price"));
-    	col3.setCellValueFactory(new PropertyValueFactory<Item, String>("url"));
-    	col4.setCellValueFactory(new PropertyValueFactory<Item, Date>("date"));
-    	col4.setCellFactory(column ->{
-    		TableCell<Item, Date> cell = new TableCell<Item, Date>() {
-    	        private SimpleDateFormat format = new SimpleDateFormat("MMM dd", Locale.ENGLISH);
-    	        @Override
-    	        protected void updateItem(Date date, boolean empty) {
-    	            super.updateItem(date, empty);
-    	            if(empty) {
-    	                setText(null);
-    	            }
-    	            else {
-    	                setText(format.format(date));
-    	            }
-    	        }
-    	    };
-    	    return cell;
-    	});
-    	col3.setCellFactory(column ->{
-    		 TableCell<Item, String> cell = new TableCell<Item, String>() {
-    	        	private final Hyperlink hyperlink = new Hyperlink();
-
-    	            {
-    	                hyperlink.setOnAction(event -> {
-    	                	String url = getItem();
-    	                    //System.out.println("cell clicked! " + url);    	                    
-    	                    try {
-    	                    	getHostServices().showDocument(url);
-    	            		} catch(Exception e) {
-    	            			e.printStackTrace();
-    	            		}
-    	                });
-    	            }
-    	            
-    	            protected void updateItem(String url, boolean empty) {
-    	                super.updateItem(url, empty);
-    	                if (empty) {
-    	                    setGraphic(null);
-    	                } else {
-    	                	hyperlink.setText(url);
-    	                    setGraphic(hyperlink);
-    	                }
-    	            }
-    	        };
-    	    return cell;
-    	});
-    }
-    
     /**
 	 * @author enochwong3111
      * Called when the Refine button is pressed. Refines the search result
@@ -304,14 +240,10 @@ public class Controller {
     	if((Boolean)resultObj[0]) {
     		final ObservableList<Item> data = (ObservableList<Item>)resultObj[1];
         	//update the table tab's content
-    		tableView1.setItems(data);
+    		table.setItems(data);
     		
     		//update the text area console
     		updateConsoleAndTabs();
-    		
-    		/*TODO*/
-    		//update other tabs here
-    		//updating other tabs done in updateConsoleAndTabs()
     	}
 		
     }
@@ -390,7 +322,7 @@ public class Controller {
 		labelCount.setText("-");
 		labelPrice.setText("-");
     	textFieldKeyword.setText("");
-    	tableView1.setItems(FXCollections.emptyObservableList());
+    	table.setItems(FXCollections.emptyObservableList());
     	textAreaConsole.setText("");
     	refine.disableRefine();
     	refineKeyword.setText("");

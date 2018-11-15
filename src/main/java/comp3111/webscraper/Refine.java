@@ -23,7 +23,7 @@ public class Refine {
 	
 	/**
 	 * @author enochwong3111
-     * initializer
+     * Constructor
      */
 	public Refine(Button refbtn, Label LabelRefineWarning, TextField RefineKeyword) {
 		RefineButton = refbtn;
