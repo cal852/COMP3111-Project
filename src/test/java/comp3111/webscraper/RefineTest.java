@@ -106,7 +106,7 @@ public class RefineTest {
 		//add item 1
 		Item item = new Item();
 		item.setTitle("save the world");
-		item.setDate("Nov 11");
+//		item.setDate("Nov 11");
 		item.setPrice(1.1);
 		item.setUrl("abc");
 		input.add(item);
@@ -114,7 +114,7 @@ public class RefineTest {
 		//add item 2
 		item = new Item();
 		item.setTitle("about physics");
-		item.setDate("Nov 11");
+//		item.setDate("Nov 11");
 		item.setPrice(1.1);
 		item.setUrl("abc");
 		input.add(item);
@@ -123,7 +123,7 @@ public class RefineTest {
 		//add item 3
 		item = new Item();
 		item.setTitle("about CS");
-		item.setDate("Nov 11");
+//		item.setDate("Nov 11");
 		item.setPrice(1.1);
 		item.setUrl("abc");
 		input.add(item);
@@ -132,7 +132,7 @@ public class RefineTest {
 		//add item 4
 		item = new Item();
 		item.setTitle("angel Lee");
-		item.setDate("Nov 11");
+//		item.setDate("Nov 11");
 		item.setUrl("abc");
 		item.setPrice(1.1);
 		input.add(item);

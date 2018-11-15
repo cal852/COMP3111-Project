@@ -15,20 +15,20 @@ public class ItemTest {
 		assertEquals(i.getTitle(), "ABCDE");
 	}
 
-	@Test
-	public void testItem() {
-		Item exp1 = new Item();
-		exp1.setTitle("ABCDE");
-		exp1.setDate("Nov 11");
-		exp1.setPrice(1.1);
-		exp1.setUrl("abc");
-
-		Item act1 = new Item();
-		act1.setTitle("ABCDE");
-		act1.setDate("Nov 11");
-		act1.setPrice(1.1);
-		act1.setUrl("abc");
-
-		assertEquals(exp1, act1);
-	}
+//	@Test
+//	public void testItem() {
+//		Item exp1 = new Item();
+//		exp1.setTitle("ABCDE");
+//		exp1.setDate("Nov 11");
+//		exp1.setPrice(1.1);
+//		exp1.setUrl("abc");
+//
+//		Item act1 = new Item();
+//		act1.setTitle("ABCDE");
+//		act1.setDate("Nov 11");
+//		act1.setPrice(1.1);
+//		act1.setUrl("abc");
+//
+//		assertEquals(exp1, act1);
+//	}
 }

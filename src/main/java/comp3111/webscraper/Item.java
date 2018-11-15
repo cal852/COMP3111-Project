@@ -6,14 +6,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
-
 import com.sun.istack.internal.NotNull;
 
 public class Item implements Comparable<Item>{
 	private String title ;
 	private double price ;
-	private String url ;
-	private String date;
+	private String url;
+	private Date date;
 
 	public String getTitle() {
 		return title;
@@ -21,33 +20,30 @@ public class Item implements Comparable<Item>{
 	public void setTitle(String title) {
 		this.title = title;
 	}
+
 	public double getPrice() {
 		return price;
 	}
 	public void setPrice(double price) {
 		this.price = price;
 	}
+
 	public String getUrl() {
 		return url;
 	}
 	public void setUrl(String url) {
 		this.url = url;
 	}
-	public void setDate(String stringdate){
-		this.date = stringdate;
+	public Date getDate() {
+		return this.date;
 	}
-
-//	public Date getDate() {
-	public Date getDate() throws ParseException {
-		DateFormat format = new SimpleDateFormat("MMM d", Locale.ENGLISH);
-		Date date = format.parse(this.date);
-		return date;
+	public void setDate(Date date) {
+		this.date = date;
 	}
-
 
     public void printItem(){
 		System.out.println("Item Title: " + title);
-		System.out.println("Price: " +price + " Date: " + date + " URL: " + url);
+		System.out.println("Price: " +price + " Date: " + date.toString() + " URL: " + url);
 	}
 
 	@Override
@@ -60,16 +56,7 @@ public class Item implements Comparable<Item>{
 			Item i = (Item) o;
 			boolean title = this.title.equals(i.getTitle());
 			boolean price = ((Double)this.price).equals((Double)i.getPrice());
-			DateFormat format = new SimpleDateFormat("MMM d", Locale.ENGLISH);
-			Date date2;
-			boolean date = false;
-			try {
-				date2 = format.parse(this.date);
-				date = date2.equals(i.getDate());
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			boolean date = this.date.equals(i.date);
 			boolean url = this.url.equals(i.getUrl());
 
 			return title && price && date && url;
@@ -81,7 +68,5 @@ public class Item implements Comparable<Item>{
 	public int hashCode() {
 		return Objects.hash(title,price,url,date);
 	}
-
-
 }
 

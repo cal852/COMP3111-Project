@@ -1,16 +1,15 @@
 package comp3111.webscraper;
 
 import java.net.URLEncoder;
-import java.util.Comparator;
-import java.util.List;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-
-import java.util.Optional;
-import java.util.Vector;
 
 
 /**
@@ -89,13 +88,25 @@ public class WebScraper {
 	}
 
 	public static String filterNumber(String s){
-		return s.replaceAll("[^0-9]","");
+		String filtered = s.replaceAll("[^0-9]","");
+		if(filtered.isEmpty())
+			return "0";
+		return filtered;
 	}
+	public Date formatCraigslistDate(String dateString) throws ParseException {
+		DateFormat format = new SimpleDateFormat("MMM d", Locale.ENGLISH);
+		return format.parse(dateString);
+	}
+	public Date formatDCFeverDate(String dateString) throws ParseException {
+		DateFormat format = new SimpleDateFormat("dd/MM HH:mm", Locale.ENGLISH);
+		return format.parse(dateString);
+	}
+
 
 
 	/**
 	 * The only method implemented in this class, to scrape web content from the craigslist
-	 * 
+	 * Assume 7.8HKD = 1 USD
 	 * @param keyword - the keyword you want to search
 	 * @return A list of Item that has found. A zero size list is return if nothing is found. Null if any exception (e.g. no connectivity)
 	 */
@@ -129,8 +140,9 @@ public class WebScraper {
 					Item item = new Item();
 					item.setTitle(itemAnchor.asText());
 					item.setUrl(itemAnchor.getHrefAttribute());
-					item.setPrice(new Double(itemPrice.replace("$", "")));
-					item.setDate(spanDate.asText());
+					item.setPrice((new Double(itemPrice.replace("$", "")))*7.8);
+//					item.setDateString(spanDate.asText());
+					item.setDate(formatCraigslistDate(spanDate.asText()));
 
 					result.add(item);
 				}
@@ -151,58 +163,92 @@ public class WebScraper {
 		return null;
 	}
 
-
-	/**
-	 * The method to scrape web content from the carousell
-	 *
-	 * @param keyword - the keyword you want to search
-	 * @return A list of Item that has found. A zero size list is return if nothing is found. Null if any exception (e.g. no connectivity)
-	 */
-	public List<Item> scrapeCarousell(String keyword) {
-		final String CarousellURL = "https://hk.carousell.com/";
+	public List<Item> scrapeDCFever(String keyword) {
+		final String DCFever = "https://www.dcfever.com/trading/";
 		int pageCount=0;
-		String nextUrl;
+		String searchUrl;
+		String nextUrl="Initial";
+		HtmlAnchor nextPage;
+		Vector<Item> result = new Vector<Item>();
 		try {
-			String searchUrl = CarousellURL + "search/products/?query=" + URLEncoder.encode(keyword, "UTF-8");
-			HtmlAnchor nextPag;
-
-			Vector<Item> result = new Vector<Item>();
-      
-			do{
+			searchUrl = DCFever + "search.php?keyword=" + URLEncoder.encode(keyword, "UTF-8")
+					+"&token=qeeqppqqpeqry&cat=all&type=all&min_price=&max_price=&page="+5;
+//			(pageCount+1)
+//			do {
 				HtmlPage page = client.getPage(searchUrl);
+				List<?> items = (List<?>) page.getByXPath("//table[@class='trade_listing']/tbody/tr");
+
 				pageCount++;
-				System.out.println("Searching Page"+pageCount);
+				System.out.println("Searching Page "+pageCount);
 				System.out.println("SearchURL: " + searchUrl);
 
-				List<?> items = (List<?>) page.getByXPath("//div[@class='col-lg-3 col-md-4 col-sm-4 col-xs-6']");
+//				if(items.size()==2){
+//					System.out.println("No Items Found");
+//				}
 
-				for (int i = 0; i < items.size(); i++) {
+				for (int i = 1; i < items.size()-1; i++) {
+					System.out.println("Finding "+i+" item" + " SIZE: " + (items.size()-2));
 					HtmlElement htmlItem = (HtmlElement) items.get(i);
 
-					HtmlAnchor itemDescription = ((HtmlAnchor) htmlItem.getFirstByXPath(".//div[@class='G-e']/a"));
-					HtmlElement titleDiv = ((HtmlElement) htmlItem.getFirstByXPath(".//div[@class='G-l']"));
-					HtmlElement priceDiv = ((HtmlElement) htmlItem.getFirstByXPath(".//div[@class='G-k']/div[1]"));
-					HtmlElement dateDiv = ((HtmlElement) htmlItem.getFirstByXPath(".//time"));
+//					if(i<5){
+//						try{
+////							HtmlElement adBar = htmlItem.getFirstByXPath("//td[@colspan='7']");
+////							if(adBar!=null)
+////								System.out.println("AD detected");
+////						items.remove(i);
+////							System.out.println("NULL");
+//							System.out.println(htmlItem.asText());
+////							break;
+//							continue;
+//						}catch(NullPointerException nullEx){ }
+//
+//					}else
+//						break;
+					HtmlAnchor itemAnchor;
+					HtmlElement spanPrice;
+					HtmlElement spanDate;
+					try{
+						itemAnchor= ((HtmlAnchor) htmlItem.getFirstByXPath("./td[3]/a"));
+						spanPrice = ((HtmlElement) htmlItem.getFirstByXPath("./td[4]"));
+						spanDate = ((HtmlElement) htmlItem.getFirstByXPath("./td[6]"));
+					}catch (NullPointerException nullptrEx){
+						nullptrEx.printStackTrace();
+						System.out.println("Blank Area");
+
+						continue;
+					}
+
+					if(itemAnchor==null || spanPrice==null || spanDate==null){
+						System.out.println("Blank Area");
+						continue;
+					}
 
 					// It is possible that an item doesn't have any price, we set the price to 0.0
 					// in this case
-					String itemPrice = priceDiv == null ? "0.0" : priceDiv.asText();
+					String itemPrice = spanPrice == null ? "0.0" : spanPrice.asText();
 
 					Item item = new Item();
-
-					item.setTitle(titleDiv.asText());
-					item.setUrl(removeLastChar(CarousellURL)+itemDescription.getHrefAttribute());
-					item.setPrice(new Double(filterNumber(itemPrice)));
-					item.setDate(dateDiv.asText());
+					item.setTitle(itemAnchor.asText());
+					item.setUrl(DCFever+itemAnchor.getHrefAttribute());
+					item.setPrice(new Double(filterNumber(spanPrice.asText())));
+					item.setDate(formatDCFeverDate(spanDate.asText()));
 
 					result.add(item);
+					item.printItem();
 				}
-				nextPag = (HtmlAnchor) page.getFirstByXPath("//li[@class='pagination-next pagination-btn']/a");
-				nextUrl = nextPag.getHrefAttribute();
-				searchUrl = removeLastChar(CarousellURL)+nextUrl;
-				System.out.println("nextpage link: " + nextUrl);
-			}while(nextUrl!=null && !nextUrl.isEmpty());
-
+//				if(pageCount==1){
+//					List<?> pagination = (List<?>) page.getByXPath(".//a[@class='button next']");
+//					HtmlAnchor itemAnchor = (HtmlAnchor) pagination.get(pagination.size()-2);
+//					String paginationContnt = itemAnchor.getTextContent();
+//					System.out.println("nextUrl: "+paginationContnt);
+//					nextUrl = "idk";
+////					break;
+//				}
+//				nextPage =
+//				nextUrl = nextPage.getHrefAttribute();
+//				searchUrl = removeLastChar(DEFAULT_URL)+nextUrl;
+//				System.out.println("nextUrl: "+pagin);
+//			}while(nextUrl!=null && !nextUrl.isEmpty());
 			client.close();
 
 			//sort by price in ascending order
@@ -214,21 +260,84 @@ public class WebScraper {
 		return null;
 	}
 
+
+	/**
+	 * The method to scrape web content from the carousell
+	 *
+	 * @param keyword - the keyword you want to search
+	 * @return A list of Item that has found. A zero size list is return if nothing is found. Null if any exception (e.g. no connectivity)
+	 */
+	public List<Item> scrapeCarousell(String keyword) {
+//		final String CarousellURL = "https://hk.carousell.com/";
+//		int pageCount=0;
+//		String nextUrl;
+//		try {
+//			String searchUrl = CarousellURL + "search/products/?query=" + URLEncoder.encode(keyword, "UTF-8");
+//			HtmlAnchor nextPag;
+//
+//			Vector<Item> result = new Vector<Item>();
+//
+//			do{
+//				HtmlPage page = client.getPage(searchUrl);
+//				pageCount++;
+//				System.out.println("Searching Page"+pageCount);
+//				System.out.println("SearchURL: " + searchUrl);
+//
+//				List<?> items = (List<?>) page.getByXPath("//div[@class='col-lg-3 col-md-4 col-sm-4 col-xs-6']");
+//
+//				for (int i = 0; i < items.size(); i++) {
+//					HtmlElement htmlItem = (HtmlElement) items.get(i);
+//
+//					HtmlAnchor itemDescription = ((HtmlAnchor) htmlItem.getFirstByXPath(".//div[@class='G-e']/a"));
+//					HtmlElement titleDiv = ((HtmlElement) htmlItem.getFirstByXPath(".//div[@class='G-l']"));
+//					HtmlElement priceDiv = ((HtmlElement) htmlItem.getFirstByXPath(".//div[@class='G-k']/div[1]"));
+//					HtmlElement dateDiv = ((HtmlElement) htmlItem.getFirstByXPath(".//time"));
+//
+//					// It is possible that an item doesn't have any price, we set the price to 0.0
+//					// in this case
+//					String itemPrice = priceDiv == null ? "0.0" : priceDiv.asText();
+//
+//					Item item = new Item();
+//
+//					item.setTitle(titleDiv.asText());
+//					item.setUrl(removeLastChar(CarousellURL)+itemDescription.getHrefAttribute());
+//					item.setPrice(new Double(filterNumber(itemPrice)));
+//					item.setDateString(dateDiv.asText());
+//
+//					result.add(item);
+//				}
+//				nextPag = (HtmlAnchor) page.getFirstByXPath("//li[@class='pagination-next pagination-btn']/a");
+//				nextUrl = nextPag.getHrefAttribute();
+//				searchUrl = removeLastChar(CarousellURL)+nextUrl;
+//				System.out.println("nextpage link: " + nextUrl);
+//			}while(nextUrl!=null && !nextUrl.isEmpty());
+//
+//			client.close();
+//
+//			//sort by price in ascending order
+//			result.sort(Comparator.comparingDouble(Item::getPrice));
+//			return result;
+//		} catch (Exception e) {
+//			System.out.println(e);
+//		}
+		return null;
+	}
+
 	public static void main(String[] args) {
+
 		WebScraper webScraper = new WebScraper();
-		List<Item> results = webScraper.scrape("iphone5");
+		List<Item> results = webScraper.scrapeDCFever("iphone x");
+//		List<Item> results = webScraper.scrape("iphone");
+//		List<Item> results = webScraper.scrapeCarousell("galaxy 3");
+		if(results==null){
+			System.out.println("NULL RESULT");
+			return;
+		}
 
 		System.out.println();
 		System.out.println("Result size:" +results.size());
 		for(Item i:results)
 			i.printItem();
-//
-//		List<Item> results = webScraper.scrapeCarousell("galaxy 3");
-//
-//		System.out.println();
-//		System.out.println("Result size:" +results.size());
-//		for(Item i:results)
-//			i.printItem();
-//
+
 	}
 }
