@@ -294,7 +294,7 @@ public class WebScraper {
 		List<Item> results = webScraper.scrapeDCFever("iphone 1");
 //		List<Item> results = webScraper.scrape("iphone");
 //		List<Item> results = webScraper.scrapeCarousell("galaxy 3");
-		if(results==null){
+//		if(results==null){
 //			System.out.println("NULL RESULT");
 //			return;
 //		}

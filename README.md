@@ -29,7 +29,8 @@ This is a private repository for the purpose of making a web scrapper for COMP31
 
 **Gantt Chart**
 --
-To be made.
+![program args](gantt-chart.png)
+
 
 
 # COMP3111: Software Engineering Project - Webscrapper
