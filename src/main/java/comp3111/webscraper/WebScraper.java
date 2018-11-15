@@ -167,88 +167,54 @@ public class WebScraper {
 		final String DCFever = "https://www.dcfever.com/trading/";
 		int pageCount=0;
 		String searchUrl;
-		String nextUrl="Initial";
-		HtmlAnchor nextPage;
 		Vector<Item> result = new Vector<Item>();
 		try {
 			searchUrl = DCFever + "search.php?keyword=" + URLEncoder.encode(keyword, "UTF-8")
-					+"&token=qeeqppqqpeqry&cat=all&type=all&min_price=&max_price=&page="+5;
-//			(pageCount+1)
-//			do {
-				HtmlPage page = client.getPage(searchUrl);
+					+"&token=qeeqppqqpeqry&cat=all&type=all&min_price=&max_price=&page=";
+
+			HtmlPage page = client.getPage(searchUrl+1);
+
+			// Pagination Handling
+			List<?> pagination = (List<?>) page.getByXPath("//div[@class='pagination']/a");
+			HtmlElement paginationDiv;
+			if(pagination.isEmpty())
+				return null;
+			else if(pagination.size()>10)
+				paginationDiv = (HtmlElement) pagination.get(pagination.size()-2);
+			else
+				paginationDiv = (HtmlElement) pagination.get(pagination.size()-1);
+
+			int maxPage = Integer.parseInt(filterNumber(paginationDiv.asText()));
+			System.out.println("Page numbers:" + maxPage);
+
+			// Extract the desired data
+			while(pageCount<maxPage) {
 				List<?> items = (List<?>) page.getByXPath("//table[@class='trade_listing']/tbody/tr");
-
 				pageCount++;
-				System.out.println("Searching Page "+pageCount);
-				System.out.println("SearchURL: " + searchUrl);
+				System.out.println("SearchURL: " + searchUrl + pageCount);
 
-//				if(items.size()==2){
-//					System.out.println("No Items Found");
-//				}
-
-				for (int i = 1; i < items.size()-1; i++) {
-					System.out.println("Finding "+i+" item" + " SIZE: " + (items.size()-2));
+				// Skip the first item because it is the table's title
+				for (int i = 1; i < items.size() - 1; i++) {
 					HtmlElement htmlItem = (HtmlElement) items.get(i);
+					HtmlAnchor itemAnchor = ((HtmlAnchor) htmlItem.getFirstByXPath("./td[3]/a"));
+					HtmlElement spanPrice = ((HtmlElement) htmlItem.getFirstByXPath("./td[4]"));
+					HtmlElement spanDate = ((HtmlElement) htmlItem.getFirstByXPath("./td[6]"));
 
-//					if(i<5){
-//						try{
-////							HtmlElement adBar = htmlItem.getFirstByXPath("//td[@colspan='7']");
-////							if(adBar!=null)
-////								System.out.println("AD detected");
-////						items.remove(i);
-////							System.out.println("NULL");
-//							System.out.println(htmlItem.asText());
-////							break;
-//							continue;
-//						}catch(NullPointerException nullEx){ }
-//
-//					}else
-//						break;
-					HtmlAnchor itemAnchor;
-					HtmlElement spanPrice;
-					HtmlElement spanDate;
-					try{
-						itemAnchor= ((HtmlAnchor) htmlItem.getFirstByXPath("./td[3]/a"));
-						spanPrice = ((HtmlElement) htmlItem.getFirstByXPath("./td[4]"));
-						spanDate = ((HtmlElement) htmlItem.getFirstByXPath("./td[6]"));
-					}catch (NullPointerException nullptrEx){
-						nullptrEx.printStackTrace();
-						System.out.println("Blank Area");
-
+					if (itemAnchor == null || spanPrice == null || spanDate == null)
 						continue;
-					}
-
-					if(itemAnchor==null || spanPrice==null || spanDate==null){
-						System.out.println("Blank Area");
-						continue;
-					}
-
-					// It is possible that an item doesn't have any price, we set the price to 0.0
-					// in this case
-					String itemPrice = spanPrice == null ? "0.0" : spanPrice.asText();
 
 					Item item = new Item();
 					item.setTitle(itemAnchor.asText());
-					item.setUrl(DCFever+itemAnchor.getHrefAttribute());
+					item.setUrl(DCFever + itemAnchor.getHrefAttribute());
 					item.setPrice(new Double(filterNumber(spanPrice.asText())));
 					item.setDate(formatDCFeverDate(spanDate.asText()));
 
 					result.add(item);
-					item.printItem();
 				}
-//				if(pageCount==1){
-//					List<?> pagination = (List<?>) page.getByXPath(".//a[@class='button next']");
-//					HtmlAnchor itemAnchor = (HtmlAnchor) pagination.get(pagination.size()-2);
-//					String paginationContnt = itemAnchor.getTextContent();
-//					System.out.println("nextUrl: "+paginationContnt);
-//					nextUrl = "idk";
-////					break;
-//				}
-//				nextPage =
-//				nextUrl = nextPage.getHrefAttribute();
-//				searchUrl = removeLastChar(DEFAULT_URL)+nextUrl;
-//				System.out.println("nextUrl: "+pagin);
-//			}while(nextUrl!=null && !nextUrl.isEmpty());
+
+				if(pageCount<maxPage) // If the current page is not yet the last page, fetch the next page
+					page = client.getPage(searchUrl+(pageCount+1));
+			}
 			client.close();
 
 			//sort by price in ascending order
@@ -324,20 +290,19 @@ public class WebScraper {
 	}
 
 	public static void main(String[] args) {
-
 		WebScraper webScraper = new WebScraper();
-		List<Item> results = webScraper.scrapeDCFever("iphone x");
+		List<Item> results = webScraper.scrapeDCFever("iphone 1");
 //		List<Item> results = webScraper.scrape("iphone");
 //		List<Item> results = webScraper.scrapeCarousell("galaxy 3");
 		if(results==null){
-			System.out.println("NULL RESULT");
-			return;
-		}
-
-		System.out.println();
-		System.out.println("Result size:" +results.size());
-		for(Item i:results)
-			i.printItem();
+//			System.out.println("NULL RESULT");
+//			return;
+//		}
+//
+//		System.out.println();
+//		System.out.println("Result size:" +results.size());
+//		for(Item i:results)
+//			i.printItem();
 
 	}
 }
