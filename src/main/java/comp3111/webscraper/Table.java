@@ -116,4 +116,13 @@ public class Table {
 		tableView.setItems(data);
 	}
 	
+	/**
+	 * @author enochwong3111
+     * Use for unit test.
+	 * Get the tables' contents
+	 * @return ObservableList<Item>
+     */
+	public ObservableList<Item> getItems() {
+		return tableView.getItems();
+	}
 }
