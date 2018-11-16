@@ -291,18 +291,18 @@ public class WebScraper {
 
 	public static void main(String[] args) {
 		WebScraper webScraper = new WebScraper();
-		List<Item> results = webScraper.scrapeDCFever("iphone 1");
+		List<Item> results = webScraper.scrapeDCFever("nvme");
 //		List<Item> results = webScraper.scrape("iphone");
 //		List<Item> results = webScraper.scrapeCarousell("galaxy 3");
-//		if(results==null){
-//			System.out.println("NULL RESULT");
-//			return;
-//		}
-//
-//		System.out.println();
-//		System.out.println("Result size:" +results.size());
-//		for(Item i:results)
-//			i.printItem();
+		if(results==null){
+			System.out.println("NULL RESULT");
+			return;
+		}
+
+		System.out.println();
+		System.out.println("Result size:" +results.size());
+		for(Item i:results)
+			i.printItem();
 
 	}
 }
