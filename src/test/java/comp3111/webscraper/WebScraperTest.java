@@ -1,16 +1,11 @@
 package comp3111.webscraper;
 
-import com.gargoylesoftware.htmlunit.WebClient;
+import static org.junit.Assert.assertEquals;
 
-import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
-import static junit.framework.TestCase.assertSame;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.Test;
 
 
 public class WebScraperTest {
