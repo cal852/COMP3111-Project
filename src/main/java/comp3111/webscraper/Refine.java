@@ -12,19 +12,22 @@ import javafx.scene.control.TextField;
 import javafx.util.Duration;
 
 /**
+ * Service class that manages refine btn's relative functions for task 5.
+ * 
  * @author enochwong3111
- * Refine class that manage refine btn's relative functions for task 5.
  */
 public class Refine {
 	private Button RefineButton;
 	private Label RefineWarning;
 	private TextField Keyword;
 	private Timeline timeline = null;
-	
+
 	/**
-	 * @author enochwong3111
-     * Constructor
-     */
+	 * Constructor
+	 * @param refbtn - the button control the refine function
+	 * @param LabelRefineWarning - the label show refine warning
+	 * @param RefineKeyword - the text field for input refine keyword
+	 */
 	public Refine(Button refbtn, Label LabelRefineWarning, TextField RefineKeyword) {
 		RefineButton = refbtn;
 		RefineWarning = LabelRefineWarning;
@@ -33,12 +36,14 @@ public class Refine {
 		
     }
 
-	
+
 	/**
-	 * @author enochwong3111
-     * Called when the Refine button is pressed. Refines the search result
-     */
-	public Object[] refineSearch(List<Item> result) {
+	 * Called when the Refine button is pressed. Refines the search result
+	 * @param input - the data you want to refine
+	 * @return Object[boolean, refineResult] -boolean: the data has any change or not; -refineResult: the data after refine, 
+	 * which will be null if not changes for the data
+	 */
+	public Object[] refineSearch(List<Item> input) {
 		Object[] arr = new Object[2];
     	String refineWords = Keyword.getText();
     	//System.out.println("refineKeyword: " + refineWords + ", length: " + refineWords.length());
@@ -57,14 +62,14 @@ public class Refine {
     		return arr;
     	}else {
     		disableRefine();
-    		return refineContent(refineWords, result);
+    		return refineContent(refineWords, input);
     	}
     }
 
 	/**
-	 * @author enochwong3111
-	 * Enables Refine Button for interaction
+	 * Enables the Refine Button for interaction
 	 */
+    @FXML
     public void enableRefine() {
     	RefineButton.setDisable(false);
     	Keyword.setDisable(false);
@@ -72,7 +77,6 @@ public class Refine {
     
 
     /**
-	 * @author enochwong3111
      * Called when initialize the program or there are results ( > 0) after searching.
 	 * Disable the Refine button and refine text field
      */
@@ -83,11 +87,14 @@ public class Refine {
 		timeline.stop();
 		RefineWarning.setVisible(false);
     }
-    
+
     /**
-	 * @author enochwong3111
      * Called when the refine keyword is valid and the refine button was clicked.
 	 * Refine the search result with the str keyword
+     * @param str - the refine keyword
+     * @param result - the search result data
+     * @return Object[boolean, refineResult] -boolean: the data has any change or not; -refineResult: the data after refine, 
+	 * which will be null if not changes for the data
      */
     @FXML
     private Object[] refineContent(String str, List<Item> result) {
@@ -117,9 +124,8 @@ public class Refine {
     }
     
     /**
-	 * @author enochwong3111
      * for automation test to check whether the refine button is clickable
-     * @return 
+     * @return boolean - the value of the property disable
      */
     @FXML
     public boolean checkRefineBtnIsDisable() {
@@ -127,9 +133,8 @@ public class Refine {
     }
     
     /**
-	 * @author enochwong3111
      * for automation test to check whether the keyword text field is editable
-     * @return 
+     * @return boolean - the value of the property disable
      */
     @FXML
     public boolean checkKeywordIsDisable() {
@@ -137,9 +142,8 @@ public class Refine {
     }
     
     /**
-	 * @author enochwong3111
      * for automation test to check whether the RefineWarning label is visible
-     * @return 
+     * @return boolean  - the value of the property visible
      */
     @FXML
     public boolean checkWarningIsVisible() {
@@ -147,11 +151,9 @@ public class Refine {
     }
     
     /**
-	 * @author enochwong3111
-     * for automation test to check whether the RefineWarning label is visible
-     * @return 
+     * for automation test to check the status of the Timeline
+     * @return String - the status of the Timeline
      */
-    //@FXML
     public String checkTimelineStatus() {
     	return timeline.getStatus().toString();
     }

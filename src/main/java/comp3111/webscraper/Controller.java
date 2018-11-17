@@ -24,11 +24,8 @@ import javafx.scene.control.TextField;
 
 
 /**
- * 
- * @author kevinw, cal852, enochwong3111
- *
- *
  * Controller class that manage GUI interaction. Please see document about JavaFX for details.
+ * @author kevinw, cal852, enochwong3111
  * 
  */
 public class Controller {
@@ -79,8 +76,8 @@ public class Controller {
     private Table table;
 
 	/**
-	 * @author cal852
 	 * Passes and sets Host Services from WebScraperApplication for use in Controller
+	 * @author cal852
 	 * @param hostServices
 	 */
 	public void setHostServices(HostServices hostServices) {
@@ -88,8 +85,8 @@ public class Controller {
 	}
 
 	/**
-	 * @author cal852
 	 * Gets the hostServices from Application for use in Controller
+	 * @author cal852
 	 * @return hostServices
 	 */
 	public HostServices getHostServices() { return hostServices; }
@@ -102,8 +99,8 @@ public class Controller {
     }
 
     /**
-	 * @author cal852, enochwong3111
      * Default initializer. Initialize the program
+	 * @author cal852, enochwong3111
      */
     @FXML
     private void initialize() {
@@ -118,8 +115,8 @@ public class Controller {
     }
 
     /**
-	 * @author kevinw, cal852, enochwong3111
      * Called when the search button is pressed.
+	 * @author kevinw, cal852, enochwong3111
      * @throws ParseException 
      */
 	@FXML
@@ -128,7 +125,7 @@ public class Controller {
       
     	result = scraper.scrape(textFieldKeyword.getText());
 
-    	if(!result.isEmpty()) {
+    	if(result != null && !result.isEmpty()) {
     		refine.enableRefine();
     	} else {
     		refine.disableRefine();
@@ -145,7 +142,10 @@ public class Controller {
 			lastSearchTerm[1] = textFieldKeyword.getText();
 		}
 
-    	final ObservableList<Item> data = FXCollections.observableArrayList(result);
+		ObservableList<Item> data = null;
+		if(result != null) {
+			data = FXCollections.observableArrayList(result);
+		}
       
     	//fill up table content
     	table.setItems(data);
@@ -153,8 +153,8 @@ public class Controller {
  	}
     
     /**
-	 * @author kevinw, cal852
      * Called when the result need to be printed in the text area console and summary tabs.
+	 * @author kevinw, cal852
      * @throws ParseException 
      */
     @FXML
@@ -169,42 +169,43 @@ public class Controller {
 		Hyperlink minPriceUrl = new Hyperlink("");
 		Hyperlink latestPostUrl = new Hyperlink("");
 
-		// obtain first valid results with min price and latest post date for comparison
-		if (!result.isEmpty()) {
-			minPriceUrl = new Hyperlink(result.get(0).getUrl());
-			latestPostUrl = new Hyperlink(result.get(0).getUrl());
-			// in case of first price is 0, then find until you get price > 0.0
-			for (; minPriceCount < result.size(); minPriceCount++) {
-				if (result.get(minPriceCount).getPrice() > 0.0) {
-					minPrice = result.get(minPriceCount).getPrice();
-					break;
+		if(result != null) {
+			// obtain first valid results with min price and latest post date for comparison
+			if (!result.isEmpty()) {
+				minPriceUrl = new Hyperlink(result.get(0).getUrl());
+				latestPostUrl = new Hyperlink(result.get(0).getUrl());
+				// in case of first price is 0, then find until you get price > 0.0
+				for (; minPriceCount < result.size(); minPriceCount++) {
+					if (result.get(minPriceCount).getPrice() > 0.0) {
+						minPrice = result.get(minPriceCount).getPrice();
+						break;
+					}
 				}
+				latestDate = result.get(0).getDate();
 			}
-			latestDate = result.get(0).getDate();
+
+			for (Item item : result) {
+				output += item.getTitle() + "\t" + item.getPrice() + "\t" + item.getUrl() + "\n";
+	        
+	        	totalPrice += item.getPrice();
+
+	        	// find minPrice listing
+				// Compare prices - obtain new URL when price is newer
+				if (result.get(itemCount).getPrice() < minPrice && result.get(itemCount).getPrice() > 0.0) {
+					minPrice = result.get(itemCount).getPrice();
+					minPriceUrl = new Hyperlink(result.get(itemCount).getUrl());
+				}
+				// Compare dates - obtain new URL when date is newer
+				if (minPriceCount <= itemCount && result.get(minPriceCount).getDate().compareTo(latestDate) > 0) {
+					latestDate = result.get(minPriceCount).getDate();
+					latestPostUrl = new Hyperlink(result.get(minPriceCount).getUrl());
+				}
+
+				minPriceCount++;
+				itemCount++;
+			}
 		}
-
-		for (Item item : result) {
-			output += item.getTitle() + "\t" + item.getPrice() + "\t" + item.getUrl() + "\n";
-        
-        	totalPrice += item.getPrice();
-
-        	// find minPrice listing
-			// Compare prices - obtain new URL when price is newer
-			if (result.get(itemCount).getPrice() < minPrice && result.get(itemCount).getPrice() > 0.0) {
-				minPrice = result.get(itemCount).getPrice();
-				minPriceUrl = new Hyperlink(result.get(itemCount).getUrl());
-			}
-			// Compare dates - obtain new URL when date is newer
-			if (minPriceCount <= itemCount && result.get(minPriceCount).getDate().compareTo(latestDate) > 0) {
-				latestDate = result.get(minPriceCount).getDate();
-				latestPostUrl = new Hyperlink(result.get(minPriceCount).getUrl());
-			}
-
-			minPriceCount++;
-			itemCount++;
-		}
-
-
+		
 		if (itemCount > 0) {
 			labelCount.setText(itemCount + " items");
 			labelPrice.setText("$" + (totalPrice / itemCount));
@@ -229,8 +230,9 @@ public class Controller {
     }
 
     /**
-	 * @author enochwong3111
-     * Called when the Refine button is pressed. Refines the search result
+     * Task 5.ii.a    
+     * Called when the Refine button is pressed. Refines the search result and update other tabs
+     * @author enochwong3111
      * @throws ParseException 
      */
     @SuppressWarnings("unchecked")
@@ -249,9 +251,9 @@ public class Controller {
     }
     
     /**
-	 * @author cal852
      * Able to be called when there are results ( > 0) after searching.
 	 * Enable the Refine button and refine text field
+	 * @author cal852
      * @throws ParseException 
      */
     @FXML
@@ -285,8 +287,8 @@ public class Controller {
 	}
 
 	/**
-	 * @author cal852
 	 * Displays item with the latest date posted on default browser
+	 * @author cal852
 	 */
 	@FXML
 	private void actionOpenLatest() {
@@ -300,8 +302,8 @@ public class Controller {
 	}
 
 	/**
-	 * @author cal852
 	 * Exits the application
+	 * @author cal852
 	 */
 	@FXML
 	private void actionQuitApp() {
@@ -309,8 +311,8 @@ public class Controller {
 	}
 
 	/**
-	 * @author cal852, enochwong3111
 	 * Closes the search
+	 * @author cal852, enochwong3111
 	 */
 	@FXML
 	private void actionCloseSearch() {
@@ -329,8 +331,8 @@ public class Controller {
 	}
 
 	/**
-	 * @author cal852
 	 * Displays an alert dialog window with information regarding team
+	 * @author cal852
 	 */
 	@FXML
 	private void actionAboutTeam() {

@@ -13,45 +13,44 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
+ * Service class that manages table view's relative functions for task 4.
+ * 
  * @author enochwong3111
- * Table class that manage table view's relative functions for task 4.
  */
 public class Table {
 	private TableView<Item> tableView;
 	private static HostServices hostServices;
 	
 	/**
-	 * @author enochwong3111
      * Constructor
-     * @param table
+     * @param table - the TableView element of the scraper  
      */
 	public Table(TableView<Item> table) {
 		tableView = table;
 	}
 	
 	/**
-	 * @author enochwong3111
 	 * Passes and sets Host Services from WebScraperApplication for use in Controller
-	 * @param hostServices
+	 * @param hostServices - the hostServices of the scraper
 	 */
 	public static void setHostServices(HostServices hostServices) {
 		Table.hostServices = hostServices ;
     }
 	
 	/**
-	 * @author enochwong3111
 	 * Gets the hostServices from Application for use in Controller
-	 * @return hostServices
+	 * @return hostServices - the hostServices of the scraper
 	 */
 	public HostServices getHostServices() { return hostServices; }
 	
 	/**
-	 * @author enochwong3111
      * Called when the controller be initialized.
 	 * Format the table's columns add the hyper link with click event
      */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void initialize() {
+		// - Task 4.iii
+		tableView.setEditable(false);
 		TableColumn col1 = tableView.getColumns().get(0);
     	TableColumn col2 = tableView.getColumns().get(1);
     	TableColumn col3 = tableView.getColumns().get(2);
@@ -82,9 +81,9 @@ public class Table {
 
     	            {
     	                hyperlink.setOnAction(event -> {
-    	                	String url = getItem();
-    	                    //System.out.println("cell clicked! " + url);    	                    
+    	                	String url = getItem();                    
     	                    try {
+    	                    	// - Task 4.iv
     	                    	getHostServices().showDocument(url);
     	            		} catch(Exception e) {
     	            			e.printStackTrace();
@@ -107,20 +106,18 @@ public class Table {
 	}
 	
 	/**
-	 * @author enochwong3111
      * Called when there are results after searching.
-	 * Fills in the table contents
-	 * @param hostServices
+     * Refresh the table on another search, fills in the table contents. - Task 4.i and 4.v
+	 * @param data ObservableList<Item> - the list of the data to be filled into the table
      */
 	public void setItems(ObservableList<Item> data) {
 		tableView.setItems(data);
 	}
 	
 	/**
-	 * @author enochwong3111
      * Use for unit test.
 	 * Get the tables' contents
-	 * @return ObservableList<Item>
+	 * @return ObservableList<Item> - the list of the table rows' data
      */
 	public ObservableList<Item> getItems() {
 		return tableView.getItems();
