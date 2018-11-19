@@ -176,6 +176,7 @@ public class WebScraper {
 					item.setUrl(itemAnchor.getHrefAttribute());
 					item.setPrice((new Double(itemPrice.replace("$", "")))*7.8);
 					item.setDate(formatCraigslistDate(spanDate.asText()));
+					item.setWebsite("Craiglist");
 
 					result.add(item);
 				}
@@ -241,6 +242,7 @@ public class WebScraper {
 					item.setUrl(DCFever + itemAnchor.getHrefAttribute());
 					item.setPrice(new Double(filterNumber(spanPrice.asText())));
 					item.setDate(formatDCFeverDate(spanDate.asText()));
+					item.setWebsite("DCFever");
 
 					result.add(item);
 				}
