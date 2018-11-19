@@ -6,7 +6,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
-import com.sun.istack.internal.NotNull;
 
 public class Item implements Comparable<Item>{
 	private String title ;
@@ -47,7 +46,7 @@ public class Item implements Comparable<Item>{
 	}
 
 	@Override
-	public int compareTo(@NotNull Item _item){
+	public int compareTo(Item _item){
 		return Double.valueOf(price).compareTo(_item.getPrice());
 	}
 	@Override

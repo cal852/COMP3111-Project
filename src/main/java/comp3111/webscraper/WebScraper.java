@@ -80,6 +80,10 @@ public class WebScraper {
 		client.getOptions().setJavaScriptEnabled(false);
 	}
 
+	/**
+	 * Remove the last character
+	 * Used for removing the last '/' in the URL
+	 */
 	public static String removeLastChar(String s) {
 		return Optional.ofNullable(s)
 				.filter(str -> str.length() != 0)
@@ -87,22 +91,52 @@ public class WebScraper {
 				.orElse(s);
 	}
 
+	/**
+	 * Filtering price text for only digits
+	 */
 	public static String filterNumber(String s){
 		String filtered = s.replaceAll("[^0-9]","");
 		if(filtered.isEmpty())
 			return "0";
 		return filtered;
 	}
+
+	/**
+	 * Date Format function for Craiglist
+	 */
 	public Date formatCraigslistDate(String dateString) throws ParseException {
 		DateFormat format = new SimpleDateFormat("MMM d", Locale.ENGLISH);
 		return format.parse(dateString);
 	}
+
+	/**
+	 * Date Format function for DCFever
+	 */
 	public Date formatDCFeverDate(String dateString) throws ParseException {
 		DateFormat format = new SimpleDateFormat("dd/MM HH:mm", Locale.ENGLISH);
 		return format.parse(dateString);
 	}
 
+	/**
+	 * To scrape web content from the craigslist and DCFever
+	 * Assume 7.8HKD = 1 USD
+	 * @param keyword - the keyword you want to search
+	 * @return A list of Item that has found. A zero size list is return if nothing is found. Null if any exception (e.g. no connectivity)
+	 */
+	public List<Item> scrape(String keyword){
+		List<Item> craiglists = scrapeCraiglist(keyword);
+		List<Item> DCFevers = scrapeDCFever(keyword);
 
+		if(craiglists == null || DCFevers == null)
+			return null;
+
+		List<Item> result = new Vector<Item>();
+		result.addAll(craiglists);
+		result.addAll(DCFevers);
+		Collections.sort(result);
+
+		return result;
+	}
 
 	/**
 	 * The only method implemented in this class, to scrape web content from the craigslist
@@ -110,7 +144,8 @@ public class WebScraper {
 	 * @param keyword - the keyword you want to search
 	 * @return A list of Item that has found. A zero size list is return if nothing is found. Null if any exception (e.g. no connectivity)
 	 */
-	public List<Item> scrape(String keyword) {
+	public List<Item> scrapeCraiglist(String keyword) {
+		Vector<Item> result = new Vector<Item>();
 
 		try {
 			String searchUrl = DEFAULT_URL + "search/sss?sort=rel&query=" + URLEncoder.encode(keyword, "UTF-8");
@@ -118,7 +153,6 @@ public class WebScraper {
 			int pageCount=0;
 			String nextUrl;
 			HtmlAnchor nextPage;
-			Vector<Item> result = new Vector<Item>();
 			do {
 				HtmlPage page = client.getPage(searchUrl);
 				List<?> items = (List<?>) page.getByXPath("//li[@class='result-row']");
@@ -141,7 +175,6 @@ public class WebScraper {
 					item.setTitle(itemAnchor.asText());
 					item.setUrl(itemAnchor.getHrefAttribute());
 					item.setPrice((new Double(itemPrice.replace("$", "")))*7.8);
-//					item.setDateString(spanDate.asText());
 					item.setDate(formatCraigslistDate(spanDate.asText()));
 
 					result.add(item);
@@ -156,11 +189,11 @@ public class WebScraper {
 
 			//sort by price in ascending order
 			result.sort(Comparator.comparingDouble(Item::getPrice));
-			return result;
 		} catch (Exception e) {
 			System.out.println(e);
+			return null;
 		}
-		return null;
+		return result;
 	}
 
 	public List<Item> scrapeDCFever(String keyword) {
@@ -177,8 +210,8 @@ public class WebScraper {
 			// Pagination Handling
 			List<?> pagination = (List<?>) page.getByXPath("//div[@class='pagination']/a");
 			HtmlElement paginationDiv;
-			if(pagination.isEmpty())
-				return null;
+			if(pagination.isEmpty()) // empty page - return zero size result
+				return result;
 			else if(pagination.size()>10)
 				paginationDiv = (HtmlElement) pagination.get(pagination.size()-2);
 			else
@@ -219,80 +252,17 @@ public class WebScraper {
 
 			//sort by price in ascending order
 			result.sort(Comparator.comparingDouble(Item::getPrice));
-			return result;
 		} catch (Exception e) {
 			System.out.println(e);
+			return null;
 		}
-		return null;
-	}
-
-
-	/**
-	 * The method to scrape web content from the carousell
-	 *
-	 * @param keyword - the keyword you want to search
-	 * @return A list of Item that has found. A zero size list is return if nothing is found. Null if any exception (e.g. no connectivity)
-	 */
-	public List<Item> scrapeCarousell(String keyword) {
-//		final String CarousellURL = "https://hk.carousell.com/";
-//		int pageCount=0;
-//		String nextUrl;
-//		try {
-//			String searchUrl = CarousellURL + "search/products/?query=" + URLEncoder.encode(keyword, "UTF-8");
-//			HtmlAnchor nextPag;
-//
-//			Vector<Item> result = new Vector<Item>();
-//
-//			do{
-//				HtmlPage page = client.getPage(searchUrl);
-//				pageCount++;
-//				System.out.println("Searching Page"+pageCount);
-//				System.out.println("SearchURL: " + searchUrl);
-//
-//				List<?> items = (List<?>) page.getByXPath("//div[@class='col-lg-3 col-md-4 col-sm-4 col-xs-6']");
-//
-//				for (int i = 0; i < items.size(); i++) {
-//					HtmlElement htmlItem = (HtmlElement) items.get(i);
-//
-//					HtmlAnchor itemDescription = ((HtmlAnchor) htmlItem.getFirstByXPath(".//div[@class='G-e']/a"));
-//					HtmlElement titleDiv = ((HtmlElement) htmlItem.getFirstByXPath(".//div[@class='G-l']"));
-//					HtmlElement priceDiv = ((HtmlElement) htmlItem.getFirstByXPath(".//div[@class='G-k']/div[1]"));
-//					HtmlElement dateDiv = ((HtmlElement) htmlItem.getFirstByXPath(".//time"));
-//
-//					// It is possible that an item doesn't have any price, we set the price to 0.0
-//					// in this case
-//					String itemPrice = priceDiv == null ? "0.0" : priceDiv.asText();
-//
-//					Item item = new Item();
-//
-//					item.setTitle(titleDiv.asText());
-//					item.setUrl(removeLastChar(CarousellURL)+itemDescription.getHrefAttribute());
-//					item.setPrice(new Double(filterNumber(itemPrice)));
-//					item.setDateString(dateDiv.asText());
-//
-//					result.add(item);
-//				}
-//				nextPag = (HtmlAnchor) page.getFirstByXPath("//li[@class='pagination-next pagination-btn']/a");
-//				nextUrl = nextPag.getHrefAttribute();
-//				searchUrl = removeLastChar(CarousellURL)+nextUrl;
-//				System.out.println("nextpage link: " + nextUrl);
-//			}while(nextUrl!=null && !nextUrl.isEmpty());
-//
-//			client.close();
-//
-//			//sort by price in ascending order
-//			result.sort(Comparator.comparingDouble(Item::getPrice));
-//			return result;
-//		} catch (Exception e) {
-//			System.out.println(e);
-//		}
-		return null;
+		return result;
 	}
 
 	public static void main(String[] args) {
 		WebScraper webScraper = new WebScraper();
-		List<Item> results = webScraper.scrapeDCFever("nvme");
-//		List<Item> results = webScraper.scrape("iphone");
+//		List<Item> results = webScraper.scrapeDCFever("nvme");
+		List<Item> results = webScraper.scrape("iphone7");
 //		List<Item> results = webScraper.scrapeCarousell("galaxy 3");
 		if(results==null){
 			System.out.println("NULL RESULT");
