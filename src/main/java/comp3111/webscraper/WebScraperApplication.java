@@ -4,7 +4,6 @@
 package comp3111.webscraper;
 
 import javafx.application.Application;
-import javafx.application.HostServices;
 import javafx.stage.Stage;
 
 import javafx.fxml.FXMLLoader;
@@ -54,6 +53,7 @@ public class WebScraperApplication extends Application {
 
 		Controller controller = loader.getController();
 		controller.setHostServices(getHostServices());
+		Table.setHostServices(getHostServices());
 
    		Scene scene =  new Scene(root);
    		stage.setScene(scene);
