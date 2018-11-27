@@ -147,7 +147,6 @@ public class WebScraper {
 	 */
 	public List<Item> scrapeCraiglist(String keyword) {
 		Vector<Item> result = new Vector<Item>();
-
 		try {
 			String searchUrl = DEFAULT_URL + "search/sss?sort=rel&query=" + URLEncoder.encode(keyword, "UTF-8");
 
@@ -156,46 +155,39 @@ public class WebScraper {
 			HtmlAnchor nextPage;
 			do {
 				HtmlPage page = client.getPage(searchUrl);
-				List<?> items = (List<?>) page.getByXPath("//li[@class='result-row']");
-
-				pageCount++;
-				System.out.println("Searching Page "+pageCount );
-				System.out.println("SearchURL: " + searchUrl);
-
-				for (int i = 0; i < items.size(); i++) {
-					HtmlElement htmlItem = (HtmlElement) items.get(i);
-					HtmlAnchor itemAnchor = ((HtmlAnchor) htmlItem.getFirstByXPath(".//p[@class='result-info']/a"));
-					HtmlElement spanPrice = ((HtmlElement) htmlItem.getFirstByXPath(".//a/span[@class='result-price']"));
-					HtmlElement spanDate = ((HtmlElement) htmlItem.getFirstByXPath(".//p/time[@class='result-date']"));
-
-					// It is possible that an item doesn't have any price, we set the price to 0.0
-					// in this case
-					String itemPrice = spanPrice == null ? "0.0" : spanPrice.asText();
-
-					Item item = new Item();
-					item.setTitle(itemAnchor.asText());
-					item.setUrl(itemAnchor.getHrefAttribute());
-					item.setPrice((new Double(itemPrice.replace("$", "")))*7.8);
-					item.setDate(formatCraigslistDate(spanDate.asText()));
-					item.setWebsite("Craiglist");
-
-					result.add(item);
-				}
+				System.out.println("In Craiglist, Retrieving page " + pageCount++);
+				retrieveItemCraiglist(result,page);
 
 				nextPage = page.getFirstByXPath(".//a[@class='button next']");
 				nextUrl = nextPage.getHrefAttribute();
 				searchUrl = removeLastChar(DEFAULT_URL)+nextUrl;
-				System.out.println("nextUrl: "+nextUrl);
 			}while(nextUrl!=null && !nextUrl.isEmpty());
 			client.close();
-
-			//sort by price in ascending order
 			Collections.sort(result);
-		} catch (Exception e) {
-			System.out.println(e);
-			return null;
-		}
+		} catch (Exception e) { return null; }
 		return result;
+	}
+
+	private void retrieveItemCraiglist(Vector<Item> result, HtmlPage page){
+		List<?> items = (List<?>) page.getByXPath("//li[@class='result-row']");
+		for (int i = 0; i < items.size(); i++) {
+			HtmlElement htmlItem = (HtmlElement) items.get(i);
+			HtmlAnchor itemAnchor = ((HtmlAnchor) htmlItem.getFirstByXPath(".//p[@class='result-info']/a"));
+			HtmlElement spanPrice = ((HtmlElement) htmlItem.getFirstByXPath(".//a/span[@class='result-price']"));
+			HtmlElement spanDate = ((HtmlElement) htmlItem.getFirstByXPath(".//p/time[@class='result-date']"));
+
+			String itemPrice = spanPrice == null ? "0.0" : spanPrice.asText();
+
+			try{
+				Item item = new Item();
+				item.setTitle(itemAnchor.asText());
+				item.setUrl(itemAnchor.getHrefAttribute());
+				item.setPrice((new Double(itemPrice.replace("$", "")))*7.8);
+				item.setDate(formatCraigslistDate(spanDate.asText()));
+				item.setWebsite("Craiglist");
+				result.add(item);
+			}catch (ParseException e){ }
+		}
 	}
 
 	public List<Item> scrapeDCFever(String keyword) {
