@@ -85,7 +85,7 @@ public class WebScraper {
 	 * Remove the last character
 	 * Used for removing the last '/' in the URL
 	 */
-	public static String removeLastChar(String s) {
+	private static String removeLastChar(String s) {
 		return Optional.ofNullable(s)
 				.filter(str -> str.length() != 0)
 				.map(str -> str.substring(0, str.length() - 1))
@@ -95,7 +95,7 @@ public class WebScraper {
 	/**
 	 * Filtering price text for only digits
 	 */
-	public static String filterNumber(String s){
+	private static String filterNumber(String s){
 		String filtered = s.replaceAll("[^0-9]","");
 		if(filtered.isEmpty())
 			return "0";
@@ -105,7 +105,7 @@ public class WebScraper {
 	/**
 	 * Date Format function for Craiglist
 	 */
-	public Date formatCraigslistDate(String dateString) throws ParseException {
+	public static Date formatCraigslistDate(String dateString) throws ParseException {
 		DateFormat format = new SimpleDateFormat("MMM d", Locale.ENGLISH);
 		return format.parse(dateString);
 	}
@@ -113,7 +113,7 @@ public class WebScraper {
 	/**
 	 * Date Format function for DCFever
 	 */
-	public Date formatDCFeverDate(String dateString) throws ParseException {
+	public static Date formatDCFeverDate(String dateString) throws ParseException {
 		DateFormat format = new SimpleDateFormat("dd/MM HH:mm", Locale.ENGLISH);
 		return format.parse(dateString);
 	}
@@ -155,7 +155,8 @@ public class WebScraper {
 			HtmlAnchor nextPage;
 			do {
 				HtmlPage page = client.getPage(searchUrl);
-				System.out.println("In Craiglist, Retrieving page " + pageCount++);
+				System.out.println("In Craiglist, Retrieving page " + (1+pageCount++));
+				System.out.println(searchUrl);
 				retrieveItemCraiglist(result,page);
 
 				nextPage = page.getFirstByXPath(".//a[@class='button next']");
@@ -168,7 +169,7 @@ public class WebScraper {
 		return result;
 	}
 
-	private void retrieveItemCraiglist(Vector<Item> result, HtmlPage page){
+	public void retrieveItemCraiglist(Vector<Item> result, HtmlPage page){
 		List<?> items = (List<?>) page.getByXPath("//li[@class='result-row']");
 		for (int i = 0; i < items.size(); i++) {
 			HtmlElement htmlItem = (HtmlElement) items.get(i);
@@ -203,9 +204,9 @@ public class WebScraper {
 			System.out.println("In DCFever, result page numbers:" + maxPage);
 
 			while(pageCount<maxPage) {
-				System.out.println("Retrieving Page "+ pageCount++);
+				System.out.println("Retrieving Page "+ (1+pageCount++));
 				retrieveItemDCFever(result,page);
-
+				System.out.println(searchUrl+pageCount);
 				if(pageCount<maxPage)
 					page = client.getPage(searchUrl+(pageCount+1));
 			}
@@ -217,7 +218,7 @@ public class WebScraper {
 		return result;
 	}
 
-	private void retrieveItemDCFever(Vector<Item> result, HtmlPage page){
+	public void retrieveItemDCFever(Vector<Item> result, HtmlPage page){
 		try{
 			List<?> items = (List<?>) page.getByXPath("//table[@class='trade_listing']/tbody/tr");
 			// Skip the first item because it is the table's title
@@ -242,7 +243,7 @@ public class WebScraper {
 		}catch (ParseException e){ }
 	}
 
-	private int getMaxPageDCFever(HtmlPage page){
+	public int getMaxPageDCFever(HtmlPage page){
 		List<?> pagination =(List<?>) page.getByXPath("//div[@class='pagination']/a");
 		HtmlElement paginationDiv;
 		if(pagination.isEmpty()) // empty page - return zero size result
@@ -253,22 +254,5 @@ public class WebScraper {
 			paginationDiv = (HtmlElement) pagination.get(pagination.size()-1);
 
 		return Integer.parseInt(filterNumber(paginationDiv.asText()));
-	}
-
-	public static void main(String[] args) {
-		WebScraper webScraper = new WebScraper();
-//		List<Item> results = webScraper.scrapeDCFever("nvme");
-		List<Item> results = webScraper.scrape("iphone7");
-//		List<Item> results = webScraper.scrapeCarousell("galaxy 3");
-		if(results==null){
-			System.out.println("NULL RESULT");
-			return;
-		}
-
-		System.out.println();
-		System.out.println("Result size:" +results.size());
-		for(Item i:results)
-			i.printItem();
-
 	}
 }

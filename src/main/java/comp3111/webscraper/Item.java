@@ -69,11 +69,12 @@ public class Item implements Comparable<Item> {
 		if (o instanceof Item) {
 			Item i = (Item) o;
 			boolean title = this.title.equals(i.getTitle());
-			boolean price = ((Double) this.price).equals((Double) i.getPrice());
-			boolean date = this.date.equals(i.date);
+			boolean price = ((Double) this.getPrice()).equals((Double) i.getPrice());
+			boolean date = this.date.equals(i.getDate());
 			boolean url = this.url.equals(i.getUrl());
+			boolean website = this.website.equals(i.getWebsite());
 
-			return title && price && date && url;
+			return title && price && date && url && website;
 		}
 		return false;
 	}

@@ -3,32 +3,31 @@ package comp3111.webscraper;
 
 import org.junit.Test;
 
+import static comp3111.webscraper.WebScraper.formatCraigslistDate;
 import static org.junit.Assert.*;
 
 
 public class ItemTest {
 
 	@Test
-	public void testSetTitle() {
-		Item i = new Item();
-		i.setTitle("ABCDE");
-		assertEquals(i.getTitle(), "ABCDE");
-	}
+	public void equalityTest() throws Exception{
+		Item item1 = new Item();
+		item1.setTitle("ABCDE");
+		item1.setDate(formatCraigslistDate("Nov 11"));
+		item1.setPrice(1.1);
+		item1.setUrl("abc");
+		item1.setWebsite("Craiglist");
 
-//	@Test
-//	public void testItem() {
-//		Item exp1 = new Item();
-//		exp1.setTitle("ABCDE");
-//		exp1.setDate("Nov 11");
-//		exp1.setPrice(1.1);
-//		exp1.setUrl("abc");
-//
-//		Item act1 = new Item();
-//		act1.setTitle("ABCDE");
-//		act1.setDate("Nov 11");
-//		act1.setPrice(1.1);
-//		act1.setUrl("abc");
-//
-//		assertEquals(exp1, act1);
-//	}
+		Item item2 = new Item();
+		item2.setTitle("ABCDE");
+		item2.setDate(formatCraigslistDate("Nov 11"));
+		item2.setPrice(1.1);
+		item2.setUrl("abc");
+		item2.setWebsite("Craiglist");
+
+		item1.printItem();
+		item2.printItem();
+
+		assertEquals(item1,item2);
+	}
 }
