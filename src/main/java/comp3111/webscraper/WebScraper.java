@@ -69,6 +69,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 public class WebScraper {
 
 	private static final String DEFAULT_URL = "https://newyork.craigslist.org/";
+	private static final String DCFever = "https://www.dcfever.com/trading/";
 	private WebClient client;
 
 	/**
@@ -198,67 +199,68 @@ public class WebScraper {
 	}
 
 	public List<Item> scrapeDCFever(String keyword) {
-		final String DCFever = "https://www.dcfever.com/trading/";
-		int pageCount=0;
-		String searchUrl;
 		Vector<Item> result = new Vector<Item>();
 		try {
-			searchUrl = DCFever + "search.php?keyword=" + URLEncoder.encode(keyword, "UTF-8")
+			String searchUrl = DCFever + "search.php?keyword=" + URLEncoder.encode(keyword, "UTF-8")
 					+"&token=qeeqppqqpeqry&cat=all&type=all&min_price=&max_price=&page=";
-
 			HtmlPage page = client.getPage(searchUrl+1);
 
-			// Pagination Handling
-			List<?> pagination = (List<?>) page.getByXPath("//div[@class='pagination']/a");
-			HtmlElement paginationDiv;
-			if(pagination.isEmpty()) // empty page - return zero size result
-				return result;
-			else if(pagination.size()>10)
-				paginationDiv = (HtmlElement) pagination.get(pagination.size()-2);
-			else
-				paginationDiv = (HtmlElement) pagination.get(pagination.size()-1);
+			int pageCount=0;
+			int maxPage = getMaxPageDCFever(page);
+			if(maxPage==0) return result;
+			System.out.println("In DCFever, result page numbers:" + maxPage);
 
-			int maxPage = Integer.parseInt(filterNumber(paginationDiv.asText()));
-			System.out.println("Page numbers:" + maxPage);
-
-			// Extract the desired data
 			while(pageCount<maxPage) {
-				List<?> items = (List<?>) page.getByXPath("//table[@class='trade_listing']/tbody/tr");
-				pageCount++;
-				System.out.println("SearchURL: " + searchUrl + pageCount);
+				System.out.println("Retrieving Page "+ pageCount++);
+				retrieveItemDCFever(result,page);
 
-				// Skip the first item because it is the table's title
-				for (int i = 1; i < items.size() - 1; i++) {
-					HtmlElement htmlItem = (HtmlElement) items.get(i);
-					HtmlAnchor itemAnchor = ((HtmlAnchor) htmlItem.getFirstByXPath("./td[3]/a"));
-					HtmlElement spanPrice = ((HtmlElement) htmlItem.getFirstByXPath("./td[4]"));
-					HtmlElement spanDate = ((HtmlElement) htmlItem.getFirstByXPath("./td[6]"));
-
-					if (itemAnchor == null || spanPrice == null || spanDate == null)
-						continue;
-
-					Item item = new Item();
-					item.setTitle(itemAnchor.asText());
-					item.setUrl(DCFever + itemAnchor.getHrefAttribute());
-					item.setPrice(new Double(filterNumber(spanPrice.asText())));
-					item.setDate(formatDCFeverDate(spanDate.asText()));
-					item.setWebsite("DCFever");
-
-					result.add(item);
-				}
-
-				if(pageCount<maxPage) // If the current page is not yet the last page, fetch the next page
+				if(pageCount<maxPage)
 					page = client.getPage(searchUrl+(pageCount+1));
 			}
-			client.close();
 
-			//sort by price in ascending order
+			client.close();
 			Collections.sort(result);
-		} catch (Exception e) {
-			System.out.println(e);
-			return null;
-		}
+		} catch (Exception e) { return null; }
+
 		return result;
+	}
+
+	private void retrieveItemDCFever(Vector<Item> result, HtmlPage page){
+		try{
+			List<?> items = (List<?>) page.getByXPath("//table[@class='trade_listing']/tbody/tr");
+			// Skip the first item because it is the table's title
+			for (int i = 1; i < items.size() - 1; i++) {
+				HtmlElement htmlItem = (HtmlElement) items.get(i);
+				HtmlAnchor itemAnchor = ((HtmlAnchor) htmlItem.getFirstByXPath("./td[3]/a"));
+				HtmlElement spanPrice = ((HtmlElement) htmlItem.getFirstByXPath("./td[4]"));
+				HtmlElement spanDate = ((HtmlElement) htmlItem.getFirstByXPath("./td[6]"));
+
+				if (itemAnchor == null || spanPrice == null || spanDate == null)
+					continue;
+
+				Item item = new Item();
+				item.setTitle(itemAnchor.asText());
+				item.setUrl(DCFever + itemAnchor.getHrefAttribute());
+				item.setPrice(new Double(filterNumber(spanPrice.asText())));
+				item.setDate(formatDCFeverDate(spanDate.asText()));
+				item.setWebsite("DCFever");
+
+				result.add(item);
+			}
+		}catch (ParseException e){ }
+	}
+
+	private int getMaxPageDCFever(HtmlPage page){
+		List<?> pagination =(List<?>) page.getByXPath("//div[@class='pagination']/a");
+		HtmlElement paginationDiv;
+		if(pagination.isEmpty()) // empty page - return zero size result
+			return 0;
+		else if(pagination.size()>10)
+			paginationDiv = (HtmlElement) pagination.get(pagination.size()-2);
+		else
+			paginationDiv = (HtmlElement) pagination.get(pagination.size()-1);
+
+		return Integer.parseInt(filterNumber(paginationDiv.asText()));
 	}
 
 	public static void main(String[] args) {
