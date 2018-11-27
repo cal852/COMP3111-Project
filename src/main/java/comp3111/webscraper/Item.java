@@ -8,11 +8,11 @@ import java.util.Locale;
 import java.util.Objects;
 
 public class Item implements Comparable<Item> {
-	private String title;
+	private String title="";
 	private double price;
-	private String url;
+	private String url="";
 	private Date date;
-	private String website;
+	private String website="";
 
 	public String getTitle() {
 		return title;
