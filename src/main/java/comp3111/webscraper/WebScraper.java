@@ -189,7 +189,7 @@ public class WebScraper {
 			client.close();
 
 			//sort by price in ascending order
-			result.sort(Comparator.comparingDouble(Item::getPrice));
+			Collections.sort(result);
 		} catch (Exception e) {
 			System.out.println(e);
 			return null;
@@ -253,7 +253,7 @@ public class WebScraper {
 			client.close();
 
 			//sort by price in ascending order
-			result.sort(Comparator.comparingDouble(Item::getPrice));
+			Collections.sort(result);
 		} catch (Exception e) {
 			System.out.println(e);
 			return null;
