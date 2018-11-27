@@ -14,7 +14,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 /**
  * WebScraper provide a sample code that scrape web content. After it is constructed, you can call the method scrape with a keyword, 
- * the client will go to the default url and parse the page by looking at the HTML DOM.  
+ * the client will go to the default url(Craiglist) and DCFever chosen by Jeongseok then, parse the page by looking at the HTML DOM.
  * <br/>
  * In this particular sample code, it access to craigslist.org. You can directly search on an entry by typing the URL
  * <br/>
@@ -64,16 +64,25 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
  * extracts all result-row and stores the corresponding HTML elements to a list called items. Later in the loop it extracts the anchor tag 
  * &lsaquo; a &rsaquo; to retrieve the display text (by .asText()) and the link (by .getHrefAttribute()). It also extracts  
  * 
- *
+ * @author HYUN, Jeongseok
  */
 public class WebScraper {
-
+	/**
+	 * URL of craiglist portal - craiglist is a default search portal
+	 */
 	private static final String DEFAULT_URL = "https://newyork.craigslist.org/";
+	/**
+	 * URL of DCFever portal - DCFever is my chosen search portal
+	 */
 	private static final String DCFever = "https://www.dcfever.com/trading/";
+	/**
+	 * Webclient null instance
+	 */
 	private WebClient client;
 
 	/**
-	 * Default Constructor 
+	 * Default Constructor
+	 * Construct an webscraper instance with the webclient set to be disabled CSS and Javascript
 	 */
 	public WebScraper() {
 		client = new WebClient();
@@ -82,8 +91,9 @@ public class WebScraper {
 	}
 
 	/**
-	 * Remove the last character
-	 * Used for removing the last '/' in the URL
+	 * Removes the last character '/' in the URL
+	 * @param s the String of URL which ends with '/'
+	 * @return the String wihout the last character from the input
 	 */
 	private static String removeLastChar(String s) {
 		return Optional.ofNullable(s)
@@ -93,7 +103,9 @@ public class WebScraper {
 	}
 
 	/**
-	 * Filtering price text for only digits
+	 * Removes the non-digital chracters in the price
+	 * @param s the String of price which may include non-digital characters.
+	 * @return the String has only digital characters from the input string
 	 */
 	private static String filterNumber(String s){
 		String filtered = s.replaceAll("[^0-9]","");
@@ -104,6 +116,9 @@ public class WebScraper {
 
 	/**
 	 * Date Format function for Craiglist
+	 * @param dateString the String of date from the craiglist webpage
+	 * @return the Date type corresponding to the input String
+	 * @throws ParseException - if the input dateString does not satisfy the given format
 	 */
 	public static Date formatCraigslistDate(String dateString) throws ParseException {
 		DateFormat format = new SimpleDateFormat("MMM d", Locale.ENGLISH);
@@ -112,6 +127,9 @@ public class WebScraper {
 
 	/**
 	 * Date Format function for DCFever
+	 * @param dateString the String of date from the DCFever webpage
+	 * @return the Date type corresponding to the input String
+	 * @throws ParseException - if the input dateString does not satisfy the given format
 	 */
 	public static Date formatDCFeverDate(String dateString) throws ParseException {
 		DateFormat format = new SimpleDateFormat("dd/MM HH:mm", Locale.ENGLISH);
@@ -122,7 +140,7 @@ public class WebScraper {
 	 * To scrape web content from the craigslist and DCFever
 	 * Assume 7.8HKD = 1 USD
 	 * @param keyword - the keyword you want to search
-	 * @return A list of Item that has found. A zero size list is return if nothing is found. Null if any exception (e.g. no connectivity)
+	 * @return A list of Item that has found. Items are sorted by price in ascending order and item from craiglist goes first if the price of items is same. A zero size list is return if nothing is found. Null if any exception (e.g. no connectivity)
 	 */
 	public List<Item> scrape(String keyword){
 		List<Item> craiglists = scrapeCraiglist(keyword);
@@ -140,10 +158,9 @@ public class WebScraper {
 	}
 
 	/**
-	 * The only method implemented in this class, to scrape web content from the craigslist
-	 * Assume 7.8HKD = 1 USD
+	 * To scrape web contents given by keyword from all pages in the craigslist
 	 * @param keyword - the keyword you want to search
-	 * @return A list of Item that has found. A zero size list is return if nothing is found. Null if any exception (e.g. no connectivity)
+	 * @return A list of Item that has found sorted by price in ascending order. A zero size list is return if nothing is found. Null if any exception (e.g. no connectivity)
 	 */
 	public List<Item> scrapeCraiglist(String keyword) {
 		Vector<Item> result = new Vector<Item>();
@@ -169,6 +186,12 @@ public class WebScraper {
 		return result;
 	}
 
+	/**
+	 * To retrieve item information from the given page of Craiglist and input to the Vector result
+	 * Assume 7.8HKD = 1 USD
+	 * @param result - Vector Container that the each item information will be stored
+	 * @param page - Target page to be retrieved
+	 */
 	public void retrieveItemCraiglist(Vector<Item> result, HtmlPage page){
 		List<?> items = (List<?>) page.getByXPath("//li[@class='result-row']");
 		for (int i = 0; i < items.size(); i++) {
@@ -191,6 +214,11 @@ public class WebScraper {
 		}
 	}
 
+	/**
+	 * To scrape web contents given by keyword from all pages in the DCFever
+	 * @param keyword - the keyword you want to search
+	 * @return A list of Item that has found sorted by price in ascending order. A zero size list is return if nothing is found. Null if any exception (e.g. no connectivity)
+	 */
 	public List<Item> scrapeDCFever(String keyword) {
 		Vector<Item> result = new Vector<Item>();
 		try {
@@ -218,6 +246,12 @@ public class WebScraper {
 		return result;
 	}
 
+	/**
+	 * To retrieve item information from the given page of DCFever and input to the Vector result
+	 * Assume the prices from DCFever are all HKD
+	 * @param result - Vector Container that the each item information will be stored
+	 * @param page - Target page to be retrieved
+	 */
 	public void retrieveItemDCFever(Vector<Item> result, HtmlPage page){
 		try{
 			List<?> items = (List<?>) page.getByXPath("//table[@class='trade_listing']/tbody/tr");
@@ -243,6 +277,11 @@ public class WebScraper {
 		}catch (ParseException e){ }
 	}
 
+	/**
+	 * To enable multipagination of searching in DCFever, it returns the number of pages of the result
+	 * @param page - Target page to extract pagination information
+	 * @return number of pages of the result
+	 */
 	public int getMaxPageDCFever(HtmlPage page){
 		List<?> pagination =(List<?>) page.getByXPath("//div[@class='pagination']/a");
 		HtmlElement paginationDiv;

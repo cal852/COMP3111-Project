@@ -1,7 +1,5 @@
 package comp3111.webscraper;
 
-import static comp3111.webscraper.WebScraper.formatCraigslistDate;
-import static comp3111.webscraper.WebScraper.formatDCFeverDate;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -73,14 +71,14 @@ public class WebScraperTest {
         Item item1 = new Item();
         item1.setTitle("iphone7plus128GB啞黑");
         item1.setPrice(3000.0);
-        item1.setDate(formatDCFeverDate("27/11 01:07"));
+        item1.setDate(WebScraper.formatDCFeverDate("27/11 01:07"));
         item1.setUrl("https://www.dcfever.com/trading/https://www.dcfever.com/trading/view.php?itemID=6943728");
         item1.setWebsite("DCFever");
 
         Item item2 = new Item();
         item2.setTitle("Iphone7 plus吉盒冇手机冇配件，有3種色(玫瑰金色,銀灰色,金色)。");
         item2.setPrice(30.0);
-        item2.setDate(formatDCFeverDate("16/11 22:46"));
+        item2.setDate(WebScraper.formatDCFeverDate("16/11 22:46"));
         item2.setUrl("https://www.dcfever.com/trading/https://www.dcfever.com/trading/view.php?itemID=6917498");
         item2.setWebsite("DCFever");
 
@@ -109,13 +107,13 @@ public class WebScraperTest {
         item1.setPrice(2730.0);
         item1.setUrl("https://newyork.craigslist.org/fct/mob/d/256gb-apple-iphone7-iphone-7/6750455791.html");
         item1.setWebsite("Craiglist");
-        item1.setDate(formatCraigslistDate("Nov 25"));
+        item1.setDate(WebScraper.formatCraigslistDate("Nov 25"));
 
         Item item2 = new Item();
         item2.setTitle("Iphone7 Black");
         item2.setUrl("https://hudsonvalley.craigslist.org/mob/d/iphone7-black/6755284380.html");
         item2.setPrice(0.0);
-        item2.setDate(formatCraigslistDate("Nov 22"));
+        item2.setDate(WebScraper.formatCraigslistDate("Nov 22"));
         item2.setWebsite("Craiglist");
 
         assertTrue(result.get(0).equals(item1));
