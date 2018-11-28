@@ -1,0 +1,703 @@
+/* two types of layout */
+#main_wide_column {
+	float: left;
+	width: 765px;
+}
+#main_narrow_column {
+	float: right;
+	width: 185px;
+}
+
+#main_wide_column2 {
+	float: right;
+	width: 770px;
+}
+#main_narrow_column2 {
+	float: left;
+	width: 185px;
+}
+
+/* misc */
+
+div.documentation {
+	font-size: 13px;
+	margin-bottom: 35px;
+}
+div.documentation p.title {
+	font-weight: bold;
+	font-size: 18px;
+	color: #555;
+	margin-top: 5px;
+	margin-bottom: 10px;
+	background-color: #f6f6f6;
+}
+p.question {
+	font-weight: bold;
+	font-size: 18px;
+	color: #555;
+	margin-bottom: 20px;
+	background-color: #f6f6f6;
+}
+p.answer {
+	margin-left: 15px;
+	margin-bottom: 25px;
+}
+p.answer {
+	font-size: 12px;
+}
+
+.no_record {
+	text-align: center; padding: 20px; background-color: #f6f6f6;
+	color: #666;
+}
+
+/* for anylink popup */
+.anylinkcss {
+	position:absolute;
+	visibility: hidden;
+	border:0px solid black;
+	border-bottom-width: 0;
+	line-height: 25px;
+	z-index: 100;
+	background-color: #808080;
+	width: 60px;
+}
+
+.anylinkcss a {
+	width: 100%;
+	display: block;
+	text-indent: 3px;
+	border-bottom: 1px solid #ffffff;
+	padding: 1px 0;
+	text-decoration: none;
+	font-weight: bold;
+	text-indent: 5px;
+	color: #ffffff !important;
+	font-size: 15px;
+}
+.anylinkcss a.tools{
+	background-color: #ffffff;
+}
+.anylinkcss a:hover{ /*hover background color*/
+	background-color: #ff6600;
+	color: white !important;
+}
+
+.topnav {
+	padding: 8px 0px 8px 0px;
+	font-size: 13px;
+}
+.topnav a:link, .topnav a:visited {
+	color: #666;
+	font-weight: normal;
+	text-decoration: none;
+	font-size: 14px;
+}
+.topnav a:hover {
+	color: #ff6600;
+	text-decoration: underline;
+}
+
+/* this part is created on 2010/11/22 */
+a.more.left {
+	float: left; color: #ff6600;
+}
+a.more.left:hover {
+	color: #ff6600;
+}
+
+.gradient_box {
+	padding: 8px 6px 8px 10px;
+	background-color: #f6f6f6; 
+	border: solid 1px #E3E3E3; 
+	background: url(/images/newstab_bg.gif) repeat-x bottom left;	
+	box-shadow: 2px 2px 3px #EDEDED;
+	-moz-box-shadow: 2px 2px 3px #EDEDED;
+	-webkit-box-shadow: 2px 2px 3px #EDEDED;
+	margin-bottom: 10px;
+}
+.gradient_box .box_title {
+	font-size: 15px; 
+	font-weight: bold; 
+	line-height: 25px;	
+	margin-bottom: 0px; 
+	color: #ef6b14; 
+}
+
+/* table for hot_product_list */
+table.trading_hot_products {
+	width: 100%;
+	border-spacing: 0px;
+	border-collapse: collapse;
+}
+table.trading_hot_products td {
+	border-spacing: 0px;
+	border-collapse: collapse;
+}
+table.trading_hot_products .sub_info {
+	font-size:1em;
+	padding:0.5em;
+	margin-left: 0px;
+}
+table.trading_hot_products .product_thumb {
+	border:1px solid #DDDDDD;
+	text-align:center;
+	vertical-align:middle;
+	background-color: white;
+	margin-bottom: 5px;
+	float: left;
+}
+table.trading_hot_products .product_thumb img {
+	padding: 7px;
+	width: 96px;
+	height: 96px;
+}
+table.trading_hot_products ul.list {
+	float:left;
+	margin-left:0.1em;
+	margin-top:0pt;
+	list-style-image:none;
+	list-style-position:outside;
+	list-style-type:none;
+}
+table.trading_hot_products ul.list li {
+	/*background:transparent url(http://www.ruten.com.tw/image/default/bg/bg-main-index.gif) no-repeat scroll -998px -141px;
+	margin-left:0.3em;
+	margin-top:0.5em;
+	text-indent:10px;
+	*/
+	margin:0pt 0.3em 0.1em 0em;
+}
+
+/* for hot product */
+.title_box {
+box-shadow: 2px 2px 3px #EDEDED;
+-moz-box-shadow: 2px 2px 3px #EDEDED;
+-webkit-box-shadow: 2px 2px 3px #EDEDED;
+/*margin-bottom: 10px;*/
+}
+.title_box .title {
+font-size:12px;
+line-height: 2.0em;
+margin: 0px;
+font-weight: bold;
+clear:both;
+color:#CC0000;
+overflow:hidden;
+padding:0pt;
+width:100%;
+background:transparent url(/trading/images2/orange_bar.gif) no-repeat scroll right 0pt;
+height: 25px;
+}
+.title_box .title.grey {
+font-size:15px;
+line-height: 1.5em;
+color:#000000;
+background:transparent url(/trading/images2/grey_bar4.gif) no-repeat scroll right 0pt;
+height: 32px;
+}
+.title_box .title span {
+padding-left: 10px;
+background:transparent url(/trading/images2/orange_bar.gif) no-repeat scroll 0pt;
+display:block;
+height:25px;
+width:90%;
+}
+.title_box .title.grey span {
+padding-left: 13px;
+background:transparent url(/trading/images2/grey_bar4.gif) no-repeat scroll 0pt;
+display:block;
+height:32px;
+line-height: 32px;
+font-size: 15px;
+color: #4347bb;
+color: #495058;
+color: #0a589b;
+}
+.title_box .content {
+	border: 1px solid #e3e3e3;
+	border-top: 0px;
+	padding: 10px;
+	/*background-color: #f9f9f9;*/
+}
+
+/* hit products */
+.top_items {
+	width: 20%;
+	float: left;
+	height: 140px;
+}
+.top_items img.top_items {
+	width: 80px;
+	height: 60px;
+	display: block;
+}
+.top_items .desc {
+	margin-top: 5px;
+	margin-right: 5px;
+	line-height: 1.4em;
+	color: #555;
+}
+.top_items .price {
+	/*color: #F00000; */
+	color: #ff6600;
+	font-weight: bold;
+}
+
+/* mainpage trading categories */
+.main_cat_header {
+	padding-bottom: 5px; 
+	border-bottom: 1px solid #83a7cb; 
+	width: 90%;
+}
+.main_cat_header a {
+	color: #0f6fcf;
+	font-size: 15px; 
+	font-weight: bold;
+}
+.main_cat_header a:hover {
+	color: #ff6600;
+}
+ul.main_cat_list {
+	font-size:12px;
+	list-style-image:none;
+	list-style-position:outside;
+	list-style-type:none;
+	margin:5px 0px 20px 0px;
+	padding:0px;
+}
+ul.main_cat_list li {
+	float: left; 
+	width: 135px;
+	line-height: 1.8em;
+	padding-left:14px;
+	background-image:url(images2/0119_checked.png);
+	background-repeat:no-repeat;
+	background-position:-2px 5px;
+	background-repeat:no-repeat;
+}
+ul.main_cat_list li a {
+	color: #666;
+}
+ul.main_cat_list li a:hover {
+	color: #ff6600;
+}
+
+/* trading categories listing menu */
+ul.tradecat_nav {
+	float:left;
+	font-size:12px;
+	list-style-image:none;
+	list-style-position:outside;
+	list-style-type:none;
+	margin:0px 0px 1px;
+	padding:0px;
+}
+ul.tradecat_nav li {
+	padding-left:6px;
+	/*background-image:url(images2/0049_dimple.png);*/
+	background-position:3px 2px;
+	background-repeat:no-repeat;
+	line-height: 1.6em;
+}
+ul.tradecat_nav li a {
+	color: #666;
+}
+ul.tradecat_nav li a:hover {
+	color: #ff6600;
+}
+ul.tradecat_nav li a i {
+	background: transparent url(images/trade_hp_icons.png) no-repeat scroll -1px -10px;
+	position: relative;
+	float: left;
+	height: 10px;
+	margin-top: 5px;
+	right: 3px;
+	width: 10px;
+}
+
+}
+ul.tradecat_nav li.selected {
+	background-image:url(images2/0119_checked.png);
+	background-repeat:no-repeat;
+}
+ul.tradecat_nav li.selected a {
+	color: #ff6000;
+	text-decoration: underline;
+}
+ul.tradecat_nav li.selected a:hover {
+	color: #ff6600;
+}
+ul.tradecat_nav li.main_cat {
+	font-size: 15px;
+	padding-left:16px;
+	background-image:url(images2/0051_plus.png);
+	background-position:0px 5px;
+	background-repeat:no-repeat;
+}
+ul.tradecat_nav li.main_cat a {
+	color: #333;
+}
+ul.tradecat_nav li.main_cat a:hover {
+	color: #ff6600;
+}
+ul.tradecat_nav li.main_cat.top {
+	background-image:url(images2/0107_dl.png);
+}
+
+/* menu bar list style */
+ul.menubar_list {
+	font-size:12px;
+	list-style-image:none;
+	list-style-position:outside;
+	list-style-type:none;
+	margin:5px 0px 0px 5px;
+	padding:0px;
+}
+ul.menubar_list li {
+	line-height: 1.9em;
+	padding-left:14px;
+	background-image:url(images2/0119_checked.png);
+	background-repeat:no-repeat;
+	background-position:-2px 5px;
+	background-repeat:no-repeat;
+}
+ul.menubar_list li.selected {
+	font-weight: bold;
+}
+ul.menubar_list li.selected a {
+	color: #ff6600;
+}
+ul.menubar_list li a {
+	color: #333366;
+}
+ul.menubar_list li a:hover {
+	color: #ff6600;
+}
+
+/* styling the buttons for trading area */
+input.ok, input.normal, input.warning {
+	padding: 3px 5px;
+	cursor: pointer !important;
+}
+input.ok:hover, input.normal:hover, input.warning:hover {
+	background-color: #333333;
+	color: #F6F6F6;
+}
+
+input.orange_buttonstyle {
+	cursor: pointer !important;
+}
+input.userbutton {
+	padding: 2px;
+}
+
+a.trading_button {
+	text-decoration: none !important;
+	cursor: pointer !important;
+	text-align: center;
+}
+a.trading_button div {
+	background-color: #ffffff; color: #003333;
+	font-size: 15px; font-weight: bold; 
+	padding: 9px 5px 8px 5px;
+	border-radius: 5px;
+	line-height: 15px;
+}
+a.trading_button:hover div {
+	background-color: #ffffcc;
+}
+a.trading_button .highlight {
+	background-image: url(images/trading_sell.png);
+	background-color: #FF9900; color: #ffffff;
+	margin-right: 8px;
+}
+a.trading_button:hover .highlight {
+	background-image: url(images/trading_sell_hover2.png);
+	background-color: #ff6600; color: #fff;
+}
+a.trading_button .highlight2 {
+	background-image: url(images/trading_sell_blue.png);
+	background-color: #FF9900; color: #ffffff;
+}
+a.trading_button:hover .highlight2 {
+	background-image: url(images/trading_sell_blue2.png);
+	background-color: #FF9900; color: #ffffff;
+}
+a.trading_button .highlight3 {
+	background-color: #ffffff; color: #003333;
+	font-size: 12px; font-weight: bold; 
+	padding: 6px 3px 2px 3px;
+	height: 20px;
+	border-radius: 5px;
+	background-image: url(images/trading_sell_grey2.png);
+	background-color: #FF9900; color: #ffffff;
+}
+a.trading_button:hover .highlight3 {
+	background-image: url(images/trading_sell_grey.png);
+	background-color: #FF9900; color: #ffffff;
+}
+input.grey {
+	border: none;
+	font-size: 12px; 
+	font-weight: bold; 
+	border-radius: 5px;
+	background-image: url(images/trading_sell_grey2.png);
+	background-color: #666; color: #ffffff;
+	line-height: 29px;
+	cursor: pointer;
+	display: inline-block;
+	padding: 0px 10px;
+	vertical-align: middle;
+}
+input:hover.grey {
+	background-image: url(images/trading_sell_grey.png);
+	background-color: #666; color: #ffffff;
+}
+input:active.grey {
+	position:relative;
+	top:1px;
+}
+.trade_price {
+	color: #5f5f5f;
+}
+.bigtradeuser {
+	color: #555;
+}
+
+table.offertable {
+	width: 100%;
+	margin-bottom: 15px;
+	padding: 0px;
+	border: 1px solid #dedede;
+	border-collapse: collapse;
+}
+table.offertable tr {
+	background-color: #ffffff;
+}
+table.offertable tr.alt {
+	background-color: #f6f6f6;
+}
+table.offertable tr:hover {
+	background-color: #FFFFDD;
+}
+table.offertable td {
+	padding: 3px 3px 3px 5px;
+	border: 1px solid #dedede;
+}
+table.offertable tr.heading {
+	background-color: #f1f1f1;
+}
+table.offertable tr.heading td { 
+	padding: 5px;
+}
+
+
+.trade_info {
+	padding: 7px 10px 10px;
+	border: 1px solid #ddd;
+	line-height: 1.5em;
+}
+.trade_info p {
+	color: #0A589B;
+	margin-top: 0px;
+}
+.trade_info a {
+	color: #333;
+}
+.trade_info a:hover {
+	color: #ff6600;
+}
+
+.trade_function a {
+	/*color: #00669f;*/
+	text-decoration: underline;
+}
+
+table.table_small_listing {
+	padding: 0px;
+	border-spacing: 0px;
+}
+table.table_small_listing tr.header td {
+	padding: 5px 2px;
+}
+table.table_small_listing td {
+	padding-top: 3px;
+}
+
+
+/* trading main page only */
+ul.personal_buysell {
+	padding-left: 12px;
+	margin-bottom: 8px;
+	margin-top: 8px;
+	margin-left: 0px;
+}
+ul.personal_buysell li {
+	margin: 0px;
+	padding: 0px;
+	list-style: none;
+
+	background: url(images/icons.png) no-repeat scroll 1000px 1000px;
+	background-position: 0px -23px;
+	padding-left: 10px;
+}
+ul.personal_buysell li.highlighted {
+	/*background-color: #FFFFE6;*/
+	background: url(images/icons.png) no-repeat scroll 1000px 1000px;
+	background-position: 0px 3px;
+	padding-left: 20px;
+	width: 90%;
+}
+ul.personal_buysell li.highlighted .counter {
+	color: #ff6600;
+	font-weight: bold;
+}
+.personal_buysell_info {
+	padding: 7px 10px 6px 14px;
+	border: 1px solid #e3e3e3;
+	line-height: 1.5em;
+	border-radius: 5px; 
+}
+.personal_buysell_info a {
+	color: #333;
+}
+.personal_buysell_info a:hover {
+	color: #ff6600;
+}
+.personal_buysell_info a.user {
+	color: #0066cc;
+}
+
+table.trade_listing td {
+	padding: 8px 0px;
+}
+
+.form_button input {
+	background-image: url(images/trading_sell_blue.png);
+	background-color: #F60;
+	color: white;
+	font-size: 15px;
+	font-weight: bold;
+	margin: 0px 5px 5px 0px;
+	padding: 7px 20px 5px 20px;
+	border-radius: 5px;
+	border: none;
+	text-align: center;
+	height: 30px;
+}
+.form_button input:hover {
+	cursor: pointer;
+	background-image: url(images/trading_sell_blue2.png);
+}
+
+
+ul.root_catlist {
+	width: 175px;
+	float: left;
+	margin-bottom: 10px;
+	border-bottom: 1px solid #E3E3E3;
+	background-color: #E3E3E3;
+	margin: 0;
+	padding: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+	list-style: none;
+	box-shadow: 2px 2px 3px #EDEDED;
+	-moz-box-shadow: 2px 2px 3px #EDEDED;
+	-webkit-box-shadow: 2px 2px 3px #EDEDED;
+}
+ul.root_catlist li {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+}
+ul.root_catlist li h1 {
+	background: transparent url(/trading/images2/grey_bar4.gif) no-repeat scroll 0pt;
+	border: 1px solid #E3E3E3;
+	border-left: 0px;
+	border-bottom: none;
+	display: block;
+	height: 12px;
+	padding: 8px 0 10px 10px;
+	margin: 0px;
+	color: #0A589B;
+	font-size: 16px;
+	font-weight: bold;
+}
+ul.root_catlist li h2 {
+	background-color: #f6f6f6;
+	font-size: 13px;
+	font-weight: normal;
+	padding: 0px;
+	margin: 0px;
+}
+ul.root_catlist li h2 a {
+	border: 1px solid #E3E3E3;
+	border-bottom: none;
+	display: block;
+	font-size: 14px;
+	height: 13px;
+	color: #333;
+	padding: 8px 0 13px 12px;
+}
+ul.root_catlist li h2 a:hover {
+	color: #ff6600;
+}
+ul.root_catlist li h2 a i {
+	background: transparent url(images/trade_hp_icons2.png) no-repeat scroll -24px -10px;
+	position: relative;
+	float: left;
+	height: 8px;
+	margin-top: 4px;
+	right: 3px;
+	width: 10px;
+}
+table.trading_hot_products .product_thumb img {
+	width: 80px;
+	height: 80px;
+	padding: 5px;
+}
+
+.trade_title h1.sell {
+	color: #ff6600;
+	font-size: 22px;
+	line-height: 25px;
+	display: inline;
+}
+.trade_title h1.buy {
+	color: #0066cc;
+	font-size: 22px;
+	line-height: 25px;
+	display: inline;
+}
+.trade_title {
+	margin: 10px 0px 4px 0px;
+}
+
+/* Pagination */
+.pagination {
+	font-size: 14px;
+}
+.pagination a.num {
+	font-size: 14px;
+	padding: 4px 9px;
+	border-radius: 3px;
+}
+.pagination a.num:hover {
+	color: #333;
+	text-decoration: none;
+	border: solid 1px #ff6600;
+}
+.pagination a.current_page {
+	padding: 4px 9px;
+	color: #fff;
+	background-color: #ff9900;
+	border: solid 1px #ff6600;
+	border-radius: 2px;
+}
+.pagination a.current_page:hover {
+	text-decoration: none;
+}

@@ -1,0 +1,252 @@
+/* Prelim Styles */
+body {
+	font-family: Arial, 新細明體, mingliu;
+	font-size: 12px;
+	color: #333;
+	margin: 0px;
+	border: 0px;
+	padding: 0px;
+	/*background: #B5BDC1 url(http://us.i1.yimg.com/us.yimg.com/i/us/tv/v3/common/bg.gif) repeat-x scroll left top;*/
+}
+input, textarea, select {
+	font-family: Arial, 新細明體, mingliu;
+	font-size: 12px;
+	color: #333;
+}
+form {
+	margin: 0px;
+}
+p {
+	margin-top: 0px;
+	line-height: 1.6em;
+}
+img {
+	border: 0px;
+	margin: 0px;
+}
+a {
+	color: #0066cc;
+	text-decoration: none;
+}
+a:hover {
+	color: #ff6600;
+	text-decoration: underline;
+}
+
+/* Advertising Space */
+#super_banner {
+	background-color: #e1e1e1;
+	padding: 2px;
+	height: 90px;
+	text-align: center;
+}
+#super_banner object {
+	margin: 0px auto;
+	
+}
+#main_textlink {
+	font-size: 15px;
+	color: #0075e5;
+	text-align: center;
+	padding: 4px;
+}
+#main_textlink a {
+	color: #333399;
+	text-decoration: none;
+	margin: 0px 10px;
+}
+#main_textlink a:hover {
+	text-decoration: none;
+	color: #ff6600;
+}
+/* End of Advertising Space */
+
+/* Structured Layout */
+#main_wrapper { 
+	margin: 2px auto 0px;
+	padding: 0px 8px;
+	width: 962px;
+	background: white;
+}
+#main_header {
+	color: #333;
+	padding: 0px;
+	margin: 0px;
+	text-align: center;
+}
+#main_footer { 
+	clear: both;
+	/*border-top: #cccccc 1px solid;*/
+	margin: 10px 0px 0px 0px;
+	padding: 5px 0px;
+	text-align: center;
+	color: #666;
+}
+#main_footer a {
+	text-decoration: none;
+}
+#main_footer a:hover {
+	color: #ff6600;
+	text-decoration: underline;
+}
+#header_top {
+	height: 28px;
+}
+#dcfever_logo {
+	float: left;
+}
+#header_links {
+	float: right;
+	margin-top: 8px;
+	font-size: 12px;
+}
+#header_links a {
+	color: #333366;
+	text-decoration: none;
+}
+#header_links a:hover {
+	color: #ff6600;
+	text-decoration: underline;
+}
+table.main_top_nav {
+	background-color: #3a81c8; 
+	background: url(/images/topbar_bg.gif) repeat-x;  
+	background-position: 0px -10px; 
+	height: 26px;	
+	color: white;
+	width: 100%;
+}
+table.main_top_nav a:link, table.main_top_nav a:visited {
+	color: white;
+}
+table.main_top_nav a:hover {
+	color: #ffff66;
+}
+
+#main_leftcolumn { 
+	/*width: 474px;*/
+	width: 649px;
+	float: left;
+}
+#main_rightcolumn { 
+	float: right;
+	width: 308px;
+}
+#main_leftcolumn2 { 
+	width: 775px;
+	float: left;
+}
+#main_rightcolumn2 { 
+	float: right;
+	width: 170px;
+}
+#main_col1 {
+	width: 765px;
+	float: left;
+}
+#main_col2 {
+	width: 180px;
+	float: right;
+}
+#main_right595 {
+	width: 595px;
+	float: left;
+}
+#main_left180 {
+	width: 180px;
+	float: right;
+}
+#main_right615 {
+	width: 615px;
+	float: right;
+}
+#main_left160 {
+	width: 160px;
+	float: left;
+}
+#main_lefthalf {
+	width: 49.5%;
+	float: left;
+}
+#main_righthalf {
+	width: 49%;
+	float: right;
+}
+#main_left4 {
+	width: 38%;
+	float: left;
+
+}
+#main_right6 {
+	width: 60.5%;
+	float: right;
+}
+#main_leftmenu {
+	font-size: 12px;
+	float: left;
+	width: 180px;
+}
+#main_rightcontent {
+	float: right;
+	width: 760px;
+}
+
+.main_colpadding {
+	margin-left: 5px;
+}
+
+.md {
+	margin-bottom: 8px;
+}
+
+a.squarebutton{
+background: transparent url('/images/more_btn_left.gif') no-repeat top left;
+display: block;
+float: left;
+font: normal 10px; /* Change 12px as desired */
+line-height: 12px; /* This value + 4px + 4px (top and bottom padding of SPAN) must equal height of button background (default is 23px) */
+height: 20px; /* Height of button background height */
+padding-left: 9px; /* Width of left menu image */
+text-decoration: none;
+}
+
+a:link.squarebutton, a:visited.squarebutton, a:active.squarebutton{
+color: #ff6600; /*button text color*/
+text-decoration: none;
+
+}
+
+a.squarebutton span{
+background: transparent url('/images/more_btn_right.gif') no-repeat top right;
+display: block;
+padding: 4px 9px 4px 0; /*Set 9px below to match value of 'padding-left' value above*/
+}
+
+a.squarebutton:hover{ /* Hover state CSS */
+background-position: bottom left;
+}
+
+a.squarebutton:hover span{ /* Hover state CSS */
+background-position: bottom right;
+color: black;
+}
+
+.buttonwrapper{ /* Container you can use to surround a CSS button to clear float */
+overflow: hidden; /*See: http://www.quirksmode.org/css/clearing.html */
+}
+
+/* Clear Hack */
+.clear:after {
+content: ".";
+display: block;
+height:0;
+font-size: 0;
+clear:both;
+visibility: hidden;
+}
+.clear {
+min-height: 1px;
+}
+* html .clear {
+height: 1px;
+}

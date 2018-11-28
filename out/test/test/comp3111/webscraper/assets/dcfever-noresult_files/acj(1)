@@ -1,0 +1,27 @@
+OX_1077130373({
+  "ads":{
+    "medium":"w",
+    "record_tmpl":"https://delivery-asia-northeast-1.openx.net/{medium}/1.0/{rtype}?ph=52dd897d-3aa6-406c-b900-5664218a5f9c&ts={txn_state}",
+    "pixels":"https://jp-u.openx.net/w/1.0/pd?plm=6&ph=52dd897d-3aa6-406c-b900-5664218a5f9c&gdpr=0",
+    "oxt": 5.899,
+    "adunits" : [
+      {
+        "auid":"538756128",
+        "idx":"0",
+        "chain":[
+          {
+            "is_fallback":1,
+            "ad_id":"0",
+            "width":"160",
+            "height":"600",
+            "html":"<script async src=\"//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js\"></script>\n<!-- OPENX_ROS_160x600 -->\n<ins class=\"adsbygoogle\"\n     style=\"display:inline-block;width:160px;height:600px\"\n     data-ad-client=\"ca-pub-3319273081114067\"\n     data-ad-slot=\"9174655098\"></ins>\n<script>\n(adsbygoogle = window.adsbygoogle || []).push({});\n</script>",
+            "target":"_blank",
+            "ts":"2DAABBgABAAECAAIBAAsAAgAAAGQcGAo1bXNkVURIZUVNHBbgsPLT8ou58xAW7_746rqNpp_aAQAcFui0oqXi7sik2wEWzaL7q6KTnPWiAQAWjv3zvwsVAgAsHBUaAAAcJsCQ5oEEFQQVBCaOmLaABBai_6GABAAAAA",
+            "type":"html",
+            "ad_url":"<script async src=\"//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js\"></script>\n<!-- OPENX_ROS_160x600 -->\n<ins class=\"adsbygoogle\"\n     style=\"display:inline-block;width:160px;height:600px\"\n     data-ad-client=\"ca-pub-3319273081114067\"\n     data-ad-slot=\"9174655098\"></ins>\n<script>\n(adsbygoogle = window.adsbygoogle || []).push({});\n</script>"
+          }
+        ]
+      }
+    ]
+  }
+});

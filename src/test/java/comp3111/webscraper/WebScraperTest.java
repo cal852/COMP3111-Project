@@ -69,18 +69,21 @@ public class WebScraperTest {
         webScraper.retrieveItemDCFever(result,page);
 
         Item item1 = new Item();
-        item1.setTitle("iphone7plus128GB啞黑");
-        item1.setPrice(3000.0);
-        item1.setDate(WebScraper.formatDCFeverDate("27/11 01:07"));
-        item1.setUrl("https://www.dcfever.com/trading/https://www.dcfever.com/trading/view.php?itemID=6943728");
+        item1.setTitle("港行 iPhone 7 128gb 黑色 (4.7\"細機) iphone7 9成新");
+        item1.setPrice(2400.0);
+        item1.setDate(WebScraper.formatDCFeverDate("28/11 17:15"));
+        item1.setUrl("https://www.dcfever.com/trading/https://www.dcfever.com/trading/view.php?itemID=6947781");
         item1.setWebsite("DCFever");
 
         Item item2 = new Item();
-        item2.setTitle("Iphone7 plus吉盒冇手机冇配件，有3種色(玫瑰金色,銀灰色,金色)。");
-        item2.setPrice(30.0);
-        item2.setDate(WebScraper.formatDCFeverDate("16/11 22:46"));
-        item2.setUrl("https://www.dcfever.com/trading/https://www.dcfever.com/trading/view.php?itemID=6917498");
+        item2.setTitle("95 % new iphone7 128g silver");
+        item2.setPrice(2400.0);
+        item2.setDate(WebScraper.formatDCFeverDate("19/11 08:32"));
+        item2.setUrl("https://www.dcfever.com/trading/https://www.dcfever.com/trading/view.php?itemID=6923108");
         item2.setWebsite("DCFever");
+
+        result.get(0).printItem();
+        result.get(result.size()-1).printItem();
 
         assertEquals(result.get(0),item1);
         assertEquals(result.get(result.size()-1),item2);
@@ -107,7 +110,7 @@ public class WebScraperTest {
         item1.setPrice(2730.0);
         item1.setUrl("https://newyork.craigslist.org/fct/mob/d/256gb-apple-iphone7-iphone-7/6750455791.html");
         item1.setWebsite("Craiglist");
-        item1.setDate(WebScraper.formatCraigslistDate("Nov 25"));
+        item1.setDate(WebScraper.formatCraigslistDate("Nov 28"));
 
         Item item2 = new Item();
         item2.setTitle("Iphone7 Black");
@@ -115,6 +118,9 @@ public class WebScraperTest {
         item2.setPrice(0.0);
         item2.setDate(WebScraper.formatCraigslistDate("Nov 22"));
         item2.setWebsite("Craiglist");
+
+        result.get(0).printItem();
+        result.get(result.size()-1).printItem();
 
         assertTrue(result.get(0).equals(item1));
         assertTrue(result.get(result.size()-1).equals(item2));
