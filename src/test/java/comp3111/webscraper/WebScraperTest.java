@@ -6,7 +6,6 @@ import static org.junit.Assert.assertTrue;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-import java.io.File;
 import java.util.List;
 import java.util.Vector;
 
@@ -18,6 +17,7 @@ import org.junit.Test;
 public class WebScraperTest {
     private WebScraper webScraper = new WebScraper();
     private WebClient client;
+    private static String FILEDIR=WebScraper.class.getResource(".").toString()+"assets/";
 
     @Before
     public void setup() throws Exception{
@@ -33,21 +33,18 @@ public class WebScraperTest {
 
     @Test
     public void DCFeverMultipaginationTest() throws Exception{
-        File file = new File("java/comp3111/webscraper/assets/"+"dcfever-iphone7-page1"+".html");
-        String url = "file://"+file.getAbsolutePath();
+        String url = FILEDIR+"dcfever-iphone7-page1.html";
         HtmlPage page = client.getPage(url);
         assertEquals(3, webScraper.getMaxPageDCFever(page));
 
-        file = new File("java/comp3111/webscraper/assets/dcfever-samsung-page1.html");
-        url = "file://"+file.getAbsolutePath();
+        url = FILEDIR+"dcfever-samsung-page1.html";
         page = client.getPage(url);
         assertEquals(34, webScraper.getMaxPageDCFever(page));
     }
 
     @Test
     public void DCFeverNoResultTest() throws Exception{
-        File file = new File("java/comp3111/webscraper/assets/"+"dcfever-noresult"+".html");
-        String url = "file://"+file.getAbsolutePath();
+        String url = FILEDIR+"dcfever-noresult.html";
 
         HtmlPage page = client.getPage(url);
         Vector<Item> result = new Vector<>();
@@ -61,8 +58,7 @@ public class WebScraperTest {
 
     @Test
     public void DCFeverLocalScrapingTest() throws Exception{
-        File file = new File("java/comp3111/webscraper/assets/"+"dcfever-iphone7-page1"+".html");
-        String url = "file://"+file.getAbsolutePath();
+        String url = FILEDIR+"dcfever-iphone7-page1.html";
 
         HtmlPage page = client.getPage(url);
         Vector<Item> result = new Vector<>();
@@ -97,8 +93,7 @@ public class WebScraperTest {
 
     @Test
     public void craiglistLocalScrapingTest() throws Exception{
-        File file = new File("java/comp3111/webscraper/assets/craiglist-iphone7.html");
-        String url = "file://"+file.getAbsolutePath();
+        String url = FILEDIR+"craiglist-iphone7.html";
 
         HtmlPage page = client.getPage(url);
         Vector<Item> result = new Vector<>();
