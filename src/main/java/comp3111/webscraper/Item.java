@@ -138,6 +138,7 @@ public class Item implements Comparable<Item> {
 	 */
 	@Override
 	public boolean equals(Object o) {
+		boolean result = false;
 		if (o instanceof Item) {
 			Item i = (Item) o;
 			boolean title = this.title.equals(i.getTitle());
@@ -146,9 +147,9 @@ public class Item implements Comparable<Item> {
 			boolean url = this.url.equals(i.getUrl());
 			boolean website = this.website.equals(i.getWebsite());
 
-			return title && price && date && url && website;
+			result = title && price && date && url && website;
 		}
-		return false;
+		return result;
 	}
 
 	/**
