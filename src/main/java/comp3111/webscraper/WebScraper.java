@@ -182,7 +182,10 @@ public class WebScraper {
 			}while(nextUrl!=null && !nextUrl.isEmpty());
 			client.close();
 			Collections.sort(result);
-		} catch (Exception e) { return null; }
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			return null;
+		}
 		return result;
 	}
 

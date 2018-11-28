@@ -15,7 +15,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
 public class TableTest {
-	
+
 	@Test
 	public void testSetItems() throws ParseException {
 		TableView<Item> tableView1 = new TableView<Item>();
@@ -63,16 +63,16 @@ public class TableTest {
         item4.setDate(webScraper.formatCraigslistDate("Nov 4"));
         item4.setUrl("https://newjersey.craigslist.org/mob/d/shinny-almost-new-pink/6740587872.html");
         result.add(item4);
-        
+
         ObservableList<Item> data = FXCollections.observableArrayList(result);
         table.setItems(data);
         ObservableList<Item> tableData = table.getItems();
         assertEquals(data, tableData);
 	}
-	
+
 	@Test
 	public void testHostServices() {
-	    
+
 		TableView<Item> tableView1 = new TableView<Item>();
 		TableColumn<Item, String> col1 = new TableColumn<Item, String>();
 		TableColumn<Item, Double> col2 = new TableColumn<Item, Double>();
@@ -83,8 +83,8 @@ public class TableTest {
 		tableView1.getColumns().add(col3);
 		tableView1.getColumns().add(col4);
 		Table table = new Table(tableView1);
-		Table.setHostServices(null);		
+		Table.setHostServices(null);
 		assertEquals(null, table.getHostServices());
 	}
-	
+
 }

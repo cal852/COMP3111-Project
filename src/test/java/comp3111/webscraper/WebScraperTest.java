@@ -6,19 +6,27 @@ import static org.junit.Assert.assertTrue;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
+import java.io.File;
 import java.util.List;
 import java.util.Vector;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 
 public class WebScraperTest {
     private WebScraper webScraper = new WebScraper();
     private WebClient client;
-    private static String FILEDIR=WebScraper.class.getResource(".").toString()+"assets/";
+    private static String FILEDIR= new File("").getAbsolutePath();
 
+    @BeforeClass
+    public static void dirSetup() {
+        if(!FILEDIR.contains("test"))
+            FILEDIR+="/src/test";
+        FILEDIR="file://"+FILEDIR+"/java/comp3111/webscraper/assets/";
+    }
     @Before
     public void setup() throws Exception{
         client = new WebClient();
@@ -87,6 +95,7 @@ public class WebScraperTest {
 
     @Test
     public void DCFeverWebScrapingTest() throws Exception{
+        // keywrod: iphone7 - all results must contain the keyword in the title
         List<Item> result = webScraper.scrapeDCFever("iphone7");
         result.forEach(item->assertTrue(item.getTitle().toLowerCase().contains("iphone7")));
     }
@@ -123,18 +132,25 @@ public class WebScraperTest {
 
     @Test
     public void CraiglistWebScrapingTest() throws Exception{
-        List<Item> result=webScraper.scrapeCraiglist("iphone7");
+        // keyword: mac - at least one result should contain mac in the title
+        List<Item> result=webScraper.scrapeCraiglist("mac");
+        assertTrue(result.stream().anyMatch(item -> item.getTitle().toLowerCase().contains("mac")));
 
-        assertTrue(result.stream().anyMatch(item -> item.getTitle().toLowerCase().contains("iphone7")));
+        // no result - will return null
+        result=webScraper.scrapeCraiglist("blahblah-random-testing");
+        assertTrue(result==null);
     }
 
     @Test
     public void WebScrapingTest() throws Exception{
-        List<Item> result = webScraper.scrape("iphone7");
-
-        List<Item> craiglistResult = webScraper.scrapeCraiglist("iphone7");
-        List<Item> DCFeverResult = webScraper.scrapeDCFever("iphone7");
-
+        // samsung
+        List<Item> result = webScraper.scrape("samsung");
+        List<Item> craiglistResult = webScraper.scrapeCraiglist("samsung");
+        List<Item> DCFeverResult = webScraper.scrapeDCFever("samsung");
         assertEquals(result.size(),craiglistResult.size()+DCFeverResult.size());
+
+        // null result in craiglist : blahblah-random-testing
+        result = webScraper.scrape("blahblah-random-testing");
+        assertTrue(result==null);
     }
 }
