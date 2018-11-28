@@ -77,7 +77,7 @@ public class Refine {
     
 
     /**
-     * Called when initialize the program or there are results ( > 0) after searching.
+     * Called when initialize the program or there are results (size bigger than zero) after searching.
 	 * Disable the Refine button and refine text field
      */
     @FXML

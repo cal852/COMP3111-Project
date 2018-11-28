@@ -78,7 +78,7 @@ public class Controller {
 	/**
 	 * Passes and sets Host Services from WebScraperApplication for use in Controller
 	 * @author cal852
-	 * @param hostServices
+	 * @param hostServices (description)
 	 */
 	public void setHostServices(HostServices hostServices) {
     	this.hostServices = hostServices;

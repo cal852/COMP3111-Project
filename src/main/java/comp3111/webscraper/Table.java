@@ -108,7 +108,7 @@ public class Table {
 	/**
      * Called when there are results after searching.
      * Refresh the table on another search, fills in the table contents. - Task 4.i and 4.v
-	 * @param data ObservableList<Item> - the list of the data to be filled into the table
+	 * @param data ObservableList of Item - the list of the data to be filled into the table
      */
 	public void setItems(ObservableList<Item> data) {
 		tableView.setItems(data);
@@ -117,7 +117,7 @@ public class Table {
 	/**
      * Use for unit test.
 	 * Get the tables' contents
-	 * @return ObservableList<Item> - the list of the table rows' data
+	 * @return ObservableList of Item - the list of the table rows' data
      */
 	public ObservableList<Item> getItems() {
 		return tableView.getItems();
