@@ -4,9 +4,10 @@ This is a private repository for the purpose of making a web scrapper for COMP31
 **Group name: #69-Mangkhut**
 --
 
-**JavaDocs: ** https://github.com/cal852/COMP3111-Project/
+**JavaDocs**
 --
-
+https://cal852.github.io/COMP3111-Project
+--
 **Member List**
 --
 | Name| ITSC| GitHub Account|
