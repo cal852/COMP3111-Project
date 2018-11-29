@@ -75,6 +75,8 @@ public class Controller {
     
     private Table table;
 
+    private FindElement findElement;
+
 	/**
 	 * Passes and sets Host Services from WebScraperApplication for use in Controller
 	 * @author cal852
@@ -106,6 +108,7 @@ public class Controller {
     private void initialize() {
 		System.out.println("Initialized the application and controller");
     	refine = new Refine(refineBtn, labelRefineWarning, refineKeyword);
+    	findElement = new FindElement();
     	lastSearchTerm = new String[2];
     	lastSearchTerm[0] = "";
     	lastSearchTerm[1] = "";
@@ -163,13 +166,13 @@ public class Controller {
       
       	int itemCount = 0; /* count items */
 		double totalPrice = 0.0; /* total Price for average calculation */
-		int testMin = 0;
-		int testLatest = 0;
+		int itemMin = 0;
+		int itemLatest = 0;
 
 		if(result != null && !result.isEmpty()) {
 			// obtain first valid results with min price and latest post date for comparison
-			testMin = findMinPrice();
-			testLatest = findLatest();
+			itemMin = findElement.findMin(result);
+			itemLatest = findElement.findLatest(result);
 
 			for (Item item : result) {
 				output += item.getTitle() + "\t" + item.getPrice() + "\t" + item.getUrl() + "\n";
@@ -179,10 +182,10 @@ public class Controller {
 
 			labelCount.setText(itemCount + " items");
 			labelPrice.setText("$" + (totalPrice / itemCount));
-			labelMin.setText((new Hyperlink(result.get(testMin).getUrl())).getText());
+			labelMin.setText((new Hyperlink(result.get(itemMin).getUrl())).getText());
 			labelMin.setDisable(false);
 			labelMin.setUnderline(true);
-			labelLatest.setText((new Hyperlink(result.get(testLatest).getUrl())).getText());
+			labelLatest.setText((new Hyperlink(result.get(itemLatest).getUrl())).getText());
 			labelLatest.setDisable(false);
 			labelLatest.setUnderline(true);
 		} else {
@@ -198,55 +201,6 @@ public class Controller {
 
 		textAreaConsole.setText(output);
     }
-
-	/**
-	 * Task 1
-	 * Finds and returns back the index of the element in List with the lowest price that is > 0.0
-	 * @author cal852
-	 * @return the index of element with the lowest price that is > 0.0
- 	 */
-	private int findMinPrice() {
-		int minCount = 0;
-		double minPrice = 0.0;
-		int returnMin = 0;
-
-		// find first non-zero price element of results
-		for (; minCount < result.size(); minCount++) {
-			if (result.get(minCount).getPrice() > 0.0) {
-				minPrice = result.get(minCount).getPrice();
-				returnMin = minCount; // in case first element is the smallest element
-				break;
-			}
-		}
-
-		for (; minCount < result.size();minCount++) {
-			if (result.get(minCount).getPrice() < minPrice && result.get(minCount).getPrice() > 0.0) {
-				minPrice = result.get(minCount).getPrice();
-				returnMin = minCount;
-			}
-		}
-		return returnMin;
-	}
-
-	/**
-	 * Task 1
-	 * Finds and returns back the index of the element in List with the most recent (latest) posting date
-	 * @author cal852
-	 * @return the index of the element with the latest posting date
-	 */
-	private int findLatest() {
-		Date latestDate = result.get(0).getDate();
-		int returnLatest = 0;
-
-		for (int i = 0;i < result.size();i++) {
-			if (result.get(i).getPrice() > 0.0 && result.get(i).getDate().compareTo(latestDate) > 0) {
-				latestDate = result.get(i).getDate();
-				returnLatest = i;
-			}
-		}
-		return returnLatest;
-	}
-
 
 	/**
      * Task 5.ii.a    
