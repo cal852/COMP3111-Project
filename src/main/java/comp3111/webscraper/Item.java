@@ -16,7 +16,7 @@ public class Item implements Comparable<Item> {
 	/**
 	 * Default price initialized zero
 	 */
-	private double price=0;
+	private double price = 0.0;
 
 	/**
 	 * Default url initialized empty String

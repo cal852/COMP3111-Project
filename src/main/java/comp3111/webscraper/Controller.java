@@ -163,56 +163,26 @@ public class Controller {
       
       	int itemCount = 0; /* count items */
 		double totalPrice = 0.0; /* total Price for average calculation */
-		double minPrice = 0.0; /* minimum Price */
-		int minPriceCount = 0; /* obtain first min price element with price > 0.0 */
-		Date latestDate = new Date(0);
-		Hyperlink minPriceUrl = new Hyperlink("");
-		Hyperlink latestPostUrl = new Hyperlink("");
+		int testMin = 0;
+		int testLatest = 0;
 
-		if(result != null) {
+		if(result != null && !result.isEmpty()) {
 			// obtain first valid results with min price and latest post date for comparison
-			if (!result.isEmpty()) {
-				minPriceUrl = new Hyperlink(result.get(0).getUrl());
-				latestPostUrl = new Hyperlink(result.get(0).getUrl());
-				// in case of first price is 0, then find until you get price > 0.0
-				for (; minPriceCount < result.size(); minPriceCount++) {
-					if (result.get(minPriceCount).getPrice() > 0.0) {
-						minPrice = result.get(minPriceCount).getPrice();
-						break;
-					}
-				}
-				latestDate = result.get(0).getDate();
-			}
+			testMin = findMinPrice();
+			testLatest = findLatest();
 
 			for (Item item : result) {
 				output += item.getTitle() + "\t" + item.getPrice() + "\t" + item.getUrl() + "\n";
-	        
-	        	totalPrice += item.getPrice();
-
-	        	// find minPrice listing
-				// Compare prices - obtain new URL when price is newer
-				if (result.get(itemCount).getPrice() < minPrice && result.get(itemCount).getPrice() > 0.0) {
-					minPrice = result.get(itemCount).getPrice();
-					minPriceUrl = new Hyperlink(result.get(itemCount).getUrl());
-				}
-				// Compare dates - obtain new URL when date is newer
-				if (minPriceCount <= itemCount && result.get(minPriceCount).getDate().compareTo(latestDate) > 0) {
-					latestDate = result.get(minPriceCount).getDate();
-					latestPostUrl = new Hyperlink(result.get(minPriceCount).getUrl());
-				}
-
-				minPriceCount++;
+				totalPrice += item.getPrice();
 				itemCount++;
 			}
-		}
-		
-		if (itemCount > 0) {
+
 			labelCount.setText(itemCount + " items");
 			labelPrice.setText("$" + (totalPrice / itemCount));
-			labelMin.setText(minPriceUrl.getText());
+			labelMin.setText((new Hyperlink(result.get(testMin).getUrl())).getText());
 			labelMin.setDisable(false);
 			labelMin.setUnderline(true);
-			labelLatest.setText(latestPostUrl.getText());
+			labelLatest.setText((new Hyperlink(result.get(testLatest).getUrl())).getText());
 			labelLatest.setDisable(false);
 			labelLatest.setUnderline(true);
 		} else {
@@ -229,7 +199,56 @@ public class Controller {
 		textAreaConsole.setText(output);
     }
 
-    /**
+	/**
+	 * Task 1
+	 * Finds and returns back the index of the element in List with the lowest price that is > 0.0
+	 * @author cal852
+	 * @return the index of element with the lowest price that is > 0.0
+ 	 */
+	private int findMinPrice() {
+		int minCount = 0;
+		double minPrice = 0.0;
+		int returnMin = 0;
+
+		// find first non-zero price element of results
+		for (; minCount < result.size(); minCount++) {
+			if (result.get(minCount).getPrice() > 0.0) {
+				minPrice = result.get(minCount).getPrice();
+				returnMin = minCount; // in case first element is the smallest element
+				break;
+			}
+		}
+
+		for (; minCount < result.size();minCount++) {
+			if (result.get(minCount).getPrice() < minPrice && result.get(minCount).getPrice() > 0.0) {
+				minPrice = result.get(minCount).getPrice();
+				returnMin = minCount;
+			}
+		}
+		return returnMin;
+	}
+
+	/**
+	 * Task 1
+	 * Finds and returns back the index of the element in List with the most recent (latest) posting date
+	 * @author cal852
+	 * @return the index of the element with the latest posting date
+	 */
+	private int findLatest() {
+		Date latestDate = result.get(0).getDate();
+		int returnLatest = 0;
+
+		for (int i = 0;i < result.size();i++) {
+			if (result.get(i).getPrice() > 0.0 && result.get(i).getDate().compareTo(latestDate) > 0) {
+				latestDate = result.get(i).getDate();
+				returnLatest = i;
+			}
+		}
+		return returnLatest;
+	}
+
+
+	/**
      * Task 5.ii.a    
      * Called when the Refine button is pressed. Refines the search result and update other tabs
      * @author enochwong3111
@@ -273,6 +292,7 @@ public class Controller {
 
 	/**
 	 * Displays item with lowest price found on default browser
+	 * @author cal852
 	 */
 	@FXML
 	private void actionOpenMinPrice() {
