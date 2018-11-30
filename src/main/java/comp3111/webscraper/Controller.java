@@ -95,6 +95,7 @@ public class Controller {
         
     /**
      * Default controller
+	 * @author kevinw, cal852
      */
     public Controller() {
     	scraper = new WebScraper();
