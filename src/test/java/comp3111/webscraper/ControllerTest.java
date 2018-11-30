@@ -1,10 +1,12 @@
 package comp3111.webscraper;
 
 import javafx.application.Application;
+import javafx.scene.control.Hyperlink;
 import javafx.stage.Stage;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import javafx.scene.control.Label;
 import static org.junit.Assert.*;
 
 import java.text.ParseException;
@@ -124,6 +126,28 @@ public class ControllerTest {
         assertEquals(expected[4], test[4]);
     }
 
+    @Test
+    public void testUpdateConsoleAndTabs() throws ParseException {
+        Label count = new Label();
+        Label price = new Label();
+        Hyperlink min = new Hyperlink();
+        Hyperlink latest = new Hyperlink();
+        String output = controller.updateConsoleAndTabs(result,
+                count, min, latest, price);
+        String expected = "A\t28.1\taaa\n" +
+                "B\t39.4\tbbb\n" +
+                "C\t39.1\tccc\n" +
+                "D\t28.1\tddd\n" +
+                "E\t87.2\teee\n" +
+                "F\t101.1\tfff\n" +
+                "G\t31.1\tggg\n";
 
+        assertEquals("7 items" , count.getText());
+        assertEquals("$" + (354.1 / 7), price.getText());
+        assertEquals("aaa", min.getText());
+        assertEquals("ggg", latest.getText());
+        assertEquals(expected, output);
+
+    }
 
 }

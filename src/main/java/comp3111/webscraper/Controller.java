@@ -134,7 +134,9 @@ public class Controller {
     		refine.disableRefine();
     	}
     	
-    	updateConsoleAndTabs();
+    	String output = updateConsoleAndTabs(result,
+				labelCount, labelMin, labelLatest, labelPrice);
+		textAreaConsole.setText(output);
 
 		if (lastSearchTerm[0] == "" && lastSearchTerm[1] == "") { // empty queue
 			lastSearchTerm[0] = textFieldKeyword.getText();
@@ -189,7 +191,9 @@ public class Controller {
      * @throws ParseException 
      */
     @FXML
-    private void updateConsoleAndTabs() throws ParseException {
+    public String updateConsoleAndTabs(List<Item> result, Label labelCount,
+									 Hyperlink labelMin, Hyperlink labelLatest,
+									 Label labelPrice) throws ParseException {
     	String output = "";
       
       	int itemCount = 0; /* count items */
@@ -224,8 +228,7 @@ public class Controller {
 			labelLatest.setDisable(true);
 			labelLatest.setUnderline(false);
 		}
-
-		textAreaConsole.setText(output);
+		return output;
     }
     
     
@@ -246,7 +249,7 @@ public class Controller {
     		table.setItems(data);
     		
     		//update the text area console
-    		updateConsoleAndTabs();
+			updateConsoleAndTabs(result, labelCount, labelMin, labelLatest, labelPrice);
     	}
 		
     }
@@ -349,7 +352,20 @@ public class Controller {
 		alert.showAndWait();
 	}
 
-	
-    
+	public Label getLabelCount() {
+		return labelCount;
+	}
+
+	public Label getLabelPrice() {
+		return labelPrice;
+	}
+
+	public Hyperlink getLabelMin() {
+		return labelMin;
+	}
+
+	public Hyperlink getLabelLatest() {
+		return labelLatest;
+	}
 }
 
