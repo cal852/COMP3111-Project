@@ -158,7 +158,7 @@ public class Controller {
  	}
 	
 	/**
-     * Called when the result need to be printed in the text area console and summary tabs.
+     * Called when the result need to be printed in the text area console and summary tabs for function 'updateConsoleAndTabs'.
 	 * @author kevinw, cal852
      * @throws ParseException 
      */

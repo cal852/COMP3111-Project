@@ -27,7 +27,7 @@ https://cal852.github.io/COMP3111-Project
 
 **Assumption**
 --
-1. Treat USD convert to HKD in 1:7.8(TBC) 
+1. Treat USD convert to HKD in 1:7.8
 2. For dynamic multipagination, the retrieving situation is output on the command line console in order to speed up the fetching data.
 3. Last search still works after Close Search
 

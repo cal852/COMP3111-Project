@@ -149,5 +149,24 @@ public class ControllerTest {
         assertEquals(expected, output);
 
     }
+    
+    @Test
+    public void testUpdateConsoleAndTabsWithNullResult() throws ParseException {
+    	result = null;
+        Label count = new Label();
+        Label price = new Label();
+        Hyperlink min = new Hyperlink();
+        Hyperlink latest = new Hyperlink();
+        String output = controller.updateConsoleAndTabs(result,
+                count, min, latest, price);
+        String expected = "";
+
+        assertEquals("-" , count.getText());
+        assertEquals("-", price.getText());
+        assertEquals("-", min.getText());
+        assertEquals("-", latest.getText());
+        assertEquals(expected, output);
+
+    }
 
 }
