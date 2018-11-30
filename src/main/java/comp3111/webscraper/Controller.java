@@ -352,20 +352,5 @@ public class Controller {
 		alert.showAndWait();
 	}
 
-	public Label getLabelCount() {
-		return labelCount;
-	}
-
-	public Label getLabelPrice() {
-		return labelPrice;
-	}
-
-	public Hyperlink getLabelMin() {
-		return labelMin;
-	}
-
-	public Hyperlink getLabelLatest() {
-		return labelLatest;
-	}
 }
 
