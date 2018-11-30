@@ -76,14 +76,14 @@ public class WebScraperTest {
         item1.setTitle("港行 iPhone 7 128gb 黑色 (4.7\"細機) iphone7 9成新");
         item1.setPrice(2400.0);
         item1.setDate(WebScraper.formatDCFeverDate("28/11 17:15"));
-        item1.setUrl("https://www.dcfever.com/trading/https://www.dcfever.com/trading/view.php?itemID=6947781");
+        item1.setUrl("https://www.dcfever.com/trading/view.php?itemID=6947781");
         item1.setWebsite("DCFever");
 
         Item item2 = new Item();
         item2.setTitle("95 % new iphone7 128g silver");
         item2.setPrice(2400.0);
         item2.setDate(WebScraper.formatDCFeverDate("19/11 08:32"));
-        item2.setUrl("https://www.dcfever.com/trading/https://www.dcfever.com/trading/view.php?itemID=6923108");
+        item2.setUrl("https://www.dcfever.com/trading/view.php?itemID=6923108");
         item2.setWebsite("DCFever");
 
         result.get(0).printItem();
@@ -91,13 +91,6 @@ public class WebScraperTest {
 
         assertEquals(result.get(0),item1);
         assertEquals(result.get(result.size()-1),item2);
-    }
-
-    @Test
-    public void DCFeverWebScrapingTest() throws Exception{
-        // keywrod: iphone7 - all results must contain the keyword in the title
-        List<Item> result = webScraper.scrapeDCFever("iphone7");
-        result.forEach(item->assertTrue(item.getTitle().toLowerCase().contains("iphone7")));
     }
 
     @Test
@@ -129,28 +122,20 @@ public class WebScraperTest {
         assertTrue(result.get(0).equals(item1));
         assertTrue(result.get(result.size()-1).equals(item2));
     }
-
-    @Test
-    public void CraiglistWebScrapingTest() throws Exception{
-        // keyword: mac - at least one result should contain mac in the title
-        List<Item> result=webScraper.scrapeCraiglist("mac");
-        assertTrue(result.stream().anyMatch(item -> item.getTitle().toLowerCase().contains("mac")));
-
-        // no result - will return null
-        result=webScraper.scrapeCraiglist("blahblah-random-testing");
-        assertTrue(result==null);
-    }
-
     @Test
     public void WebScrapingTest() throws Exception{
-        // samsung
-        List<Item> result = webScraper.scrape("samsung");
-        List<Item> craiglistResult = webScraper.scrapeCraiglist("samsung");
-        List<Item> DCFeverResult = webScraper.scrapeDCFever("samsung");
+        // keyword: galaxy
+        List<Item> result = webScraper.scrape("galaxy");
+        List<Item> craiglistResult = webScraper.scrapeCraiglist("galaxy");
+        List<Item> DCFeverResult = webScraper.scrapeDCFever("galaxy");
         assertEquals(result.size(),craiglistResult.size()+DCFeverResult.size());
+        assertTrue(craiglistResult.stream().anyMatch(item -> item.getTitle().toLowerCase().contains("galaxy")));
+        DCFeverResult.forEach(item->assertTrue(item.getTitle().toLowerCase().contains("galaxy")));
 
-        // null result in craiglist : blahblah-random-testing
+        // null result Test : blahblah-random-testing
         result = webScraper.scrape("blahblah-random-testing");
-        assertTrue(result==null);
+        assertTrue(result.size()==0);
+        assertTrue(webScraper.scrapeCraiglist("blahblah-random-testing")==null);
+        assertTrue(webScraper.scrapeDCFever("blahblah").size()==0);
     }
 }

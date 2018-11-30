@@ -146,12 +146,9 @@ public class WebScraper {
 		List<Item> craiglists = scrapeCraiglist(keyword);
 		List<Item> DCFevers = scrapeDCFever(keyword);
 
-		if(craiglists == null || DCFevers == null)
-			return null;
-
 		List<Item> result = new Vector<Item>();
-		result.addAll(craiglists);
-		result.addAll(DCFevers);
+		if(craiglists!=null) result.addAll(craiglists);
+		if(DCFevers!=null) result.addAll(DCFevers);
 		Collections.sort(result);
 
 		return result;
@@ -268,9 +265,11 @@ public class WebScraper {
 				if (itemAnchor == null || spanPrice == null || spanDate == null)
 					continue;
 
+				String url=itemAnchor.getHrefAttribute();
 				Item item = new Item();
 				item.setTitle(itemAnchor.asText());
-				item.setUrl(DCFever + itemAnchor.getHrefAttribute());
+				if(url.contains("dcfever")) item.setUrl(url);
+				else item.setUrl(DCFever + url);
 				item.setPrice(new Double(filterNumber(spanPrice.asText())));
 				item.setDate(formatDCFeverDate(spanDate.asText()));
 				item.setWebsite("DCFever");
