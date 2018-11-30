@@ -60,7 +60,7 @@ public class WebScraperTest {
         webScraper.retrieveItemDCFever(result,page);
 
         assertEquals(0, webScraper.getMaxPageDCFever(page));
-        assertTrue(expectedResult.equals(result));
+        assertEquals(expectedResult,result);
 
     }
 
@@ -71,12 +71,12 @@ public class WebScraperTest {
         HtmlPage page = client.getPage(url);
         Vector<Item> result = new Vector<>();
         webScraper.retrieveItemDCFever(result,page);
-
+        
         Item item1 = new Item();
-        item1.setTitle("港行 iPhone 7 128gb 黑色 (4.7\"細機) iphone7 9成新");
+        item1.setTitle("Iphone7 JetBlack 128GB");
         item1.setPrice(2400.0);
-        item1.setDate(WebScraper.formatDCFeverDate("28/11 17:15"));
-        item1.setUrl("https://www.dcfever.com/trading/view.php?itemID=6947781");
+        item1.setDate(WebScraper.formatDCFeverDate("28/11 00:34"));
+        item1.setUrl("https://www.dcfever.com/trading/view.php?itemID=6946256");
         item1.setWebsite("DCFever");
 
         Item item2 = new Item();
@@ -86,10 +86,13 @@ public class WebScraperTest {
         item2.setUrl("https://www.dcfever.com/trading/view.php?itemID=6923108");
         item2.setWebsite("DCFever");
 
-        result.get(0).printItem();
+        System.out.println("DCFEVER LOCAL TESTING");
+        result.get(1).printItem();
         result.get(result.size()-1).printItem();
-
-        assertEquals(result.get(0),item1);
+        item1.printItem();
+        item2.printItem();
+        
+        assertEquals(result.get(1),item1);
         assertEquals(result.get(result.size()-1),item2);
     }
 
@@ -119,8 +122,8 @@ public class WebScraperTest {
         result.get(0).printItem();
         result.get(result.size()-1).printItem();
 
-        assertTrue(result.get(0).equals(item1));
-        assertTrue(result.get(result.size()-1).equals(item2));
+        assertEquals(result.get(0),item1);
+        assertEquals(result.get(result.size()-1),item2);
     }
     @Test
     public void WebScrapingTest() throws Exception{
@@ -131,11 +134,12 @@ public class WebScraperTest {
         assertEquals(result.size(),craiglistResult.size()+DCFeverResult.size());
         assertTrue(craiglistResult.stream().anyMatch(item -> item.getTitle().toLowerCase().contains("galaxy")));
         DCFeverResult.forEach(item->assertTrue(item.getTitle().toLowerCase().contains("galaxy")));
-
+        
         // null result Test : blahblah-random-testing
+        List<Item> expectedResult = new Vector<>();
         result = webScraper.scrape("blahblah-random-testing");
-        assertTrue(result.size()==0);
-        assertTrue(webScraper.scrapeCraiglist("blahblah-random-testing")==null);
-        assertTrue(webScraper.scrapeDCFever("blahblah").size()==0);
+        assertEquals(expectedResult,result);
+        assertEquals(null,webScraper.scrapeCraiglist("blahblah-random-testing"));
+        assertEquals(expectedResult,webScraper.scrapeDCFever("blahblah"));
     }
 }

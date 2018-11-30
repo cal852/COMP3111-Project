@@ -154,6 +154,34 @@ public class Controller {
     	table.setItems(data);
 		menuLastSearch.setDisable(false);
  	}
+	
+	/**
+     * Called when the result need to be printed in the text area console and summary tabs.
+	 * @author kevinw, cal852
+     * @throws ParseException 
+     */
+	public Object[] getConsoleTextAndData(List<Item> result) {
+    	String output = "";
+    	Object[] arr = new Object[5];
+    	int itemCount = 0; /* count items */
+		double totalPrice = 0.0; /* total Price for average calculation */
+		int itemMin = 0;
+		int itemLatest = 0;
+		// obtain first valid results with min price and latest post date for comparison
+		itemMin = findElement.findMin(result);
+		itemLatest = findElement.findLatest(result);
+		for (Item item : result) {
+			output += item.getTitle() + "\t" + item.getPrice() + "\t" + item.getUrl() + "\n";
+			totalPrice += item.getPrice();
+			itemCount++;
+		}
+		arr[0] = output;
+		arr[1] = itemCount;
+		arr[2] = totalPrice;
+		arr[3] = itemMin;
+		arr[4] = itemLatest;
+		return arr;
+    }
     
     /**
      * Called when the result need to be printed in the text area console and summary tabs.
@@ -170,15 +198,13 @@ public class Controller {
 		int itemLatest = 0;
 
 		if(result != null && !result.isEmpty()) {
+			Object[] resultAll = getConsoleTextAndData(result);
 			// obtain first valid results with min price and latest post date for comparison
-			itemMin = findElement.findMin(result);
-			itemLatest = findElement.findLatest(result);
-
-			for (Item item : result) {
-				output += item.getTitle() + "\t" + item.getPrice() + "\t" + item.getUrl() + "\n";
-				totalPrice += item.getPrice();
-				itemCount++;
-			}
+			output = (String)resultAll[0];
+			itemCount = (int)resultAll[1];
+			totalPrice = (double)resultAll[2];
+			itemMin = (int)resultAll[3];
+			itemLatest = (int)resultAll[4];
 
 			labelCount.setText(itemCount + " items");
 			labelPrice.setText("$" + (totalPrice / itemCount));
@@ -201,6 +227,8 @@ public class Controller {
 
 		textAreaConsole.setText(output);
     }
+    
+    
 
 	/**
      * Task 5.ii.a    
