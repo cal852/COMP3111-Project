@@ -98,6 +98,7 @@ public class Controller {
      */
     public Controller() {
     	scraper = new WebScraper();
+		findElement = new FindElement();
     }
 
     /**
@@ -108,7 +109,6 @@ public class Controller {
     private void initialize() {
 		System.out.println("Initialized the application and controller");
     	refine = new Refine(refineBtn, labelRefineWarning, refineKeyword);
-    	findElement = new FindElement();
     	lastSearchTerm = new String[2];
     	lastSearchTerm[0] = "";
     	lastSearchTerm[1] = "";

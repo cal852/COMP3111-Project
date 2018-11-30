@@ -1,28 +1,46 @@
 package comp3111.webscraper;
 
+import javafx.application.Application;
+import javafx.stage.Stage;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 import java.text.ParseException;
-import java.util.Collections;
-import java.util.List;
 import java.util.Vector;
+import java.util.List;
 
 /**
  * @author cal852
- * FindElementTest class that does unit testing for Task 1 for finding
- * elements with the lowest price and the latest posting date
+ * ControllerTest class that does unit testing for Task 1
  */
+public class ControllerTest {
 
-public class FindElementTest {
     private List<Item> result;
-    private FindElement findElement;
+
+    private Controller controller;
+
+    public static class AsNonApp extends Application {
+        @Override
+        public void start(Stage primaryStage) throws Exception {
+            // no-op
+        }
+    }
+
+    @BeforeClass
+    public static void initJFX() {
+        Thread t = new Thread("JavaFX Init Thread") {
+          public void run() { Application.launch(AsNonApp.class, new String[0]); }
+        };
+        t.setDaemon(true);
+        t.start();
+    }
 
     @Before
-    public void setup() throws Exception {
+    public void setup() throws ParseException {
         result = new Vector<Item>();
-        findElement = new FindElement();
+        controller = new Controller();
 
         Item item1 = new Item();
         item1.setTitle("A");
@@ -74,66 +92,38 @@ public class FindElementTest {
 
         Item item7 = new Item();
         item7.setTitle("G");
-        item7.setDate(WebScraper.formatCraigslistDate("Nov 15"));
+        item7.setDate(WebScraper.formatCraigslistDate("Nov 20"));
         item7.setPrice(31.1);
         item7.setUrl("ggg");
         item7.setWebsite("DCWV");
         result.add(item7);
+
+
     }
 
     @Test
-    public void testMinPrice_ResultNull() {
-        assertEquals(-2, findElement.findMin(null));
+    public void testGetConsoleTextData() {
+        Object[] expected = new Object[5];
+        expected[0] = (String)("A\t28.1\taaa\n" +
+                      "B\t39.4\tbbb\n" +
+                      "C\t39.1\tccc\n" +
+                      "D\t28.1\tddd\n" +
+                      "E\t87.2\teee\n" +
+                      "F\t101.1\tfff\n" +
+                      "G\t31.1\tggg\n");
+        expected[1] = (int)7;
+        expected[2] = (double)354.1;
+        expected[3] = (int)0;
+        expected[4] = (int)6;
+
+        Object[] test = controller.getConsoleTextAndData(result);
+        assertEquals(expected[0], test[0]);
+        assertEquals(expected[1], test[1]);
+        assertEquals(expected[2], test[2]);
+        assertEquals(expected[3], test[3]);
+        assertEquals(expected[4], test[4]);
     }
 
-    @Test
-    public void testMinPrice_EmptyList() {
-        assertEquals(-1, findElement.findMin(Collections.emptyList()));
-    }
 
-    @Test
-    public void testMinPrice_firstIsMin() throws ParseException {
-        assertEquals( 0, findElement.findMin(result));
-    }
 
-    @Test
-    public void testMinPrice_Min() throws ParseException {
-        Item item8 = new Item();
-        item8.setTitle("H");
-        item8.setDate(WebScraper.formatCraigslistDate("Nov 15"));
-        item8.setPrice(10.1);
-        item8.setUrl("ggg");
-        item8.setWebsite("DCWV");
-        result.add(item8);
-
-        assertEquals( 7, findElement.findMin(result));
-    }
-
-    @Test
-    public void testFindLatestPost_ResultNull() {
-        assertEquals(-2, findElement.findLatest(null));
-    }
-
-    @Test
-    public void testFindLatestPost_EmptyList() {
-        assertEquals(-1, findElement.findLatest(Collections.emptyList()));
-    }
-
-    @Test
-    public void testFindLatestPost_firstIsLatest() {
-        assertEquals(0, findElement.findLatest(result));
-    }
-
-    @Test
-    public void testFindLatestPost_Latest() throws ParseException{
-        Item item8 = new Item();
-        item8.setTitle("H");
-        item8.setDate(WebScraper.formatCraigslistDate("Nov 20"));
-        item8.setPrice(10.1);
-        item8.setUrl("ggg");
-        item8.setWebsite("DCWV");
-        result.add(item8);
-
-        assertEquals(7, findElement.findLatest(result));
-    }
 }
