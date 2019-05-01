@@ -10,11 +10,11 @@ https://cal852.github.io/COMP3111-Project
 --
 **Member List**
 --
-| Name| ITSC| GitHub Account|
-|--|--|--|
-| CHENG Chee Hau Calvin | chccheng | cal852 |
-|HYUN Jeongseok|jhyunaa|HYUNJS|
-|WANG Yingran|ywangdj|enochwong3111|
+| GitHub Account|
+|--|
+| cal852 |
+| HYUNJS 
+| enochwong3111 |
 
 
 **Tasks Assigned**
